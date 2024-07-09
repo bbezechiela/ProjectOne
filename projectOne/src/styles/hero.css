@@ -1,0 +1,123 @@
+@import url('variables.css');
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+#heroContainer {
+    height: 1000px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#upperContainer {
+    height: 550px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+}
+
+#heroText {
+    height: auto;
+    width: auto;
+    font-size: 120px;
+    font-weight: 900;
+    text-align: center;
+}
+
+#heroSubText {
+    height: auto;
+    width: 700px;
+    font-size: 30px;
+    font-weight: 100;
+    text-align: center;
+}
+
+#heroCta {
+    height: 50px;
+    width: 250px;
+    font-size: 22px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-decoration: none;
+}
+
+#lowerContainer {
+    height: 450px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+/* animation */
+.executeAnimation {
+    animation-name: emotionAnimation;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-duration: 3s;
+}
+
+.emotions {
+    height: 200px;
+    width: 200px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px 0 20px; 
+    font-size: 22px;
+}
+
+#emotionOne {
+    background-color: #F7D358;
+}
+
+#emotionTwo {
+    background-color: #4ECDC4;
+}
+
+#emotionThree {
+    background-color: #EAD1DC;
+}
+
+#emotionFour {
+    background-color: #D9382F;
+}
+
+#emotionFive {
+    background-color: #9EADBA;
+}
+
+/* animations */
+/* css variables from react */
+/* :root {
+    --firstColor: white;
+    --secondColor: var(--firstColor);
+} */
+
+@keyframes emotionAnimation {
+    0% {
+        background-color: var(--secondColor);
+    }
+    33.3% {
+        background-color: var(--secondColor);
+    }
+    66.6% {
+        background-color: var(--firstColor);
+    }
+    100% {
+        background-color: var(--firstColor);
+    }
+}

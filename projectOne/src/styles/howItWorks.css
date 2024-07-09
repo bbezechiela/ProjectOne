@@ -1,0 +1,202 @@
+@import url('variables.css');
+/* LFG */
+#outerContainer {
+    height: 1000px;
+    width: 100%;
+    position: relative;
+}
+
+#overlayContainer {
+    height: 1000px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 400px;
+    font-weight: 900;
+    text-align: center;
+    z-index: -1;
+    line-height: 0.9;
+    color: rgba(0, 0, 0, 0.06);
+}
+
+/* animation */
+.executeAnimationn {
+    animation-name: demoo;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-duration: 3s;
+}
+
+@keyframes demoo {
+    0% {
+        background-color: var(--secondColor);
+    }
+    33.3% {
+        background-color: var(--secondColor);
+    }
+    66.6% {
+        background-color: var(--firstColor);
+    }
+    100% {
+        background-color: var(--firstColor);
+    }
+}
+
+.waitFirst {
+    border: 10px solid blue;
+}
+
+.dontWait {
+    border: 10px solid red;
+}
+
+#imgContainer {
+    height: 1000px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#imgContainer img {
+    width: 100%;
+}
+
+#innerContainer {
+    height: inherit;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+}
+
+.firstStep, .secondStep, .thirdStep, .fourthStep, .fifthStep {
+    height: 200px;
+    width: 200px;
+    border-radius: 100%;
+    background-color: black;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    visibility: visible;
+}
+
+.classFromNav {
+    height: 200px;
+    width: 200px;
+    border-radius: 100%;
+    background-color: black;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    visibility: visible;
+}
+
+.firstStepFromNav {
+    position: absolute;
+    top: 200px;
+    left: 150px;
+}
+
+.secondStepFromNav {
+    position: absolute;
+    left: 450px;
+    top: 360px;
+}
+
+.thirdStepFromNav {
+    position: absolute;
+    left: 880px;
+    top: 290px;
+}
+
+.fourthStepFromNav {
+    position: absolute;
+    right: 665px;
+    top: 370px;
+}
+
+.fifthStepFromNav {
+    position: absolute;
+    right: 90px;
+    bottom: 440px;
+}
+
+.firstStep {
+    position: absolute;
+    top: 200px;
+    left: 150px;
+    animation: demoFirstStep 500ms;
+    animation-timing-function: ease;
+}
+
+#getStarted {
+    height: 100px;
+    width: 300px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes demoFirstStep {
+    0% {
+        height: 0px;
+        width: 0px;
+    }
+    100% {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+.noClassYet {
+    visibility: hidden;
+}
+
+.secondStep {
+    position: absolute;
+    left: 450px;
+    top: 360px;
+    animation: demoFirstStep 500ms;
+    animation-timing-function: ease;
+}
+
+.thirdStep {
+    position: absolute;
+    left: 880px;
+    top: 290px;
+    animation: demoFirstStep 500ms;
+    animation-timing-function: ease;
+}
+
+
+.fourthStep {
+    position: absolute;
+    right: 665px;
+    top: 370px;
+    animation: demoFirstStep 500ms;
+    animation-timing-function: ease;
+}
+
+.fifthStep {
+    position: absolute;
+    right: 90px;
+    bottom: 440px;
+    animation: demoFirstStep 500ms;
+    animation-timing-function: ease;
+}

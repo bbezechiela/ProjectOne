@@ -1,0 +1,77 @@
+learn more about type casting
+  kay mayda instances na masiring na 'property style does not exist on type Element' naka experience kita hini pag na gamit kita like querySelectorAll/querySelectorAll or bisan anu na mga selector na na refer ha usa ka element. so need natun ig cast it iya type para mag match
+
+  balika an changeEmotion function kay nat type na gamit didto kay any which gin ddisable ni typescript it typechecking.
+
+
+look into changeEmotion function, damot exploration didto, observe nala
+
+
+NOTE since nagamit kita react + typscript which means extension tat mga file is tsx if mayda kita mga functions like pure js la, kadto la tsconfig.aoo.json, butlang didto hin property na 'allowJs': true
+
+
+KEEP IN MIND IT HEIHARCHY 
+  window
+    document
+      documentElement
+
+Observer ha windows addeventlistener an scroll, panginano
+
+
+PANGINANO PANU MAG PASA HIN PROPS NA MAYDA TYPESCRIPT
+
+ -study buwas
+    look up into type|interface kun panu hira na work ngan panu kita mag butang it type haaton FC (Function Component) kita.a ha HowItWorks na file adto it example. play around it ngan retain.
+
+    ngan if anut aada haatun interface na mga properties nanaka label upod it hira type dapat asya liwat iton tat specific nagamiton na naming scheme didto mismo it pag pass an props
+
+    it thought is bagat na act hiya as a constructor na if pera it values na aada mismo tat interface dapat asya tat ig proprovide didto it pag call nat iton na specific component
+
+
+JULY 3
+  - ayusa it animation ha may how it works kay mongol. (fixed)
+
+
+JULY 5 task
+  - with sign up and login form UI (still not done)
+
+  notes 
+  - keep in mind na tat approach na gin himo yana an pag pass a color value pwedi nat iton magamit efficiently, diba mayda na select hin current emotion tas pwedi ta ito gamiton na color accross iya theme within iya acct.
+
+JULY 6 task
+  - functional sign up and login (on progress)
+  - observe it mga complicated na type cast para functions like if about form data. observe ha signup page.
+
+  - learn how prevState works in general ha react
+
+  note
+  - be efficient ha pag handle hin form data ayaw ig tag usa usa, observe ha sign up page panu mag handla form data.
+  
+  note ha pag fetch data react to node 
+  - on function mayda two parameters first is bagat event like 'data' tas 'end' data kay baga pag receive ngan end if natapos na makuha tanan na data
+ 
+  - keep in mind na ma refer la ghp kita ha req argument pero pwedi kita mag ka mayda condition if diin na end point gamit an url property ha request argument
+
+  - keep in mind it CORS policy (cross origin resource sharing)
+  - an allow-control-access-origin/methods/headers chuchu iton
+
+  - baliw, always ig restart timo node para ma apply it changes. kay asya nat sayop yana sigi nat change ha aatun node file pero dri nat gin ststop and re run asya dri na aaply it changes ha file
+
+JULY 8
+  note - intindiha panu mag accept hin json content file from react to node.
+
+  note if ig call nat it data var ha global scope ma return la empty object since na gin tatawag nat it data var bisan dri pa tapos mag fetch hin data chunks ha data event.
+
+  practical approach ghp na tat query ada inside it end event ha kanan request kay mamake sure na tapos nat stream bali na available na tanan na data na gin send from client, kay na eexecute lat end function if na fetch na tanan na data from the body.
+
+  general node, - pag it imo query mayda na iinsert na undifined after mo pag submit, butang lan condition parte length it object para dri masesend an empty form. (keep in mind)
+
+  LEARN
+    about routing, kay it logic since usa la kita ka element na refer haat html, panu mag work with routes
+    (pag baro panu na work it react routing)
+
+  note didto atun App file bisan Nav component la timo ig butang kay since mayda naman kita mga routes para dri na problema if anut ig rerender na component
+
+  (make functional login form)
+
+  (gg buwas liwat)

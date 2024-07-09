@@ -1,0 +1,66 @@
+/* LFG */
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#navContainer {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+#navLogo {
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+#navLinks {
+    height: 50px;
+    width: 400px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#loginCta {
+    height: 50px;
+    width: 100px;
+    border: 1px solid rgb(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+#home {
+    text-decoration: none;
+    color: black;
+}
+
+#howItWorks {
+    text-decoration: none;
+    color: black;
+}
+
+#loginCta:hover, #howItWorks:hover {
+    cursor: pointer;
+}
+
+
+
+
+

@@ -1,0 +1,4 @@
+:root {
+    --firstColor: white;
+    --secondColor: var(--firstColor);
+}
