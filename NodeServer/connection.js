@@ -19,7 +19,7 @@ const server = http.createServer((request, response) => {
         console.log('connected to mysql');
     });
 
-    // form data
+    // form data (sign up)
     if (request.url === '/demonode') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -46,6 +46,37 @@ const server = http.createServer((request, response) => {
     } else {
         console.log('error');
     }
+
+    // form data (sign in)
+    if (request.url === '/getCredentials') {
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = { ...data, ...parsedData}
+        });
+
+        request.on('end', () => {
+            try {
+                if (Object.keys(data).length > 0) {
+                    const selectQuery = `SELECT * FROM demoTable WHERE email = '${data.email}' AND password = '${data.password}'`;
+
+                    conn.query(selectQuery, (err, result) => {
+                        response.end(JSON.stringify(result));
+                    });
+                } else {
+                    response.end('Cant find any user');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        });
+
+    } else {
+        console.log('error');
+    }
+
+
+
 
 });
 

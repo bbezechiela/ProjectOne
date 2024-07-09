@@ -75,3 +75,18 @@ JULY 8
   (make functional login form)
 
   (gg buwas liwat)
+
+JULY 9
+  pamiling hin user friendly na auth, (firebase) usa na dida.
+  Firebase SDK Authentication
+
+NOTES FOR FIREBASE SDK AUTH
+  before kita maka gamit firebase haaton javascript file need natun mag create hin Firebase project, makadto la firebase console and create project.
+
+  keep in mind dri need ig initialize it firebase kada file, pag himo nala ha src scope hin js file na didto mo ig iinitialize ngan ig export nalat var nana hold an return value/instance an function na initializeApp. 
+
+  keep in mind ghp na mayda firebase configuration file kada project na asya it nagiging argument it initializeApp.
+
+  keep in mind if aadto kanat iba na file ig iimport mo nala nimo instance an imo firebase ngan pwedi kana maka gamit it mga firebase services.
+
+  note -hilnga ha sign up tas login na tsx file paramakita mo panu na work it firebase ngan hilnga ha nodeserver panu ig handle it mga data from form data, gamit an on function data, end na events.

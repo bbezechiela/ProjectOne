@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import firebaseApp from '../firebase';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import '../styles/signUp.css';
 
 interface Props {
@@ -16,6 +18,9 @@ const SignUp: React.FC<Props> = ({ selectedColor, animateStatus }) => {
         password: '',
     });
 
+    // firebase 
+    const auth = getAuth(firebaseApp);
+    
     const formChanges: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
@@ -27,6 +32,16 @@ const SignUp: React.FC<Props> = ({ selectedColor, animateStatus }) => {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
         console.log(getFormData);
+
+        // firebase 
+        createUserWithEmailAndPassword(auth, getFormData.email, getFormData.password)
+            .then((userCredentials) => {
+                const user = userCredentials.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
         try {
             const setter = await fetch('http://localhost:2020/demonode', {
