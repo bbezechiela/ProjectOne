@@ -37,6 +37,8 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
         signInWithEmailAndPassword(auth, getFormData.email, getFormData.password)
             .then((userCredentials) => {
                 console.log(userCredentials.user);
+                useNav('/welcome', { replace: true });
+                isLoggedIn(true);
             }).catch((error) => console.log(error));
         
         try {
@@ -55,8 +57,8 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
             if (response) {
                 console.log(response);
                 // setLogin(true);
-                useNav('/welcome', { replace: true });
-                isLoggedIn(true);
+                // useNav('/welcome', { replace: true });
+                // isLoggedIn(true);
             } else {
                 console.log('may error');
             }

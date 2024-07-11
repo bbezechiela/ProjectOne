@@ -99,3 +99,5 @@ JULY 11
   note - observe panu na work. scenario kay gusto nat while dri pa naka login it user iba na navigation it iya makikita pero pag naka login na iba liwat it makikita, hiling ha NavOne component panu na work, tas look upto nala panu na work an type na dispatch
 
   note - an gamit an React.Dispatch<React.SetStateAction<boolean>> is na refer iton it type an kanan setter function ha usestate, since haat scenario gusto nat adto gamiton na state ha iba na component asya amo it ito it type.
+
+  keep in mind - ha pag authenticate duwa tat option, haatun local db mismo or pwedi ghp kanan firebase, or pwedi both para secure gud.
