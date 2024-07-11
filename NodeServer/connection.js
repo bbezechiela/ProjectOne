@@ -47,7 +47,7 @@ const server = http.createServer((request, response) => {
         console.log('error');
     }
 
-    // form data (sign in)
+    // form data (login)
     if (request.url === '/getCredentials') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -74,10 +74,6 @@ const server = http.createServer((request, response) => {
     } else {
         console.log('error');
     }
-
-
-
-
 });
 
 server.listen(2020, () => console.log('connected to server'));

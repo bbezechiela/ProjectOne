@@ -1,11 +1,15 @@
-import HeroPage from "./components/HeroPage";
+// import Nav from "./components/Nav";
+import Login from "./components/Login";
 import NavOne from "./components/NavOne";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const App = ({}) => {
+const App = () => {
+  const [getStatus, setStatus] = useState(false);
+
   return (
     <>
-      <NavOne />
-      {/* <HeroPage /> */}
+      <NavOne isLoggedIn={getStatus} setUserLogIn={setStatus} />
     </>
   )
 }

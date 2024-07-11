@@ -63,7 +63,7 @@ const HowItWorks: React.FC<Props> = ({ selectedColor, animateStatus, fromWhere }
                             <div className='classFromNav thirdStepFromNav'>Tell your emotion</div>
                             <div className='classFromNav fourthStepFromNav'>Share photos</div>
                             <div className='classFromNav fifthStepFromNav'>Create Conversations</div>
-                            <Link id='getStarted' to='signUp'>Get Started</Link>
+                            <Link id='getStarted' to='/signUp'>Get Started</Link>
                         </div>
                     </>
                 )}

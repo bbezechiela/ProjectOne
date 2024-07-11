@@ -77,7 +77,7 @@ JULY 8
   (gg buwas liwat)
 
 JULY 9
-  pamiling hin user friendly na auth, (firebase) usa na dida.
+  pamiling hin user friendly na auth, (firebase auth) usa na dida.
   Firebase SDK Authentication
 
 NOTES FOR FIREBASE SDK AUTH
@@ -90,3 +90,12 @@ NOTES FOR FIREBASE SDK AUTH
   keep in mind if aadto kanat iba na file ig iimport mo nala nimo instance an imo firebase ngan pwedi kana maka gamit it mga firebase services.
 
   note -hilnga ha sign up tas login na tsx file paramakita mo panu na work it firebase ngan hilnga ha nodeserver panu ig handle it mga data from form data, gamit an on function data, end na events.
+
+Adma
+  note - adma panu mag redirect after success it pag login
+
+
+JULY 11
+  note - observe panu na work. scenario kay gusto nat while dri pa naka login it user iba na navigation it iya makikita pero pag naka login na iba liwat it makikita, hiling ha NavOne component panu na work, tas look upto nala panu na work an type na dispatch
+
+  note - an gamit an React.Dispatch<React.SetStateAction<boolean>> is na refer iton it type an kanan setter function ha usestate, since haat scenario gusto nat adto gamiton na state ha iba na component asya amo it ito it type.

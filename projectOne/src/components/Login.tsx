@@ -2,13 +2,21 @@ import React, { useState, useEffect } from 'react';
 import '../styles/signUp.css';
 import firebaseApp from '../firebase';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+interface Props {
+    isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
+}
+
+const Login: React.FC<Props> = ({ isLoggedIn }) => {
+    const [isLogged, setLogin] = useState(false);
     const [getFormData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
     });
+
+    const useNav = useNavigate();
 
     // firebase
     const auth = getAuth(firebaseApp);
@@ -46,6 +54,9 @@ const Login = () => {
             const response = await getter.json();
             if (response) {
                 console.log(response);
+                // setLogin(true);
+                useNav('/welcome', { replace: true });
+                isLoggedIn(true);
             } else {
                 console.log('may error');
             }
@@ -56,6 +67,7 @@ const Login = () => {
 
     return (
         <>
+            {/* <NavOne status={false}/> */}
             <div 
                 id="signUpOuterContainer"
             >
