@@ -1,0 +1,16 @@
+/* lFG */
+
+#searchOuterContainer {
+    height: 950px;
+    width: 100%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#searchInnerContainer {
+    height: 500px;
+    width: 500px;
+    border: 1px solid black;
+}

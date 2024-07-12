@@ -101,3 +101,6 @@ JULY 11
   note - an gamit an React.Dispatch<React.SetStateAction<boolean>> is na refer iton it type an kanan setter function ha usestate, since haat scenario gusto nat adto gamiton na state ha iba na component asya amo it ito it type.
 
   keep in mind - ha pag authenticate duwa tat option, haatun local db mismo or pwedi ghp kanan firebase, or pwedi both para secure gud.
+
+JULY 12
+  ayosa nalat ui ha search page. kay naka fetch na kita from db, pero observe nala panu mag gamit typescript.

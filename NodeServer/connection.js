@@ -1,4 +1,3 @@
-import { log } from 'console';
 import http from 'http';
 import mysql from 'mysql';
 
@@ -52,7 +51,7 @@ const server = http.createServer((request, response) => {
         let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
-            data = { ...data, ...parsedData}
+            data = { ...data, ...parsedData};
         });
 
         request.on('end', () => {
@@ -72,7 +71,31 @@ const server = http.createServer((request, response) => {
         });
 
     } else {
-        console.log('error');
+        console.log('error in login');
+    }
+
+    // search feature
+    if (request.url === '/search') {
+        let searchData = {searchValue: ''};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            searchData = parsedData;
+        });
+
+        request.on('end', () => {
+            console.log(searchData.searchValue);
+            if (Object.keys(searchData).length !== 0) {
+                const searchQuery = `SELECT * FROM demoTable WHERE username = '${searchData.searchValue}'`;
+                conn.query(searchQuery, (err, result) => {
+                    console.log(result);
+                    response.end(JSON.stringify(result));
+                });
+            } else {
+                console.log('cant find any user');
+            }
+        });
+    } else {
+        console.log('search error');
     }
 });
 

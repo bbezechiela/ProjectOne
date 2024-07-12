@@ -60,7 +60,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Route path="messages" element={<Messages />}></Route>
                         <Route path="gallery" element={<Gallery />}></Route>
                         <Route path="emotions" element={<Emotions />}></Route>
-                        <Route path="lagout" element={<Welcome />}></Route>
+                        <Route path="lagout" element={<HeroPage />}></Route>
                     </Route>
                 </Routes>
             </BrowserRouter>

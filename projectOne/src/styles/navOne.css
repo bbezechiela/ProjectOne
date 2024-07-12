@@ -60,7 +60,30 @@
     cursor: pointer;
 }
 
+#navTwoContainer {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
 
+/* nav two design */
+.navTwoItem {
+    height: 50px;
+    width: 130px;
+    border: 1px solid rgb(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+    margin: 0 20px 0 20px;
+}
 
 
 
