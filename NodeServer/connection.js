@@ -87,11 +87,18 @@ const server = http.createServer((request, response) => {
             if (Object.keys(searchData).length !== 0) {
                 const searchQuery = `SELECT * FROM demoTable WHERE username = '${searchData.searchValue}'`;
                 conn.query(searchQuery, (err, result) => {
-                    console.log(result);
-                    response.end(JSON.stringify(result));
+                    if (result.length > 0) {
+                        console.log('first element returned', result[0]);
+                        console.log(result);
+                        response.end(JSON.stringify({data: result}));
+                    } else {
+                        // ig username nalat key, kay anu? observe nala ha search tsx
+                        response.end(JSON.stringify({error: [{username: 'Cant find any user'}]}));
+                        console.log('cant find anything');
+                    }
                 });
             } else {
-                console.log('cant find any user');
+                console.log('empty search input field');
             }
         });
     } else {

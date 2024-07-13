@@ -104,3 +104,11 @@ JULY 11
 
 JULY 12
   ayosa nalat ui ha search page. kay naka fetch na kita from db, pero observe nala panu mag gamit typescript.
+
+JULY 13
+  fixed - na work nat search feature.
+
+
+  (TODO'S)
+  todo - make a db table for friend request dapat mayda relationship ha user.
+  todo - ngan a search feature ig butang ha nav kaysa mayda niya own page

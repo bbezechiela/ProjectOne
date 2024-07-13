@@ -1,5 +1,4 @@
 /* lFG */
-
 #searchOuterContainer {
     height: 950px;
     width: 100%;
@@ -10,7 +9,71 @@
 }
 
 #searchInnerContainer {
-    height: 500px;
-    width: 500px;
-    border: 1px solid black;
+    height: 250px;
+    width: 700px;
+    /* border: 1px solid rgba(0, 0, 0, 0.2); */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
 }
+
+#searchForm {
+    height: auto;
+    width: 550px;
+    /* transform: translate(-50%, -50%); */
+}
+
+#searchInputField {
+    height: 55px;
+    width: 400px;
+    font-size: 18px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-left: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+#searchSubmitButton {
+    height: 55px;
+    width: 150px;
+    font-size: 18px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+#searchResultContainer {
+    height: 55px;
+    width: 550px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchResult {
+    height: 55px;
+    width: 350px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.addFriendButton {
+    height: 55px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
