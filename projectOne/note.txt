@@ -112,3 +112,18 @@ JULY 13
   (TODO'S)
   todo - make a db table for friend request dapat mayda relationship ha user.
   todo - ngan a search feature ig butang ha nav kaysa mayda niya own page
+
+JULY 16
+  keep in mind - it pag export it getter variable ha useState hook, approach nat gamiton nat is pag gamit createContext, useContext, refer nala ha login FC since didto nat gin eexport it value it current user id para magamit nat ha iba na component.
+
+  keep in mind - mej complicated pa it useContext ha way ha login na approach kay since na refer kita ha usa ka route if successfull an Authentication an credentials, kasi it useContext is mayda niya provider or wrapper na it sulod dida is mga component para ma access nira an value. kay it na tatabo ha login waray man kita ma bubutang na component inside ito na wrapper asya for now bagat dri asya it proper na approach.
+
+  keep in mind - na it gamit it useContext is para ma avoid it prop drilling meaning, dri na need ig pasa it prop from component 1 - 2 - 3 - 4 - 5 para ma aka access it FC 5, instead asya ito magamit nala hin createContext tas useContext.
+
+  (fixed) ayosa - pag gamit hin context provider ha nav component mismo
+    - observe nala ha NavOne na FC
+
+
+  keep in mind - pag mahimo kita interface/type gin memention nat it specific type kada property ngan pwedi ta ito magamit na interface/type ha mga hooks and more like functions, FC, example ha mga hooks masugad it kabutang useState<InterfaceName>() this inside it round brackets need mo ig specify tanan na properties na tikang ha InterfaceName unless optional ito na properties gamit '?' na symbol
+
+  

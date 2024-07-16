@@ -1,23 +1,42 @@
 import { Link, Outlet, BrowserRouter, Route, Routes } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext} from 'react';
 import HeroPage from './HeroPage';
 import Login from './Login';
 import HowItWorks from './HowItWorks';
 import SignUp from './SignUp';
-import '../styles/navOne.css';
-// import Nav from './Nav';
 import Welcome from './Welcome';
 import Search from './Search';
 import Messages from './Messages';
 import Gallery from './Gallery';
 import Emotions from './Emotions';
+import '../styles/navOne.css';
 
 interface Props {
     isLoggedIn: boolean,
     setUserLogIn: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
+interface ObjProps {
+    id: number,
+    username: string,
+    email: string,
+    password: string,
+}
+
+export const CurrentUser = createContext<ObjProps>({
+    id: 0,
+    username: '',
+    email: '',
+    password: '',
+});
+
 const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
+    const [getUserData, setUserData] = useState<ObjProps>({
+        id: 0,
+        username: '',
+        password: '',
+        email: '',
+    });
 
     return (
         <>
@@ -45,6 +64,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                 </>)}
 
                 {/* <Outlet /> */}
+                <CurrentUser.Provider value={getUserData}>
                 <Routes>    
                     <Route>
                         {/* navOne routes */}
@@ -52,7 +72,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Route path='signUp' element={<SignUp />} />
                         <Route path='/signUp' element={<SignUp />} />
                         <Route path='howItWorks' element={<HowItWorks fromWhere='nav'/>} />
-                        <Route path='login' element={<Login isLoggedIn={setUserLogIn}/>} />
+                        <Route path='login' element={<Login isLoggedIn={setUserLogIn} setUserSession={setUserData} />} />
 
                         {/* navTwo routes */}
                         <Route path="welcome" element={<Welcome />}></Route>
@@ -63,6 +83,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Route path="lagout" element={<HeroPage />}></Route>
                     </Route>
                 </Routes>
+                </CurrentUser.Provider>
             </BrowserRouter>
         </>
     );

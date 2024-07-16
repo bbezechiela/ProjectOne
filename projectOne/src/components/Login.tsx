@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import '../styles/signUp.css';
 import firebaseApp from '../firebase';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import NavOne from './NavOne';
+
+interface ObjProps {
+    id: number,
+    username: string,
+    email: string,
+    password: string,
+}
 
 interface Props {
     isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
+    setUserSession: React.Dispatch<React.SetStateAction<ObjProps>>,
 }
 
-const Login: React.FC<Props> = ({ isLoggedIn }) => {
-    const [isLogged, setLogin] = useState(false);
+const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
     const [getFormData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
     });
 
+    // initialize useNavigate, it return it useNav kay function with two parameters
     const useNav = useNavigate();
-
+    
     // firebase
     const auth = getAuth(firebaseApp);
 
@@ -34,11 +43,12 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
         e.preventDefault();
         console.log(getFormData);
 
+        // mayda mo two ways, manual na pag authenticate or using firebase
         signInWithEmailAndPassword(auth, getFormData.email, getFormData.password)
             .then((userCredentials) => {
                 console.log(userCredentials.user);
-                useNav('/welcome', { replace: true });
-                isLoggedIn(true);
+                // useNav('/welcome', { state: userCredentials.user });
+                // isLoggedIn(true);
             }).catch((error) => console.log(error));
         
         try {
@@ -55,10 +65,12 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
     
             const response = await getter.json();
             if (response) {
-                console.log(response);
+                console.log(response[0]);
+                setUserSession(response[0]);
+                
                 // setLogin(true);
-                // useNav('/welcome', { replace: true });
-                // isLoggedIn(true);
+                useNav('/welcome', { replace: true });
+                isLoggedIn(true);
             } else {
                 console.log('may error');
             }

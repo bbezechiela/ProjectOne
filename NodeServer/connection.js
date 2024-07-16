@@ -6,6 +6,7 @@ const server = http.createServer((request, response) => {
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
+    // mysql connection
     const conn = mysql.createConnection({
         host: 'localhost',
         user: 'root',
@@ -33,7 +34,7 @@ const server = http.createServer((request, response) => {
             response.end(JSON.stringify({ message: "Data received successfully" }));
 
             if (Object.keys(data).length !== 0) {
-                const insertQuery = `INSERT INTO demoTable (username, email, password) VALUES ('${data.username}', '${data.email}', '${data.password}')`;
+                const insertQuery = `INSERT INTO users (username, email, password) VALUES ('${data.username}', '${data.email}', '${data.password}')`;
                 conn.query(insertQuery, () => {
                     console.log('inserted successfully');
                 });
@@ -57,7 +58,7 @@ const server = http.createServer((request, response) => {
         request.on('end', () => {
             try {
                 if (Object.keys(data).length > 0) {
-                    const selectQuery = `SELECT * FROM demoTable WHERE email = '${data.email}' AND password = '${data.password}'`;
+                    const selectQuery = `SELECT * FROM users WHERE email = '${data.email}' AND password = '${data.password}'`;
 
                     conn.query(selectQuery, (err, result) => {
                         response.end(JSON.stringify(result));
@@ -85,7 +86,7 @@ const server = http.createServer((request, response) => {
         request.on('end', () => {
             console.log(searchData.searchValue);
             if (Object.keys(searchData).length !== 0) {
-                const searchQuery = `SELECT * FROM demoTable WHERE username = '${searchData.searchValue}'`;
+                const searchQuery = `SELECT * FROM users WHERE username = '${searchData.searchValue}'`;
                 conn.query(searchQuery, (err, result) => {
                     if (result.length > 0) {
                         console.log('first element returned', result[0]);
@@ -104,6 +105,9 @@ const server = http.createServer((request, response) => {
     } else {
         console.log('search error');
     }
+
+    // user friend request
+    
 });
 
 server.listen(2020, () => console.log('connected to server'));

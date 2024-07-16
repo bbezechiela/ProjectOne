@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+// import { CurrentUserId } from './Login';
 import '../styles/search.css';
 
 interface MyObj {
@@ -9,12 +11,12 @@ interface MyObj {
 }
 
 const Search = () => {
+    const [getResponse, setResponse] = useState<MyObj[]>([]);
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''
     });
-
-    const [getResponse, setResponse] = useState<MyObj[]>([]);
-
+    
+    // onchange on form inpunts
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
         setSearchValue({
             searchValue: e.target.value
@@ -22,7 +24,7 @@ const Search = () => {
     }
     console.log(getSearchValue);
     
-
+    // form submission
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
         console.log('clicked');
@@ -44,6 +46,11 @@ const Search = () => {
         }
     }
 
+    // send friend request
+    const friendRequest: React.MouseEventHandler<HTMLDivElement> = async (): Promise<void> => {
+        
+    }
+
     return (
         <>
             <div id="searchOuterContainer">
@@ -60,7 +67,7 @@ const Search = () => {
                         {getResponse.length > 0 && getResponse.map((element, index) => (
                             <div id="searchResultContainer">
                                 <div className="searchResult" key={index}>{element.username}</div>
-                                <div className="addFriendButton">Add Friend</div>
+                                <div className="addFriendButton" onClick={friendRequest}>Add Friend</div>
                             </div>
                         ))}
                     </form>
