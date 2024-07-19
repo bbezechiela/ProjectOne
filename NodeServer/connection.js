@@ -1,3 +1,4 @@
+import { log } from 'console';
 import http from 'http';
 import mysql from 'mysql';
 
@@ -16,7 +17,6 @@ const server = http.createServer((request, response) => {
 
     conn.connect((err) => {
         if (err) throw err;
-        console.log('connected to mysql');
     });
 
     // form data (sign up)
@@ -24,8 +24,7 @@ const server = http.createServer((request, response) => {
         let data = {};
         request.on('data', (dataChunks) => {
             const jsonParsed = JSON.parse(dataChunks.toString());
-
-            data = { ...data, ...jsonParsed};
+            data = jsonParsed;
         }); 
 
         request.on('end', () => {
@@ -43,16 +42,14 @@ const server = http.createServer((request, response) => {
 
         console.log('calling data object outside the on and end events', data);
 
-    } else {
-        console.log('error');
-    }
+    } 
 
     // form data (login)
     if (request.url === '/getCredentials') {
         let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
-            data = { ...data, ...parsedData};
+            data = parsedData;
         });
 
         request.on('end', () => {
@@ -70,17 +67,16 @@ const server = http.createServer((request, response) => {
                 console.log(error);
             }
         });
-
-    } else {
-        console.log('error in login');
-    }
+    } 
 
     // search feature
     if (request.url === '/search') {
         let searchData = {searchValue: ''};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
+            console.log('search data chunks', dataChunks);
             searchData = parsedData;
+            console.log('showing search data', parsedData);
         });
 
         request.on('end', () => {
@@ -102,12 +98,31 @@ const server = http.createServer((request, response) => {
                 console.log('empty search input field');
             }
         });
-    } else {
-        console.log('search error');
-    }
+    } 
 
-    // user friend request
-    
+    // user friend request 
+    if (request.url === '/request') {
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            console.log('friend request data chunks', dataChunks);
+            data = parsedData;
+        });
+
+        request.on('end', () => {
+            if (Object.keys(data).length > 0) {
+                const requestQuery = `INSERT INTO user_request (request_sender, request_receiver, request_status) 
+                VALUES (${data.getCurrentUser.id}, ${data.e.id}, 'pending')`;
+                
+                conn.query(requestQuery, (err, result) => {
+                    response.end(JSON.stringify({message: 'Friend Request Sent'}));
+                    console.log('REQUEST SUCCESSFULLY SENT');
+                });
+            } else {
+                console.log('no properties an the object');
+            }
+        });
+    }
 });
 
 server.listen(2020, () => console.log('connected to server'));

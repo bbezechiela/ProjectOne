@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-// import { CurrentUserId } from './Login';
+import { CurrentUser } from './NavOne';
 import '../styles/search.css';
 
 interface MyObj {
@@ -11,11 +10,16 @@ interface MyObj {
 }
 
 const Search = () => {
+    // getting user data from useContext
+    const currentUserData = useContext(CurrentUser);
+
+    // rekta nala since dri man gud ini maka pa rerender it component kay onetime la may changes (not sure)
+    const [getCurrentUser,] = useState(currentUserData);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''
     });
-    
+
     // onchange on form inpunts
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
         setSearchValue({
@@ -47,8 +51,23 @@ const Search = () => {
     }
 
     // send friend request
-    const friendRequest: React.MouseEventHandler<HTMLDivElement> = async (): Promise<void> => {
-        
+    const friendRequest = async (e: MyObj) => {
+        // console.log('clicked friend request', JSON.stringify(e));
+        try {
+            const sendRequest = await fetch('http://localhost:2020/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({e, getCurrentUser})
+            });
+
+            const response = await sendRequest.json();
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -67,7 +86,7 @@ const Search = () => {
                         {getResponse.length > 0 && getResponse.map((element, index) => (
                             <div id="searchResultContainer">
                                 <div className="searchResult" key={index}>{element.username}</div>
-                                <div className="addFriendButton" onClick={friendRequest}>Add Friend</div>
+                                <div className="addFriendButton" onClick={() => friendRequest(element)}>Add Friend</div>
                             </div>
                         ))}
                     </form>

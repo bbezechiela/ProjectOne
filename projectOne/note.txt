@@ -123,7 +123,18 @@ JULY 16
   (fixed) ayosa - pag gamit hin context provider ha nav component mismo
     - observe nala ha NavOne na FC
 
-
   keep in mind - pag mahimo kita interface/type gin memention nat it specific type kada property ngan pwedi ta ito magamit na interface/type ha mga hooks and more like functions, FC, example ha mga hooks masugad it kabutang useState<InterfaceName>() this inside it round brackets need mo ig specify tanan na properties na tikang ha InterfaceName unless optional ito na properties gamit '?' na symbol
 
+JULY 17
+  note - didint code all day :)))))))))))))))))))))
+
+JULY 18
+  (done) work with - making friend request based ha search add button
+    diagnosis above - it pag transfer dida kay since need nat magpa tabok duwa na objects from client to node 
+  (done) work with - making table for add friend requests
+
+JULY 19 
+  keep in mind - everytime mayda mo request ha node dapat magamit kita hin end function haaton response like response.end para mag signal na complete nat request, kay if ig ommit mo iton dri ma eexecute ito na imo request. like dri maka fetch hin data from client js tas dri makag process hin data.
+
+  
   
