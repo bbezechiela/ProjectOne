@@ -52,9 +52,9 @@ const Search = () => {
 
     // send friend request
     const friendRequest = async (e: MyObj) => {
-        // console.log('clicked friend request', JSON.stringify(e));
+        console.log('clicked friend request', JSON.stringify(e));
         try {
-            const sendRequest = await fetch('http://localhost:2020/request', {
+            const sendRequest = await fetch('http://localhost:2020/sendRequest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

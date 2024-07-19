@@ -134,7 +134,21 @@ JULY 18
   (done) work with - making table for add friend requests
 
 JULY 19 
+  )))))))))))))))))))))))))))))))))))))
   keep in mind - everytime mayda mo request ha node dapat magamit kita hin end function haaton response like response.end para mag signal na complete nat request, kay if ig ommit mo iton dri ma eexecute ito na imo request. like dri maka fetch hin data from client js tas dri makag process hin data.
 
+  (done) work with - fetch requests ha receiver na perspective 
+  (done) work with - himo ui na didto ig didisplay an mga na fetch
   
-  
+  ))))))))))))))))))))))))))))))))))))
+  keep in mind - mayda iba iba na approach ha pag handle hin request ha node, pwedi callback approach na asya tat approach na gamit yana or promise na approach which ma create hin async function ngan magamit mga keywords na await. same format ha pag gamit hin promises
+
+  ))))))))))))))))))))))))))))))))))))
+  keep in mind - na it interface ha typscript is bagat na act as a building block or reference timo data, for instance ma fetch ka server dapat timo ig rereturn na response from server to client is parihos it structure ha interfance dida timo react. kay if dri mag kaka mayda ka hin compile error na ma warning na dri na match it properties
+
+
+NEXT TASKS
+  todo - make relationship ha mga tables like users ha user request
+  todo - himo ui ha mga requests  
+  review - panginano ha requests page panu na work an nested query, then panu nag work an pag type haaton data from db to client
+  review - kita.a code ha connection related ha requests

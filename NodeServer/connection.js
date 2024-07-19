@@ -101,16 +101,16 @@ const server = http.createServer((request, response) => {
     } 
 
     // user friend request 
-    if (request.url === '/request') {
+    if (request.url === '/sendRequest') {
         let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
-            console.log('friend request data chunks', dataChunks);
+            // console.log('friend request data chunks', dataChunks);
             data = parsedData;
         });
 
         request.on('end', () => {
-            if (Object.keys(data).length > 0) {
+            if (Object.keys(data).length !== 0) {
                 const requestQuery = `INSERT INTO user_request (request_sender, request_receiver, request_status) 
                 VALUES (${data.getCurrentUser.id}, ${data.e.id}, 'pending')`;
                 
@@ -120,6 +120,47 @@ const server = http.createServer((request, response) => {
                 });
             } else {
                 console.log('no properties an the object');
+                response.end(JSON.stringify({message: 'sent request failed'}));
+            }
+        });
+    }
+
+    // get requests
+    if (request.url === '/getRequests') {
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = parsedData;
+        });
+
+        request.on('end', () => {
+            if (Object.keys(data).length !== 0) {
+                const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'pending'`;
+                let resultOne = [];
+                let resultTwo = [];
+                conn.query(requestSenderId, (err, result) => {
+                    if (err) throw err;
+                    for (let i in result) {
+                        resultOne.push(result[i]);
+                        conn.query(`SELECT * FROM users WHERE id = ${result[i].request_sender}`, (err, result) => {
+                            for (let j in result) {
+                                resultTwo.push(result[j]);
+                            }
+                            response.end(JSON.stringify({
+                                message: [{
+                                    resultOne: resultOne,
+                                    resultTwo: resultTwo,
+                                }]
+                            }));
+                            // console.log('result one container', resultOne);
+                            // console.log('result two container', resultTwo);
+                        });
+                    }
+
+                });
+            } else {
+                console.log('object empty');
+                response.end(JSON.stringify({message: 'get request failed'}));
             }
         });
     }

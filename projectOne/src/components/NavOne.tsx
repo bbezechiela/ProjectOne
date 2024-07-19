@@ -5,6 +5,7 @@ import Login from './Login';
 import HowItWorks from './HowItWorks';
 import SignUp from './SignUp';
 import Welcome from './Welcome';
+import Requests from './Requests';
 import Search from './Search';
 import Messages from './Messages';
 import Gallery from './Gallery';
@@ -45,6 +46,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                 (<>
                     <div id="navTwoContainer">
                         <Link className="navTwoItem" to='welcome'>Home</Link>
+                        <Link className="navTwoItem" to='requests'>Requests</Link>
                         <Link className="navTwoItem" to='search'>Search</Link>
                         <Link className="navTwoItem" to='messages'>Messages</Link>
                         <Link className="navTwoItem" to='gallery'>Gallery</Link>
@@ -76,6 +78,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
 
                         {/* navTwo routes */}
                         <Route path="welcome" element={<Welcome />}></Route>
+                        <Route path="requests" element={<Requests />}></Route>
                         <Route path="search" element={<Search />}></Route>
                         <Route path="messages" element={<Messages />}></Route>
                         <Route path="gallery" element={<Gallery />}></Route>
