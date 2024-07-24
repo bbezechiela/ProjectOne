@@ -1,6 +1,6 @@
-import { log } from 'console';
 import http from 'http';
-import mysql from 'mysql';
+import mysql, { createPool } from 'mysql';
+import util from 'util';
 
 const server = http.createServer((request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
@@ -8,15 +8,12 @@ const server = http.createServer((request, response) => {
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
     // mysql connection
-    const conn = mysql.createConnection({
+    const pool = mysql.createPool({
+        connectionLimit: 10,
         host: 'localhost',
         user: 'root',
         password: 'happyme123',
         database: 'nodejsdb', 
-    });
-
-    conn.connect((err) => {
-        if (err) throw err;
     });
 
     // form data (sign up)
@@ -28,20 +25,16 @@ const server = http.createServer((request, response) => {
         }); 
 
         request.on('end', () => {
-            console.log(typeof data);
-            console.log(data);
             response.end(JSON.stringify({ message: "Data received successfully" }));
-
+            
             if (Object.keys(data).length !== 0) {
                 const insertQuery = `INSERT INTO users (username, email, password) VALUES ('${data.username}', '${data.email}', '${data.password}')`;
-                conn.query(insertQuery, () => {
+                pool.query(insertQuery, () => {
                     console.log('inserted successfully');
                 });
             } 
         });
-
         console.log('calling data object outside the on and end events', data);
-
     } 
 
     // form data (login)
@@ -57,7 +50,8 @@ const server = http.createServer((request, response) => {
                 if (Object.keys(data).length > 0) {
                     const selectQuery = `SELECT * FROM users WHERE email = '${data.email}' AND password = '${data.password}'`;
 
-                    conn.query(selectQuery, (err, result) => {
+                    pool.query(selectQuery, (err, result) => {
+                        console.log(err);
                         response.end(JSON.stringify(result));
                     });
                 } else {
@@ -83,7 +77,8 @@ const server = http.createServer((request, response) => {
             console.log(searchData.searchValue);
             if (Object.keys(searchData).length !== 0) {
                 const searchQuery = `SELECT * FROM users WHERE username = '${searchData.searchValue}'`;
-                conn.query(searchQuery, (err, result) => {
+                
+                pool.query(searchQuery, (err, result) => {
                     if (result.length > 0) {
                         console.log('first element returned', result[0]);
                         console.log(result);
@@ -114,7 +109,7 @@ const server = http.createServer((request, response) => {
                 const requestQuery = `INSERT INTO user_request (request_sender, request_receiver, request_status) 
                 VALUES (${data.getCurrentUser.id}, ${data.e.id}, 'pending')`;
                 
-                conn.query(requestQuery, (err, result) => {
+                pool.query(requestQuery, (err, result) => {
                     response.end(JSON.stringify({message: 'Friend Request Sent'}));
                     console.log('REQUEST SUCCESSFULLY SENT');
                 });
@@ -127,6 +122,87 @@ const server = http.createServer((request, response) => {
 
     // get requests
     if (request.url === '/getRequests') {
+        pool.query = util.promisify(pool.query).bind(pool);
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = parsedData;
+        });
+        request.on('end', () => {
+            if (Object.keys(data).length !== 0) {
+                const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'pending'`;
+
+                (async () => {
+                    const firstQuery = await pool.query(requestSenderId)
+                        .then((result) => { return result });
+                        
+                    const secondQuery = firstQuery.map((e) => {
+                        return pool.query(`SELECT * FROM users WHERE id = ${e.request_sender}`)
+                    });
+
+                    const allQuery = await Promise.all(secondQuery);
+                    const requestData = allQuery.flatMap((result) => result);
+                    for (let i in firstQuery) {
+                        requestData[i].request_id = firstQuery[i].request_id;
+                        requestData[i].request_sender = firstQuery[i].request_sender;
+                    }
+
+                    return response.end(JSON.stringify({
+                            result: requestData,
+                    }));
+                })();
+            } else {
+                console.log('object empty');
+                response.end(JSON.stringify({message: 'get request failed'}));
+            }
+        });
+    }
+    
+    // accept request
+    if (request.url === '/acceptRequest') {
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            console.log(dataChunks);
+            data = parsedData;
+        }) 
+
+        request.on('end', () => {
+            console.log(data);
+            const acceptRequestQuery = `UPDATE user_request SET request_status = 'accepted' WHERE request_id = ${data.request_id}`;
+            if (Object.keys(data).length !== 0) {
+                pool.query(acceptRequestQuery, (err, result) => {
+                    response.end(JSON.stringify({message: 'updated successfully'}));
+                });
+            } else {
+                response.end(JSON.stringify({message: 'failed to update'}));
+            }
+        });
+    }
+
+    // decline request
+    if (request.url === '/declineRequest') {
+        let data = {};        
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = parsedData;
+        });
+
+        request.on('end', () => {
+            const declineQuery = `UPDATE user_request SET request_status = 'declined' WHERE request_id = ${data.request_id}`;
+            if (Object.keys(data).length !== 0) {
+                pool.query(declineQuery, (err, result) => {
+                    response.end(JSON.stringify({success: 'Request Declined Successfully'}));
+                })
+            } else {
+                response.end(JSON.stringify({failed: 'failed to decline'}));
+            }
+        });
+    }
+
+    // get friends
+    if (request.url === '/getFriends') {
+        pool.query = util.promisify(pool.query).bind(pool);
         let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
@@ -134,36 +210,57 @@ const server = http.createServer((request, response) => {
         });
 
         request.on('end', () => {
+            const getFriendsQuery = `SELECT * FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'accepted'`;
             if (Object.keys(data).length !== 0) {
-                const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'pending'`;
-                let resultOne = [];
-                let resultTwo = [];
-                conn.query(requestSenderId, (err, result) => {
-                    if (err) throw err;
-                    for (let i in result) {
-                        resultOne.push(result[i]);
-                        conn.query(`SELECT * FROM users WHERE id = ${result[i].request_sender}`, (err, result) => {
-                            for (let j in result) {
-                                resultTwo.push(result[j]);
-                            }
-                            response.end(JSON.stringify({
-                                message: [{
-                                    resultOne: resultOne,
-                                    resultTwo: resultTwo,
-                                }]
-                            }));
-                            // console.log('result one container', resultOne);
-                            // console.log('result two container', resultTwo);
-                        });
+                (async () => {
+                    const firstQuery = await pool.query(getFriendsQuery)
+                        .then((result) => { return result });
+
+                    const secondQuery = firstQuery.map((e) => {
+                        return pool.query(`SELECT * FROM users WHERE id = ${e.request_sender}`);
+                    });
+
+                    const allQuery = await Promise.all(secondQuery);
+                    const requestData = allQuery.flatMap((result) => { return result; });
+                    for (let i in firstQuery) {
+                        requestData[i].request_id = firstQuery[i].request_id;
+                        requestData[i].request_sender = firstQuery[i].request_sender;
                     }
 
-                });
+                    console.log(requestData);
+                    response.end(JSON.stringify({
+                        message: requestData
+                    }));
+                })();
             } else {
-                console.log('object empty');
-                response.end(JSON.stringify({message: 'get request failed'}));
+                console.log('friend list is empty');
+                response.end(JSON.stringify({message: 'friend list is empty'}));
             }
         });
     }
+
+    // remove friend
+    if (request.url === '/removeFriend') {
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = parsedData;
+        });
+
+        request.on('end', () => {
+            const removeFriendQuery = `DELETE FROM user_request WHERE request_id = ${data.request_id}`;
+            if (Object.keys(data).length !== 0) {
+                pool.query(removeFriendQuery, (err, result) => {
+                    console.log('success han pag remove kan ', data.username, data.request_id);
+                    response.end(JSON.stringify({success: `succes an pag remove kan ${data.username}`}));
+                });
+            } else {
+                response.end(JSON.stringify({error: 'failed to remove friend'}));
+            }
+        });
+    }
+
+
 });
 
 server.listen(2020, () => console.log('connected to server'));

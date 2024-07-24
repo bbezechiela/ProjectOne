@@ -51,8 +51,8 @@ const Search = () => {
     }
 
     // send friend request
-    const friendRequest = async (e: MyObj) => {
-        console.log('clicked friend request', JSON.stringify(e));
+    const friendRequest = async (e: MyObj, index: number): Promise<void> => {
+        // console.log('clicked friend request', JSON.stringify(e));
         try {
             const sendRequest = await fetch('http://localhost:2020/sendRequest', {
                 method: 'POST',
@@ -63,7 +63,11 @@ const Search = () => {
             });
 
             const response = await sendRequest.json();
-            console.log(response);
+            if (response) {
+                const removeResponse = [...getResponse];
+                removeResponse.splice(index, 1);
+                setResponse(removeResponse);
+            }
 
         } catch (error) {
             console.log(error);
@@ -72,26 +76,29 @@ const Search = () => {
 
     return (
         <>
-            <div id="searchOuterContainer">
-                <div id="searchInnerContainer">
+            {/* <div id="searchOuterContainer"> */}
+                {/* <div id="searchInnerContainer"> */}
                     <form id="searchForm" method="post" onSubmit={handleSubmit}>
-                        <input
-                            id="searchInputField" 
-                            type="text" 
-                            name='searchField' 
-                            placeholder='Find a friend' 
-                            onChange={(e) => handleChange(e)}      
-                        />
-                        <input id="searchSubmitButton" type="submit" value="Search" />
+                        <div id='formSectionOne'>
+                            <input
+                                id="searchInputField" 
+                                type="text" 
+                                name='searchField' 
+                                placeholder='Find a friend' 
+                                onChange={(e) => handleChange(e)}      
+                            />
+
+                            <input id="searchSubmitButton" type="submit" value="Search" />
+                        </div>
                         {getResponse.length > 0 && getResponse.map((element, index) => (
                             <div id="searchResultContainer">
                                 <div className="searchResult" key={index}>{element.username}</div>
-                                <div className="addFriendButton" onClick={() => friendRequest(element)}>Add Friend</div>
+                                <div className="addFriendButton" onClick={() => friendRequest(element, index)}>Add Friend</div>
                             </div>
                         ))}
                     </form>
-                </div>
-            </div>
+                {/* </div> */}
+            {/* </div> */}
         </>
     );
 }

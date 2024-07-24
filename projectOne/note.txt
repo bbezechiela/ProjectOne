@@ -171,16 +171,32 @@ JULY 22
   )))))))))))))))))))))))))))))))
 
 JULY 24 
-  
+  keep in mind - since asyncronous approach it node if nagamit ka ifstatement like pag check it length it object if dri empty dapat always mayda else statement, kay always ito empty anay ha pera ka ms kay since ansyc hiya.
 
+  keep in mind - observe ha request declice panu nat gin dynamically gin remove it element, gin gagamit nat it index from map function ngan gin papass ta hiya as argument ha declineRequest na function tas since array it atun na hold it values it RequestDetails asya gumamit kita function na splice for add/remove an element based it index mayda ito duwa na nga parameter first paramter is index ngan second parameter is if pera it madedelete start an index number
 
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request
 
   (done) todo - himo ui ha mga requests
 
-  todo - himo table or update an request table if gin accept
+  (done) todo - himo table or update an request table if gin accept
+  
+  (done) todo - ig pa work it decline ha request
+
+  (done) todo - ig pa work it remove friend ha Friends component
+
+  (done) todo - ayusa it welcome page didto ig butang haros tanan na component pero iba it layout, tas didto la dapat maka seasrch hin user
+
+  todo - ig redirect it user pag click it mga welcome icon tikadto ira respective components
+
+  todo - himo.a nga dynamic it request tas friends counter
+
+  todo - pag add close button ha search result.
+
 
   review - panginano ha requests page panu na work an nested query, then panu nag work an pag type haaton data from db to client
   
   review - kita.a code ha connection related ha requests
+
+  review - panu it getConnection ha pool na work or pwedi recta dayun pool pag gamit hin query function

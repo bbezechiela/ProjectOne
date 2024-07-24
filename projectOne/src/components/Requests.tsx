@@ -9,7 +9,7 @@ interface RequestDetails {
     email: string,
     request_id: number,
     request_sender: number,
-    onClick: (e: React.MouseEvent<HTMLDivElement>) => void
+    onClick: (e: React.MouseEvent<HTMLDivElement>) => void,
 }
 
 const Requests = () => {
@@ -28,34 +28,70 @@ const Requests = () => {
             });
 
             const response = await getter.json();
-        if (response) {
-                setRequestDetails(response.result);
-                console.log(response.result);
-            }
-        })();
+            if (response) {
+                    setRequestDetails(response.result);
+                    console.log(response.result);
+                }
+            })();
     }, []);
 
-    const acceptRequest = (e: RequestDetails): void => {
-        console.log(e);
+    const acceptRequest = async (e: RequestDetails): Promise<void> => {
+        console.log('clicked', JSON.stringify(e));
+        const setter = await fetch('http://localhost:2020/acceptRequest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }, 
+            body: JSON.stringify(e),
+        });
+
+        const response = await setter.json();
+        if (response) {
+            console.log('accept request response', response);
+        }
+    }
+
+    const declineRequest = async (e: RequestDetails, index: number): Promise<void> => {
+        const setter = await fetch('http://localhost:2020/declineRequest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(e),
+        });
+
+        const response = await setter.json();
+        if (response.success) {
+            const allRequest = [...getRequestsDetails];
+            allRequest.splice(index, 1);
+            setRequestDetails(allRequest);
+        }
     }
 
     return (
         <>
             <div id='requestOuterContainer'>
-                {getRequestsDetails.length > 0 && getRequestsDetails.map((element, index) => (
-                    <div id='requestInnerContainer' key={index}>
-                        <div id='requestUpperContainer'>
-                            <div id='username'>{element.username}</div>
-                            <div id='username'>{element.request_sender}</div>
-                        </div>
-                        <div id='requestLowerContainer'>
-                            <div className='requestLowerButton' onClick={() => (
-                                acceptRequest(element)
-                            )}>Accept</div>
-                            <div className='requestLowerButton'>Decline</div>
-                        </div>
-                    </div>   
-                ))}
+                <div id="requestInnerContainer">
+                    <div id="requestHeaderText">Request List</div>
+                    {getRequestsDetails.length > 0 ? getRequestsDetails.map((element, index) => (
+                        <div id='requestElementContainer' key={index}>
+                            <div id='requestUpperContainer'>
+                                <div id='requestProfilePhoto'></div>
+                                <div id="usernameContainer">
+                                    <div id='requestUsername'>{element.username}</div>
+                                </div>
+                            </div>
+                            <div id='requestLowerContainer'>
+                                <div className='requestLowerButton' onClick={() => {
+                                    acceptRequest(element);
+                                }}>Accept</div>
+                                <div className='requestLowerButton' onClick={() => {
+                                    declineRequest(element, index);   
+                                }}>Decline</div>
+                            </div>
+                        </div>   
+                    )): <div id="noRequest">no request :)</div> }
+                </div>
             </div>
         </>
     );

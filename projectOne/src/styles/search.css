@@ -20,34 +20,45 @@
 
 #searchForm {
     height: auto;
-    width: 550px;
+    width: auto;
     /* transform: translate(-50%, -50%); */
 }
 
+#formSectionOne {
+    height: auto;
+    width: 580px;
+    display: flex;
+    flex-direction: row;
+    padding-left: 0px;
+}
+
 #searchInputField {
-    height: 55px;
-    width: 400px;
-    font-size: 18px;
+    height: 80px;
+    width: 360px;
+    font-size: 25px;
+    font-weight: 900;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    padding-left: 20px;
     border: 1px solid rgba(0, 0, 0, 0.2);
+    padding-left: 25px;
 }
 
 #searchSubmitButton {
-    height: 55px;
-    width: 150px;
-    font-size: 18px;
+    height: 80px;
+    width: 220px;
+    font-size: 23px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     background-color: black;
     color: white;
     cursor: pointer;
+    border: none;
+    font-weight: 700;
 }
 
 #searchResultContainer {
-    height: 55px;
-    width: 550px;
+    height: 70px;
+    width: 350px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     display: flex;
