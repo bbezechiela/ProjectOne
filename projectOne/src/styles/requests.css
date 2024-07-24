@@ -1,0 +1,50 @@
+
+#requestOuterContainer {
+    height: 900px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#requestInnerContainer {
+    height: 250px;
+    width: 700px;
+    border: 1px solid rgba( 0, 0, 0, 0.3);
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0 20px 0;
+}
+
+#username {
+    font-size: 40px;
+    font-weight: 900;
+}
+
+#requestUpperContainer {
+
+}
+
+#requestLowerContainer {
+    height: auto;
+    width: 700px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.requestLowerButton {
+    height: 70px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+}

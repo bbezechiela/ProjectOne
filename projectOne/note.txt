@@ -146,9 +146,41 @@ JULY 19
   ))))))))))))))))))))))))))))))))))))
   keep in mind - na it interface ha typscript is bagat na act as a building block or reference timo data, for instance ma fetch ka server dapat timo ig rereturn na response from server to client is parihos it structure ha interfance dida timo react. kay if dri mag kaka mayda ka hin compile error na ma warning na dri na match it properties
 
+  ))))))))))))))))))))))))))))))))))))))
+
+JULY 22 
+  keep in mind - para maka avoid problem it pag fefetch ha note back to client na kulang it na sesend (async problem ha node), asya magamit kita dapat hin promise ngan practice na ig avoid pag himo hin query inside ha usa nga query function para ma avoid nat it callback hell.
+  
+  keep in mind - gamit promise lugod if multiple queries para gin mamake sure na gin huhulat anay matapos before mag next query or before ig balik ha client.
+
+  keep in mind - mas maupay gumamit hin createPool kaysa createConnection - look up it advantages
+
+  keep in mind - by default mayda kita tinatawag na callback based function ha node takay if mayda kita multiple queries need man natun hulton matapos na tanan before mag return ha client so bali need ta ito ig promisify na query function para makag gamit kita hin async na approach so magaging promised based function na hiya. ada la ito na promisify function ha util na class
+
+  keep in mind - panginano flatmap if anut gamit kay pag mayda kita multiple mysql queries gagamit nat iya ha final na query or observe diin gagamiton, kay iton na function gagamit para ig flaten it array para dri mag nested kay since nagamit kita map asya na stostore kada instance ha usa nga array kay it map is mahimo hin new array ha reference ha usa nga array
+
+  keep in mind - if mayda kita nesting array na gusto nat ig avoid gamit kita flatMap, mayda ghp flat it kabaliktaran
+
+  keep in mind - if mayda ka multiple queries dapat it imo pag return ha client is naka single object property la para dri complex timo pag asikaso ha pag map ha react. masugad kita hini na approach if iton na element is naka rendered ha map function ngan gusto niya ig accept and each element data ha map, takay syempre ito na each element is na refer ito ha usa nga interface asya need natun mag add hin property didto ito na interface na gin papasabot nat na gagamiton ta iton na object ha usa nga event like onClick
+
+  ))))))))))))))))))))))))))))))
+
+JULY 22
+  keep in mind - if mayda nat parameter haaton function dida it mga events like onClick chuchu need nat ito specify didto tat interface like refer ha request tsx file kanan an pag accept.
+
+  )))))))))))))))))))))))))))))))
+
+JULY 24 
+  
+
 
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request
-  todo - himo ui ha mga requests  
+
+  (done) todo - himo ui ha mga requests
+
+  todo - himo table or update an request table if gin accept
+
   review - panginano ha requests page panu na work an nested query, then panu nag work an pag type haaton data from db to client
+  
   review - kita.a code ha connection related ha requests
