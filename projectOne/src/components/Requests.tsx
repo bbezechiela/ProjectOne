@@ -35,7 +35,7 @@ const Requests = () => {
             })();
     }, []);
 
-    const acceptRequest = async (e: RequestDetails): Promise<void> => {
+    const acceptRequest = async (e: RequestDetails, index: number): Promise<void> => {
         console.log('clicked', JSON.stringify(e));
         const setter = await fetch('http://localhost:2020/acceptRequest', {
             method: 'POST',
@@ -46,8 +46,11 @@ const Requests = () => {
         });
 
         const response = await setter.json();
-        if (response) {
-            console.log('accept request response', response);
+        if (response.message) {
+            console.log('accept request response', response.message);
+            const allRequest = [...getRequestsDetails];
+            allRequest.splice(index, 1);
+            setRequestDetails(allRequest);
         }
     }
 
@@ -83,7 +86,7 @@ const Requests = () => {
                             </div>
                             <div id='requestLowerContainer'>
                                 <div className='requestLowerButton' onClick={() => {
-                                    acceptRequest(element);
+                                    acceptRequest(element, index);
                                 }}>Accept</div>
                                 <div className='requestLowerButton' onClick={() => {
                                     declineRequest(element, index);   

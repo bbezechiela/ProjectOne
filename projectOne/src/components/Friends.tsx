@@ -31,7 +31,7 @@ const Friends = () => {
             const response = await getter.json();
             if (response) {
                 console.log(response);
-                setRequestDetails(response.message);
+                setRequestDetails(response.result);
             }
         })();
     }, []);

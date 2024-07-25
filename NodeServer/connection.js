@@ -6,7 +6,7 @@ const server = http.createServer((request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
+
     // mysql connection
     const pool = mysql.createPool({
         connectionLimit: 10,
@@ -51,11 +51,10 @@ const server = http.createServer((request, response) => {
                     const selectQuery = `SELECT * FROM users WHERE email = '${data.email}' AND password = '${data.password}'`;
 
                     pool.query(selectQuery, (err, result) => {
-                        console.log(err);
-                        response.end(JSON.stringify(result));
+                        result.length !== 0 ? response.end(JSON.stringify({result: result})): response.end(JSON.stringify({error: 'user does not exist'}));
                     });
                 } else {
-                    response.end('Cant find any user');
+                    response.end(JSON.stringify({error: 'Cant find any user'}));
                 }
             } catch (error) {
                 console.log(error);
@@ -129,13 +128,17 @@ const server = http.createServer((request, response) => {
             data = parsedData;
         });
         request.on('end', () => {
+            console.log('get requests parsed data', data);
             if (Object.keys(data).length !== 0) {
                 const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'pending'`;
 
                 (async () => {
                     const firstQuery = await pool.query(requestSenderId)
-                        .then((result) => { return result });
-                        
+                        .then((result) => { 
+                            console.log(result);
+                            return result; 
+                        });
+
                     const secondQuery = firstQuery.map((e) => {
                         return pool.query(`SELECT * FROM users WHERE id = ${e.request_sender}`)
                     });
@@ -143,8 +146,8 @@ const server = http.createServer((request, response) => {
                     const allQuery = await Promise.all(secondQuery);
                     const requestData = allQuery.flatMap((result) => result);
                     for (let i in firstQuery) {
-                        requestData[i].request_id = firstQuery[i].request_id;
                         requestData[i].request_sender = firstQuery[i].request_sender;
+                        requestData[i].request_id = firstQuery[i].request_id;
                     }
 
                     return response.end(JSON.stringify({
@@ -175,7 +178,7 @@ const server = http.createServer((request, response) => {
                     response.end(JSON.stringify({message: 'updated successfully'}));
                 });
             } else {
-                response.end(JSON.stringify({message: 'failed to update'}));
+                response.end(JSON.stringify({error: 'failed to update'}));
             }
         });
     }
@@ -210,7 +213,7 @@ const server = http.createServer((request, response) => {
         });
 
         request.on('end', () => {
-            const getFriendsQuery = `SELECT * FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'accepted'`;
+            const getFriendsQuery = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'accepted'`;
             if (Object.keys(data).length !== 0) {
                 (async () => {
                     const firstQuery = await pool.query(getFriendsQuery)
@@ -229,12 +232,12 @@ const server = http.createServer((request, response) => {
 
                     console.log(requestData);
                     response.end(JSON.stringify({
-                        message: requestData
+                        result: requestData
                     }));
                 })();
             } else {
                 console.log('friend list is empty');
-                response.end(JSON.stringify({message: 'friend list is empty'}));
+                response.end(JSON.stringify({result: 'friend list is empty'}));
             }
         });
     }
@@ -259,8 +262,6 @@ const server = http.createServer((request, response) => {
             }
         });
     }
-
-
 });
 
 server.listen(2020, () => console.log('connected to server'));

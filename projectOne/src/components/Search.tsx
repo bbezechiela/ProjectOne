@@ -7,6 +7,7 @@ interface MyObj {
     username: string,
     password: string,
     email: string,
+    error: string,
 }
 
 const Search = () => {
@@ -44,10 +45,18 @@ const Search = () => {
             });
     
             const response = await setter.json();
+            console.log(response);
             response.data ? setResponse(response.data) : setResponse(response.error);
         } catch (error) {
             console.log('error fetch in search', error);
         }
+    }
+
+    // onclick remove element
+    const removeSearchResult = (index: number): void => {
+        const allResponses = [...getResponse];
+        allResponses.splice(index, 1);
+        setResponse(allResponses);
     }
 
     // send friend request
@@ -68,38 +77,32 @@ const Search = () => {
                 removeResponse.splice(index, 1);
                 setResponse(removeResponse);
             }
-
         } catch (error) {
             console.log(error);
         }
     }
 
     return (
-        <>
-            {/* <div id="searchOuterContainer"> */}
-                {/* <div id="searchInnerContainer"> */}
-                    <form id="searchForm" method="post" onSubmit={handleSubmit}>
-                        <div id='formSectionOne'>
-                            <input
-                                id="searchInputField" 
-                                type="text" 
-                                name='searchField' 
-                                placeholder='Find a friend' 
-                                onChange={(e) => handleChange(e)}      
-                            />
+        <form id="searchForm" method="post" onSubmit={handleSubmit}>
+            <div id='formSectionOne'>
+                <input
+                    id="searchInputField" 
+                    type="text" 
+                    name='searchField' 
+                    placeholder='Find a friend' 
+                    onChange={(e) => handleChange(e)}      
+                />
 
-                            <input id="searchSubmitButton" type="submit" value="Search" />
-                        </div>
-                        {getResponse.length > 0 && getResponse.map((element, index) => (
-                            <div id="searchResultContainer">
-                                <div className="searchResult" key={index}>{element.username}</div>
-                                <div className="addFriendButton" onClick={() => friendRequest(element, index)}>Add Friend</div>
-                            </div>
-                        ))}
-                    </form>
-                {/* </div> */}
-            {/* </div> */}
-        </>
+                <input id="searchSubmitButton" type="submit" value="Search" />
+            </div>
+            {getResponse.length !== 0 && getResponse.map((element, index) => (
+                <div id="searchResultContainer">
+                    <div id="searchResult" key={index}>{element.username}</div>
+                    {element.username == 'Cant find any user' ? '' : <div id="addFriendButton" onClick={() => friendRequest(element, index)}>Add Friend</div>}
+                    <div id="closeSearchResult" onClick={() => removeSearchResult(index)}>X</div>
+                </div>
+            ))}
+        </form>
     );
 }
 

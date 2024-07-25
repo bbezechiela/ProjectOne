@@ -154,6 +154,12 @@ JULY 22
   keep in mind - gamit promise lugod if multiple queries para gin mamake sure na gin huhulat anay matapos before mag next query or before ig balik ha client.
 
   keep in mind - mas maupay gumamit hin createPool kaysa createConnection - look up it advantages
+  
+  review - panginano ha requests page panu na work an nested query, then panu nag work an pag type haaton data from db to client
+  
+  review - kita.a code ha connection related ha requests
+
+  review - panu it getConnection ha pool na work or pwedi recta dayun pool pag gamit hin query function
 
   keep in mind - by default mayda kita tinatawag na callback based function ha node takay if mayda kita multiple queries need man natun hulton matapos na tanan before mag return ha client so bali need ta ito ig promisify na query function para makag gamit kita hin async na approach so magaging promised based function na hiya. ada la ito na promisify function ha util na class
 
@@ -186,17 +192,24 @@ NEXT TASKS
 
   (done) todo - ig pa work it remove friend ha Friends component
 
-  (done) todo - ayusa it welcome page didto ig butang haros tanan na component pero iba it layout, tas didto la dapat maka seasrch hin user
+  (done) todo - ayusa it welcome page didto ig butang haros tanan na component pero iba it layout,  tas didto la dapat maka seasrch hin user
 
-  todo - ig redirect it user pag click it mga welcome icon tikadto ira respective components
+  (done) todo - ig redirect it user pag click it mga welcome icon tikadto ira respective components
 
-  todo - himo.a nga dynamic it request tas friends counter
+  (done) todo - himo.a nga dynamic it request tas friends counter
 
-  todo - pag add close button ha search result.
+  (done) todo - pag add close button ha search result.
 
+  (done) todo - dapat if error it return ha search dapat dri makikita it add friend na button it close icon la
 
-  review - panginano ha requests page panu na work an nested query, then panu nag work an pag type haaton data from db to client
+  todo - dapat dri na maka send hin friend request if friends na hira so for instance if hi daines ngan cham is mag friend na, if naka login ako kan daines and ig search ko hi cham dapat it label is friends, dri na add friend :)) glgl
+
+  todo - start working ha messages
+
+  todo - create table for messages
+
+  todo - create table for conversations
+
+  todo - sessions
+
   
-  review - kita.a code ha connection related ha requests
-
-  review - panu it getConnection ha pool na work or pwedi recta dayun pool pag gamit hin query function

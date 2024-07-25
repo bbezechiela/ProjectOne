@@ -64,15 +64,15 @@ const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
             });
     
             const response = await getter.json();
-            if (response) {
-                console.log(response[0]);
-                setUserSession(response[0]);
+            if (response.result) {
+                console.log(response);
+                setUserSession(response.result[0]);
                 
                 // setLogin(true);
                 useNav('/welcome', { replace: true });
                 isLoggedIn(true);
-            } else {
-                console.log('may error');
+            } else if (response.error) {
+                console.log(response.error);
             }
         } catch (err) {
             console.log(err);
