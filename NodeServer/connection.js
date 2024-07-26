@@ -1,3 +1,4 @@
+import { log } from 'console';
 import http from 'http';
 import mysql, { createPool } from 'mysql';
 import util from 'util';
@@ -6,6 +7,14 @@ const server = http.createServer((request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // currentDate
+    const date = new Date();
+    let year = date.toLocaleString('default' , { year: 'numeric' });
+    let month = date.toLocaleString('default', { month: '2-digit' });
+    let day = date.toLocaleString('default', { day: '2-digit' });
+
+    const currentDate = `${year}-${month}-${day} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
     // mysql connection
     const pool = mysql.createPool({
@@ -64,32 +73,37 @@ const server = http.createServer((request, response) => {
 
     // search feature
     if (request.url === '/search') {
-        let searchData = {searchValue: ''};
+        let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
             console.log('search data chunks', dataChunks);
-            searchData = parsedData;
-            console.log('showing search data', parsedData);
+            data = parsedData;
+            // console.log('showing search data', parsedData);
         });
 
         request.on('end', () => {
-            console.log(searchData.searchValue);
-            if (Object.keys(searchData).length !== 0) {
-                const searchQuery = `SELECT * FROM users WHERE username = '${searchData.searchValue}'`;
-                
-                pool.query(searchQuery, (err, result) => {
-                    if (result.length > 0) {
-                        console.log('first element returned', result[0]);
-                        console.log(result);
-                        response.end(JSON.stringify({data: result}));
-                    } else {
-                        // ig username nalat key, kay anu? observe nala ha search tsx
-                        response.end(JSON.stringify({error: [{username: 'Cant find any user'}]}));
-                        console.log('cant find anything');
-                    }
-                });
+            pool.query = util.promisify(pool.query).bind(pool);
+            // console.log(data);
+            if (Object.keys(data).length !== 0) {
+                const searchQuery = `SELECT * FROM users WHERE username = '${data.getSearchValue.searchValue}'`;
+                (async () => {
+                    const firstQuery = await pool.query(searchQuery).then(result => { return result });
+
+                    const secondQuery = firstQuery.map((element) => {
+                        return pool.query(`SELECT * FROM user_request WHERE (request_receiver = ${element.id} AND request_sender = ${data.getCurrentUser.id} OR request_receiver = ${data.getCurrentUser.id} AND request_sender = ${element.id}) AND request_status = 'accepted'`);
+                    });
+
+                    let result = await Promise.all(secondQuery);
+                    // console.log('first query result', firstQuery);
+                    result = result.flatMap((element) => { return element });
+                    
+                    result.length !== 0 ? result[0].username = firstQuery[0].username : result = firstQuery;
+
+                    firstQuery.length !== 0 ? response.end(JSON.stringify({data: result})) : response.end(JSON.stringify({data: [{username: 'Cant find any user'}]}));
+                })();
             } else {
                 console.log('empty search input field');
+                response.end(JSON.stringify({error: 'error po'}));
             }
         });
     } 
@@ -128,7 +142,7 @@ const server = http.createServer((request, response) => {
             data = parsedData;
         });
         request.on('end', () => {
-            console.log('get requests parsed data', data);
+            // console.log('get requests parsed data', data);
             if (Object.keys(data).length !== 0) {
                 const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'pending'`;
 
@@ -171,7 +185,7 @@ const server = http.createServer((request, response) => {
         }) 
 
         request.on('end', () => {
-            console.log(data);
+            // console.log(data);
             const acceptRequestQuery = `UPDATE user_request SET request_status = 'accepted' WHERE request_id = ${data.request_id}`;
             if (Object.keys(data).length !== 0) {
                 pool.query(acceptRequestQuery, (err, result) => {
@@ -213,15 +227,20 @@ const server = http.createServer((request, response) => {
         });
 
         request.on('end', () => {
-            const getFriendsQuery = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'accepted'`;
+            // console.log('PARSED DATAAAAA', data);
+            const getFriendsQuery = `SELECT request_id, request_sender, request_receiver FROM user_request WHERE (request_receiver = ${data.id} OR request_sender = ${data.id}) AND request_status = 'accepted'`;
             if (Object.keys(data).length !== 0) {
                 (async () => {
                     const firstQuery = await pool.query(getFriendsQuery)
                         .then((result) => { return result });
-
+                        
                     const secondQuery = firstQuery.map((e) => {
-                        return pool.query(`SELECT * FROM users WHERE id = ${e.request_sender}`);
+                        let temp; 
+                        e.request_sender === data.id ? temp = e.request_receiver : temp = e.request_sender;
+                        return pool.query(`SELECT * FROM users WHERE id = ${temp}`);
                     });
+
+                    // console.log('VALUES FROM FIRST QUERY', firstQuery);
 
                     const allQuery = await Promise.all(secondQuery);
                     const requestData = allQuery.flatMap((result) => { return result; });
@@ -230,7 +249,7 @@ const server = http.createServer((request, response) => {
                         requestData[i].request_sender = firstQuery[i].request_sender;
                     }
 
-                    console.log(requestData);
+                    // console.log(requestData);
                     response.end(JSON.stringify({
                         result: requestData
                     }));
@@ -259,6 +278,30 @@ const server = http.createServer((request, response) => {
                 });
             } else {
                 response.end(JSON.stringify({error: 'failed to remove friend'}));
+            }
+        });
+    }
+
+
+    // send message
+    if (request.url === '/sendMessage') {
+        let data = {};
+        request.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = parsedData;
+            console.log(data.getCurrentUser.id);
+        });
+
+        request.on('end', () => {
+            if (Object.keys(data).length !== 0) {
+                console.log(currentDate);
+                const insertQuery = `INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_container, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, 32, 1, '${currentDate}')`;
+                pool.query(insertQuery, (err) => {
+                    if (err) console.log(err);
+                    response.end(JSON.stringify({message: 'message inserted successfully'}));
+                });
+            } else {
+                response.end(JSON.stringify({error: 'theres no object keys'}));
             }
         });
     }

@@ -86,9 +86,9 @@
     align-items: center;
 }
 
-#addFriendButton {
+.addFriendButton {
     height: 55px;
-    width: 250px;
+    width: 150px;
     display: flex;
     justify-content: center;
     align-items: center;

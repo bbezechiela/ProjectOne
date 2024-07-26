@@ -1,5 +1,6 @@
 import React, { MouseEventHandler, useContext, useEffect, useState } from "react";
 import { CurrentUser } from "./NavOne";
+import Loader from "./Loader";
 import '../styles/requests.css';
 
 interface RequestDetails {
@@ -15,6 +16,7 @@ interface RequestDetails {
 const Requests = () => {
     const getContext: {} = useContext(CurrentUser);
     const [getCurrentUser, ] = useState(getContext);
+    const [isLoad, setLoad] = useState<boolean>(false);
     const [getRequestsDetails, setRequestDetails] = useState<RequestDetails[]>([]);
 
     useEffect(() => {
@@ -29,10 +31,12 @@ const Requests = () => {
 
             const response = await getter.json();
             if (response) {
+                setTimeout(() => {
                     setRequestDetails(response.result);
-                    console.log(response.result);
-                }
-            })();
+                    setLoad(true);
+                }, 1200);
+            }
+        })();
     }, []);
 
     const acceptRequest = async (e: RequestDetails, index: number): Promise<void> => {
@@ -76,6 +80,7 @@ const Requests = () => {
             <div id='requestOuterContainer'>
                 <div id="requestInnerContainer">
                     <div id="requestHeaderText">Request List</div>
+                    {isLoad ? '' : <Loader></Loader>}
                     {getRequestsDetails.length > 0 ? getRequestsDetails.map((element, index) => (
                         <div id='requestElementContainer' key={index}>
                             <div id='requestUpperContainer'>

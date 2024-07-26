@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { CurrentUser } from './NavOne';
+import Loader from './Loader';
 import '../styles/friends.css';
 
 interface RequestDetails {
@@ -16,6 +17,7 @@ interface RequestDetails {
 const Friends = () => {
     const getCurrentUser: {} = useContext(CurrentUser);
     const [getUserDetails, ] = useState(getCurrentUser);
+    const [isLoad, setLoad] = useState<boolean>(false);
     const [getRequestDetails, setRequestDetails] = useState<RequestDetails[]>([]);
     
     useEffect(() => {
@@ -31,7 +33,10 @@ const Friends = () => {
             const response = await getter.json();
             if (response) {
                 console.log(response);
-                setRequestDetails(response.result);
+                setTimeout(() => {
+                    setRequestDetails(response.result);
+                    setLoad(true);
+                }, 1500);
             }
         })();
     }, []);
@@ -57,6 +62,7 @@ const Friends = () => {
         <div id='friendsOuterContainer'>
             <div id='friendsInnerContainer'>
                 <div id='friendsHeader'>Friend List</div>
+                {isLoad ? '' : <Loader />}
                 {getRequestDetails.length !== 0 ? getRequestDetails.map((element, index) => (
                     <div id='friendsElementContainer' key={index}>
                         <div id='friendsElementSectionOne'>

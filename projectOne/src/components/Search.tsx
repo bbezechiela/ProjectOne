@@ -41,7 +41,7 @@ const Search = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(getSearchValue)
+                body: JSON.stringify({getSearchValue, getCurrentUser})
             });
     
             const response = await setter.json();
@@ -98,7 +98,12 @@ const Search = () => {
             {getResponse.length !== 0 && getResponse.map((element, index) => (
                 <div id="searchResultContainer">
                     <div id="searchResult" key={index}>{element.username}</div>
-                    {element.username == 'Cant find any user' ? '' : <div id="addFriendButton" onClick={() => friendRequest(element, index)}>Add Friend</div>}
+                    {element.username == 'Cant find any user' ? '' : 
+                        <div className='addFriendButton'>
+                            {element.hasOwnProperty('request_id') ? 
+                            <div className='addFriendButton'>Friends</div> : 
+                            <div className='addFriendButton' onClick={() => friendRequest(element, index)}>Add Friend</div>} 
+                        </div>}
                     <div id="closeSearchResult" onClick={() => removeSearchResult(index)}>X</div>
                 </div>
             ))}

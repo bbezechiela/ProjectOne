@@ -181,6 +181,17 @@ JULY 24
 
   keep in mind - observe ha request declice panu nat gin dynamically gin remove it element, gin gagamit nat it index from map function ngan gin papass ta hiya as argument ha declineRequest na function tas since array it atun na hold it values it RequestDetails asya gumamit kita function na splice for add/remove an element based it index mayda ito duwa na nga parameter first paramter is index ngan second parameter is if pera it madedelete start an index number
 
+JULY 25
+  making todo's
+  debugging...
+
+JULY 26
+  making todo's
+  debugging...
+
+JULY 27
+  keep in mind - since async it dalagan it node, sugad yana ha send message nagiging undefined it getCurrentUser.id kay since didto it end event gin tatawag ta dayun hiya inside dapat ig susulad nat hiya didto it if statement na if mayda na keys an object na data asya tat pag tawag haiya.
+
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request
 
@@ -202,14 +213,23 @@ NEXT TASKS
 
   (done) todo - dapat if error it return ha search dapat dri makikita it add friend na button it close icon la
 
-  todo - dapat dri na maka send hin friend request if friends na hira so for instance if hi daines ngan cham is mag friend na, if naka login ako kan daines and ig search ko hi cham dapat it label is friends, dri na add friend :)) glgl
+  (done) todo - dapat dri na maka send hin friend request if friends na hira so for instance if hi daines ngan cham is mag friend na, if naka login ako kan daines and ig search ko hi cham dapat it label is friends, dri na add friend :)) glgl
 
-  todo - start working ha messages
+  (done) todo - himo hin loader component both requests ngan friends  while na try pag fetch
 
-  todo - create table for messages
+  (progress) todo - start working ha messages
 
-  todo - create table for conversations
+  (done) todo - create table for messages
+
+  (done) todo - create table for conversations
+
+  (progress) todo - try to insert a message NOTE - panginano ha connection ha insert message ngan kita.a ha db if anu pat arayuson
+
+  todo - try to create a conversation 
+
+  todo - make add conversation na dapat timo ma kikita la didto imo la mga friends so if dri mo friend dri ka maka message haiya
 
   todo - sessions
 
+  todo - use Google Api, Oauth 
   

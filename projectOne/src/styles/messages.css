@@ -1,0 +1,80 @@
+/* LFG */
+#messagesOuterContainer {
+    height: 800px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#messagesInnerContainer {
+    height: 700px;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    position: relative;
+}
+
+#messagesText {
+    height: 100px;
+    width: 450px;
+    font-size: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 900;
+}
+
+#messagesSectionOne {
+    height: 600px;
+    width: 400px;
+    border: 2px solid blue;
+    margin-top: 100px;;
+}
+
+#messagesSectionTwo {
+    height: 700px;
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#messagesHeader {
+    height: 100px;
+    width: 100%;
+    border: 2px solid pink;
+}
+
+#messagesBody {
+
+}
+
+#messagesForm {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#messageInputField {
+    height: 70px;
+    width: 70%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding-left: 15px;
+}
+
+#messageSubmitButton {
+    height: 70px;
+    width: 30%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background-color: #00062b;
+    color: white;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
