@@ -9,10 +9,10 @@
 
 #messagesInnerContainer {
     height: 700px;
-    width: 1000px;
+    width: 900px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: row;
     position: relative;
 }
@@ -22,24 +22,31 @@
     width: 450px;
     font-size: 50px;
     position: absolute;
-    top: 0;
+    top: 20px;
     left: 0;
     font-weight: 900;
+    color: #00062b;
 }
 
 #messagesSectionOne {
     height: 600px;
-    width: 400px;
-    border: 2px solid blue;
-    margin-top: 100px;;
+    width: 300px;
+    margin-top: 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    overflow: scroll;
 }
 
 #messagesSectionTwo {
-    height: 700px;
+    height: 600px;
     width: 600px;
+    margin-top: 100px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    border: 1px solid red;
 }
 
 #messagesHeader {
@@ -63,7 +70,6 @@
     height: 70px;
     width: 70%;
     font-size: 1.3rem;
-    font-weight: 700;
     padding-left: 15px;
 }
 
@@ -71,10 +77,35 @@
     height: 70px;
     width: 30%;
     font-size: 1.3rem;
-    font-weight: 700;
     background-color: #00062b;
     color: white;
     border: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.conversationContainer {
+    height: 100px;
+    width: 250px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    background-color: #00062b;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    padding-left: 15px;
+}
+
+.conversationUsername {
+    color: white;
+    font-size: 1.5rem;
+    padding-left: 15px;
+}
+
+.conversationProfile {
+    height: 70px;
+    width: 70px;
+    background-color: white;
+    border-radius: 100%;
 }

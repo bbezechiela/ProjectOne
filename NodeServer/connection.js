@@ -282,29 +282,77 @@ const server = http.createServer((request, response) => {
         });
     }
 
-
     // send message
     if (request.url === '/sendMessage') {
         let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
             data = parsedData;
-            console.log(data.getCurrentUser.id);
         });
 
         request.on('end', () => {
+            pool.query = util.promisify(pool.query).bind(pool);
             if (Object.keys(data).length !== 0) {
-                console.log(currentDate);
-                const insertQuery = `INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_container, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, 32, 1, '${currentDate}')`;
-                pool.query(insertQuery, (err) => {
-                    if (err) console.log(err);
-                    response.end(JSON.stringify({message: 'message inserted successfully'}));
-                });
+                let conversation_name = [data.getCurrentUser.username, data.getMessageReceiver.username].sort();
+                conversation_name = `'${conversation_name[0]}_${conversation_name[1]}'`;
+
+                const conversationChecker = `SELECT conversation_id FROM conversation_container WHERE conversation_name = ${conversation_name}`;
+                const createConversation = `INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES (${conversation_name}, '${currentDate}')`;
+                const insertQuery = `INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_container, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, ${data.getMessageReceiver.id}, 1, '${currentDate}')`;
+
+                (async () => {
+                    const checker = await pool.query(conversationChecker).then((result) => { 
+                        if (result.length === 0) {
+                            const createConversationResult = pool.query(createConversation).then((result) => {
+                                console.log([{conversation_id: result.insertId}]);
+                                return [{conversation_id: result.insertId}];
+                            });
+
+                            return createConversationResult;
+                        } 
+                        return result;
+                    });
+
+                    const sendMessage = checker.map((element) => {
+                        return pool.query(`INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_container, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, ${data.getMessageReceiver.id}, ${element.conversation_id}, '${currentDate}')`);
+                    })
+
+                    const allQueries = await Promise.all(sendMessage);
+                    console.log('all queries', allQueries);
+                    console.log('check data', checker);
+
+                    response.end(JSON.stringify({message: 'success'}));
+                    // const setter = checker.map((element) => {
+                        // return pool.query(insertQuery);
+                    // })
+                })();
+
             } else {
                 response.end(JSON.stringify({error: 'theres no object keys'}));
             }
         });
     }
+
+    if (response.url === '/conversation') {
+        let data = {};        
+        response.on('data', (dataChunks) => {
+            const parsedData = JSON.parse(dataChunks.toString());
+            data = parsedData;
+        });
+
+        response.on('end', () => {
+            const conversationChecker = 'SELECT conversation_id FROM conversation_container '                
+            if (Object.keys(data).length !== 0) {
+
+
+            } else {
+                response.end(JSON.stringify({message: 'conversation error'}));
+            }
+        });
+    }
+
+
+
 });
 
 server.listen(2020, () => console.log('connected to server'));

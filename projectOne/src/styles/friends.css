@@ -17,15 +17,15 @@
     flex-direction: column;
     margin-top: 80px;
     margin-bottom: 100px;
+    padding-top: 80px;
 }
 
 #friendsElementContainer {
-    height: 300px;
+    height: 130px;
     width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.3);   
-    margin: 80px 0 0 0;
+    margin: 20px 0 0 0;
     border-radius: 15px;
-    background-color: black;
+    background-color: #00062b;
     color: whitesmoke;
     display: flex;
     justify-content: center;
@@ -40,6 +40,7 @@
     left: 0;
     font-size: 50px;
     font-weight: 900;
+    color: #00062b;
 }
 
 #noFriends {
@@ -54,11 +55,17 @@
 #friendsElementUsername {
     font-size: 35px;
     font-weight: 900;
-    margin-left: 25px;
+}
+
+#usernameContainer {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #friendsElementSectionOne {
-    height: 300px;
+    height: 130px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -71,7 +78,7 @@
     font-weight: 700;
     padding: 25px 40px 25px 40px;
     background-color: whitesmoke;
-    color: black;
+    color: #00062b;
     border-radius: 10px;
     position: absolute;
     bottom: 25px;
@@ -79,8 +86,8 @@
 }
 
 #friendsProfilePhoto {
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
     border-radius: 100%;
     background-color: wheat;
     margin-left: 25px;

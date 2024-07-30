@@ -192,6 +192,11 @@ JULY 26
 JULY 27
   keep in mind - since async it dalagan it node, sugad yana ha send message nagiging undefined it getCurrentUser.id kay since didto it end event gin tatawag ta dayun hiya inside dapat ig susulad nat hiya didto it if statement na if mayda na keys an object na data asya tat pag tawag haiya.
 
+JULY 31
+  is back
+  panginano - node file panu kita na himo hin nested query gamit promise based function instead an default na callback based function
+  panginano - panu na work it return ha nested loop
+
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request
 
@@ -225,9 +230,13 @@ NEXT TASKS
 
   (progress) todo - try to insert a message NOTE - panginano ha connection ha insert message ngan kita.a ha db if anu pat arayuson
 
-  todo - try to create a conversation 
+  (progress) todo - instead na ma himo kita search feature ha messages FC ayaw na bali kasi kada acct mayda la max na friends na 20 so kun hinu it ira friends automatic na mag kaka mayda hira container ha messages pero ofc waray pa mga messages.
 
-  todo - make add conversation na dapat timo ma kikita la didto imo la mga friends so if dri mo friend dri ka maka message haiya
+  (progress) todo - try to create a conversation 
+
+  todo - make sure na ig remove it white space pag dri la 1 word it iya ngaran ha pag crecreate hin conversation. 
+
+  (done) todo - make add conversation na dapat timo ma kikita la didto imo la mga friends so if dri mo friend dri ka maka message haiya
 
   todo - sessions
 
