@@ -228,11 +228,15 @@ NEXT TASKS
 
   (done) todo - create table for conversations
 
-  (progress) todo - try to insert a message NOTE - panginano ha connection ha insert message ngan kita.a ha db if anu pat arayuson
+  (done) todo - try to insert a message NOTE - panginano ha connection ha insert message ngan kita.a ha db if anu pat arayuson
 
   (progress) todo - instead na ma himo kita search feature ha messages FC ayaw na bali kasi kada acct mayda la max na friends na 20 so kun hinu it ira friends automatic na mag kaka mayda hira container ha messages pero ofc waray pa mga messages.
 
-  (progress) todo - try to create a conversation 
+  (done) todo - try to create a conversation, tas pag show it na retreive na data tikang ha database.
+
+  (done) todo - ayusa ha message pag ma click hin conversation dapat it scrollTop kay adto it scrollHeight
+
+  todo - it getter it messages himo.a nga dynamic every may changes or may bago na send ha db
 
   todo - make sure na ig remove it white space pag dri la 1 word it iya ngaran ha pag crecreate hin conversation. 
 

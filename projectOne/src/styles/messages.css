@@ -28,6 +28,14 @@
     color: #00062b;
 }
 
+.conversationReceiverName {
+    height: 100px;
+    width: 100%;
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+}
+
 #messagesSectionOne {
     height: 600px;
     width: 300px;
@@ -40,27 +48,31 @@
 }
 
 #messagesSectionTwo {
-    height: 600px;
+    height: 670px;
     width: 600px;
-    margin-top: 100px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: column;
-    border: 1px solid red;
 }
 
 #messagesHeader {
     height: 100px;
     width: 100%;
-    border: 2px solid pink;
+    background-color: #00062b;
+    color: white;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
 }
 
 #messagesBody {
-
+    height: 500px;
+    width: 100%;
+    border: 1px solid #00062b;
+    overflow: scroll;
 }
 
 #messagesForm {
-    height: auto;
+    height: 70px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -108,4 +120,40 @@
     width: 70px;
     background-color: white;
     border-radius: 100%;
+}
+
+.rightMessage {
+    min-height: 75px;
+    min-width: 120px;
+    max-width: 450px;
+    float: right;
+    clear: both;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+
+.leftMessage {
+    min-height: 75px;
+    min-width: 120px;
+    max-width: 450px;
+    float: left;
+    clear: both;
+    background-color: #00062b;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 15px;
+    margin-left: 10px;
 }
