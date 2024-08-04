@@ -197,6 +197,21 @@ JULY 31
   panginano - node file panu kita na himo hin nested query gamit promise based function instead an default na callback based function
   panginano - panu na work it return ha nested loop
 
+AUGUST 3
+  is back again :)))))))
+  note - panginano it panu ig handle it user gamit firebase with the google sign in
+  note - so since bagat tat date it current user ada under ha getAuth dri na nat need ig pasa pasa it current user ha mga components, pwedi ta nala hiya tawagon directly
+
+AUGUST 4
+  notess )))))))))))))))))))))))))))))))))))))))))))
+  pwedi man dri kita mag sessions for some security reasons, kay dri safe it localStorage na object. current nana iisip na plano is since we are working with SPA na apporach pwedi man dri kita ma sessions, or i think by default na himo sessions ha browser it kanan google, kay pansina it behavior if after mo sign in tas close mo, pag balik mo automatic hiya na check, pero if ig lologout natun gin clclear niya ada.
+
+  note - gamit hin onAuthStateChange na function para mag kuha it current user kaysa ha currentUser na property kay may case na since dri pa tapos mag initialize an auth is magiging null it currentUser which it onAuthStateChange huhulton anay matapos mag executed before mag return anything
+
+  note - para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase.
+
+  note - an gin rereturn na access token tikang ha googleAuthprovider is pwedi natun adto gamiton ha mga google api's for as of now if dri kita magamit okay la, tigamni la na asya iton mayda kita credentials/access token para google api's
+
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request
 
@@ -228,9 +243,9 @@ NEXT TASKS
 
   (done) todo - create table for conversations
 
-  (done) todo - try to insert a message NOTE - panginano ha connection ha insert message ngan kita.a ha db if anu pat arayuson
+  (done) todo - try to insert a message NOTE - panginano ha connection ha insert message ngan kita. a ha db if anu pat arayuson
 
-  (progress) todo - instead na ma himo kita search feature ha messages FC ayaw na bali kasi kada acct mayda la max na friends na 20 so kun hinu it ira friends automatic na mag kaka mayda hira container ha messages pero ofc waray pa mga messages.
+  (done)(kulang la testing ka limited pala tat user) todo - instead na ma himo kita search feature ha messages FC ayaw na bali kasi kada acct mayda la max na friends na 20 so kun hinu it ira friends automatic na mag kaka mayda hira container ha messages pero ofc waray pa mga messages.
 
   (done) todo - try to create a conversation, tas pag show it na retreive na data tikang ha database.
 
@@ -242,7 +257,19 @@ NEXT TASKS
 
   (done) todo - make add conversation na dapat timo ma kikita la didto imo la mga friends so if dri mo friend dri ka maka message haiya
 
-  todo - sessions
+  (progress) todo - sessions / tokens
 
-  todo - use Google Api, Oauth 
+  (progress) todo - use Google Api, Oauth, using FireBase SDK to handle Google sign in
   
+  todo - transition it mga column names haat local diba, it mga property na gin rereturn it google sign in
+
+  (progress) todo - ayosa it mga query kay since dri na kita nagamit an id haaton local na diba, tat gamit na is uid na na refer ha firebase na auth
+
+  todo - himo hin file na aadto tanan timo interface para dri ka repeative na pag hino.o kada componenet
+
+  todo - dapat ig ma sign in kita, diritso na ma check ha local db
+
+  todo - ig remove it login na path, dapat dida it nala rekta ma sign in
+
+  todo - work with state persistence para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase
+

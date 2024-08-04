@@ -11,6 +11,8 @@ import Search from './Search';
 import Messages from './Messages';
 import Gallery from './Gallery';
 import Emotions from './Emotions';
+import { IdTokenResult, getAuth, signOut } from 'firebase/auth';
+import { firebaseApp } from '../firebase';
 import '../styles/navOne.css';
 
 interface Props {
@@ -19,26 +21,40 @@ interface Props {
 }
 
 interface ObjProps {
-    id: number,
-    username: string,
-    email: string,
-    password: string,
+    // id: number,
+    token: Promise<IdTokenResult>,
+    displayName: string | null,
+    email: string | null,
+    photo_url: string | null,
 }
 
 export const CurrentUser = createContext<ObjProps>({
-    id: 0,
-    username: '',
+    // id: 0,
+    token: Promise.resolve({} as IdTokenResult),
+    displayName: '',
     email: '',
-    password: '',
+    photo_url: '',
 });
 
 const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
     const [getUserData, setUserData] = useState<ObjProps>({
-        id: 0,
-        username: '',
-        password: '',
+        // id: 0,
+        token: Promise.resolve({} as IdTokenResult),
+        displayName: '',
         email: '',
+        photo_url: '',
     });
+
+    const auth = getAuth(firebaseApp);
+
+    const signOutCurrentUser = () => {
+        setUserLogIn(false);
+        signOut(auth).then(() => {
+            console.log('current user sign out');
+        }).catch(error => {
+            console.log(error);
+        });
+    }
 
     return (
         <>
@@ -53,7 +69,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Link className="navTwoItem" to='messages'>Messages</Link>
                         <Link className="navTwoItem" to='gallery'>Gallery</Link>
                         <Link className="navTwoItem" to='emotions'>Emotions</Link>
-                        <Link className="navTwoItem" to='lagout'>Lagout</Link>
+                        <Link className="navTwoItem" to='lagout' onClick={signOutCurrentUser}>Lagout</Link>
                     </div>
                 </>) : 
                 (<>

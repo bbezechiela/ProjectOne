@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { CurrentUser } from "./NavOne";
-import Friends from "./Friends";
-import Requests from "./Requests";
 import Search from "./Search";
+import { firebaseApp } from "../firebase";
+import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import '../styles/welcome.css';
 
@@ -18,7 +18,6 @@ const customFunction = async (url: string, userDetails: object): Promise<object>
     return response.result;
 };
 
-
 const Welcome = () => {
     const currentUserData = useContext(CurrentUser);
     const [getUserDetails, ] = useState(currentUserData);
@@ -29,23 +28,29 @@ const Welcome = () => {
     const useNav =  useNavigate();
     
     const redirectComponent = (url: string): void => useNav(url, { replace: true });
-
+    const auth = getAuth(firebaseApp);
+    const user = auth.currentUser;
+    
     useEffect(() => {
-        console.log(currentUserData);
-        (async () => {
-            const getRequest = await customFunction('http://localhost:2020/getRequests', getUserDetails);
-            setNumberOfRequests(getRequest);
+        if (user == null) {
+            useNav('/', { replace: true });
+        }
 
-            const getFriends = await customFunction('http://localhost:2020/getFriends', getUserDetails);
-            setNumberOfFriends(getFriends);
-        })();
     }, []);
+    // console.log(currentUserData);
+    // (async () => {
+    //     const getRequest = await customFunction('http://localhost:2020/getRequests', getUserDetails);
+    //     setNumberOfRequests(getRequest);
+
+    //     const getFriends = await customFunction('http://localhost:2020/getFriends', getUserDetails);
+    //     setNumberOfFriends(getFriends);
+    // })();
 
     return (
         <div id='welcomeOuterContainer'>
             <div id="welcomeInnerContainer">
                 <div id="welcomeTextContainer">
-                    <div id='welcomeText'>Welcome, {getUserDetails.username} :)</div>
+                    <div id='welcomeText'>Welcome, {user?.displayName} :)</div>
                 </div>
                 <div id="welcomeGridContainer">
                     <div id="welcomeGalleryContainer">

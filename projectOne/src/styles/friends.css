@@ -35,12 +35,21 @@
 }
 
 #friendsHeader {
+    height: auto;
     position: absolute;
     top: 0;
     left: 0;
     font-size: 50px;
     font-weight: 900;
     color: #00062b;
+    display: flex;
+    align-items: center;
+}
+
+#friendsHeader span {
+    font-weight: 400;
+    font-size: 30px;
+    margin-left: 20px;
 }
 
 #noFriends {

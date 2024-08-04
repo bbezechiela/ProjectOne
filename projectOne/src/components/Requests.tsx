@@ -1,43 +1,65 @@
 import React, { MouseEventHandler, useContext, useEffect, useState } from "react";
 import { CurrentUser } from "./NavOne";
+import { firebaseApp } from "../firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Loader from "./Loader";
 import '../styles/requests.css';
+import { useNavigate } from "react-router-dom";
 
 interface RequestDetails {
-    id: number,
-    username: string,
-    password: string,
+    uid: string,
+    display_name: string,
     email: string,
+    profile_path: string,
     request_id: number,
-    request_sender: number,
+    request_sender: string,
     onClick: (e: React.MouseEvent<HTMLDivElement>) => void,
 }
 
+interface CurrentUser {
+    uid: string,
+    display_name?: string | null,
+    email?: string | null,
+    profile_path?: string | null,
+}
+
 const Requests = () => {
-    const getContext: {} = useContext(CurrentUser);
-    const [getCurrentUser, ] = useState(getContext);
+    // const getContext: {} = useContext(CurrentUser);
+    // const [getCurrentUser, ] = useState(getContext);
     const [isLoad, setLoad] = useState<boolean>(false);
     const [getRequestsDetails, setRequestDetails] = useState<RequestDetails[]>([]);
 
-    useEffect(() => {
-        (async () => {
-            const getter = await fetch('http://localhost:2020/getRequests', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }, 
-                body: JSON.stringify(getCurrentUser)
-            });
+    const auth = getAuth(firebaseApp);
 
-            const response = await getter.json();
-            if (response) {
-                setTimeout(() => {
-                    setRequestDetails(response.result);
-                    setLoad(true);
-                }, 1200);
+    const useNav = useNavigate();
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user !== null) {
+                getRequests({uid: user.uid});
+            } else {
+                useNav('/', { replace: true });
             }
-        })();
+        });
     }, []);
+
+    const getRequests = async ({uid}: CurrentUser): Promise<void> => {
+        const getter = await fetch('http://localhost:2020/getRequests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }, 
+            body: JSON.stringify({currentUser: uid})
+        });
+
+        const response = await getter.json();
+        if (response) {
+            setTimeout(() => {
+                setRequestDetails(response.result);
+                setLoad(true);
+            }, 1200);
+        }
+    };
 
     const acceptRequest = async (e: RequestDetails, index: number): Promise<void> => {
         console.log('clicked', JSON.stringify(e));
@@ -86,7 +108,7 @@ const Requests = () => {
                             <div id='requestUpperContainer'>
                                 <div id='requestProfilePhoto'></div>
                                 <div id="usernameContainer">
-                                    <div id='requestUsername'>{element.username}</div>
+                                    <div id='requestUsername'>{element.display_name}</div>
                                 </div>
                             </div>
                             <div id='requestLowerContainer'>

@@ -1,82 +1,70 @@
 import React, { useState, useEffect, createContext } from 'react';
-import '../styles/signUp.css';
-import firebaseApp from '../firebase';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { firebaseApp } from '../firebase';
+import { IdTokenResult, getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import NavOne from './NavOne';
+import '../styles/signUp.css';
 
-interface ObjProps {
-    id: number,
-    username: string,
-    email: string,
-    password: string,
+interface UserDetails {
+    // id: number,
+    // token: Promise<IdTokenResult>,
+    uid: string | null,
+    displayName: string | null,
+    email: string | null,
+    profile_path: string | null,
 }
 
 interface Props {
     isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
-    setUserSession: React.Dispatch<React.SetStateAction<ObjProps>>,
+    setUserSession: React.Dispatch<React.SetStateAction<UserDetails>>,
 }
 
 const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
-    const [getFormData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-    });
+    // const [userDetails, setUserDetails] = useState<UserDetails[]>([]);
 
     // initialize useNavigate, it return it useNav kay function with two parameters
     const useNav = useNavigate();
-    
+
     // firebase
     const auth = getAuth(firebaseApp);
-
-    const formChanges: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
-        const { name, value } = e.target;
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+    const provider = new GoogleAuthProvider();
+    
+    const signInWithGoogle = () => {
+        signInWithPopup(auth, provider).then((result) => {
+            // use credential if needed, ada it access token para makag work with other google api's
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const user = result.user;
+            if (user !== null) {
+                console.log(user);
+                createUserLocally({
+                    uid: user.uid,
+                    displayName: user.displayName,
+                    email: user.email,
+                    profile_path: user.photoURL
+                })
+                isLoggedIn(true);
+                useNav('/welcome', { replace: true });
+            } else {
+                useNav('/', { replace: true });
+            }
+        });
     }
 
-    // return to this part pag ma explore na ha auth gamit an Firebase SDK auth
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
-        e.preventDefault();
-        console.log(getFormData);
+    const createUserLocally = async ({uid, displayName, email, profile_path}: UserDetails): Promise<void> => {
+        const setter = await fetch('http://localhost:2020/demonode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: uid,
+                displayName: displayName,
+                email: email,
+                profile_path: profile_path
+            })
+        });
 
-        // mayda mo two ways, manual na pag authenticate or using firebase
-        signInWithEmailAndPassword(auth, getFormData.email, getFormData.password)
-            .then((userCredentials) => {
-                console.log(userCredentials.user);
-                // useNav('/welcome', { state: userCredentials.user });
-                // isLoggedIn(true);
-            }).catch((error) => console.log(error));
-        
-        try {
-            const getter = await fetch('http://localhost:2020/getCredentials', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: getFormData.email,
-                    password: getFormData.password,
-                })
-            });
-    
-            const response = await getter.json();
-            if (response.result) {
-                console.log(response);
-                setUserSession(response.result[0]);
-                
-                // setLogin(true);
-                useNav('/welcome', { replace: true });
-                isLoggedIn(true);
-            } else if (response.error) {
-                console.log(response.error);
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        const response = await setter.json();
+        if (response) console.log(response);
     }
 
     return (
@@ -88,30 +76,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
                 <div id='imgContainer'>
                     <img src="centerImg.png" alt="center image" />
                 </div>
-                <form id='signUpFormContainer' method='post' onSubmit={handleSubmit}>
-                    <input 
-                        type="text" 
-                        name='username' 
-                        placeholder='username'
-                        onChange={(e) => formChanges(e)}
-                    />
-                    <input 
-                        type="text" 
-                        name='email' 
-                        placeholder='email' 
-                        onChange={(e) => formChanges(e)} 
-                    />
-                    <input 
-                        type="password" 
-                        name='password' 
-                        placeholder='password' 
-                        onChange={(e) => formChanges(e)}
-                    />
-                    <input id='signUpButton' type="submit" value="Login" />
-                    <div>Does not have an account? <span id='loginLinkSignUp'><a href="#">Sign up</a></span></div>
-                    <div id='or'>or</div>
-                    <div id="googleSignUp">Login with Google</div>
-                </form>
+                <div id="googleSignUp" onClick={signInWithGoogle}>Login with Google</div>
             </div>
         </>
     );

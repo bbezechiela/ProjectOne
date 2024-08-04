@@ -1,46 +1,62 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { CurrentUser } from './NavOne';
 import Loader from './Loader';
+import { firebaseApp } from '../firebase';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import '../styles/friends.css';
 
 interface RequestDetails {
-    id: number,
-    username: string,
-    password: string,
-    email: string,
-    profile_path: null,
+    uid: string,
+    display_name: string | null,
+    email: string | null,
+    profile_path: string,
     request_id: number,
     request_sender: number,
     onClick: (e: React.MouseEvent<HTMLDivElement>) => void,
 }
 
+interface CurrentUser {
+    uid: string
+}
+
 const Friends = () => {
-    const getCurrentUser: {} = useContext(CurrentUser);
-    const [getUserDetails, ] = useState(getCurrentUser);
+    // const getCurrentUser: {} = useContext(CurrentUser);
+    // const [getUserDetails, ] = useState(getCurrentUser);
     const [isLoad, setLoad] = useState<boolean>(false);
     const [getRequestDetails, setRequestDetails] = useState<RequestDetails[]>([]);
-    
+    const useNav = useNavigate();
+
     useEffect(() => {
-        (async () => {
-            const getter = await fetch('http://localhost:2020/getFriends', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(getUserDetails),
-            });
-
-            const response = await getter.json();
-            if (response) {
-                console.log(response);
-                setTimeout(() => {
-                    setRequestDetails(response.result);
-                    setLoad(true);
-                }, 1500);
+        const auth = getAuth(firebaseApp);
+        onAuthStateChanged(auth, (user) => {
+            if (user !== null) {
+                getFriends({uid: user.uid});
+            } else {
+                useNav('/', { replace: true });
             }
-        })();
+        });
     }, []);
+    
+    const getFriends = async ({uid}: CurrentUser): Promise<void> => {
+        const getter = await fetch('http://localhost:2020/getFriends', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({currentUser: uid}),
+        });
 
+        const response = await getter.json();
+        if (response) {
+            console.log(response);
+            setTimeout(() => {
+                setRequestDetails(response.result);
+                setLoad(true);
+            }, 1500);
+        }
+    };
+    
     const removeFriend = async (e: RequestDetails, index: number): Promise<void> => {
         const setter = await fetch('http://localhost:2020/removeFriend', {
             method: 'POST',
@@ -61,14 +77,14 @@ const Friends = () => {
     return (
         <div id='friendsOuterContainer'>
             <div id='friendsInnerContainer'>
-                <div id='friendsHeader'>Friend List</div>
+                <div id='friendsHeader'>Friend List <span>({getRequestDetails.length} of 20)</span></div>
                 {isLoad ? '' : <Loader />}
                 {getRequestDetails.length !== 0 ? getRequestDetails.map((element, index) => (
                     <div id='friendsElementContainer' key={index}>
                         <div id='friendsElementSectionOne'>
                             <div id="friendsProfilePhoto"></div>
                             <div id="usernameContainer">
-                                <div id='friendsElementUsername'>{element.username}</div>
+                                <div id='friendsElementUsername'>{element.display_name}</div>
                             </div>
                         </div>
                         <div id='friendsRemoveButton' onClick={() => {

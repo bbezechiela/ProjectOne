@@ -18,7 +18,7 @@ const server = http.createServer((request, response) => {
 
     // mysql connection
     const pool = mysql.createPool({
-        connectionLimit: 10,
+        connectionLimit: 20,
         host: 'localhost',
         user: 'root',
         password: 'happyme123',
@@ -34,12 +34,19 @@ const server = http.createServer((request, response) => {
         }); 
 
         request.on('end', () => {
+            console.log(data);
             response.end(JSON.stringify({ message: "Data received successfully" }));
             
             if (Object.keys(data).length !== 0) {
-                const insertQuery = `INSERT INTO users (username, email, password) VALUES ('${data.username}', '${data.email}', '${data.password}')`;
-                pool.query(insertQuery, () => {
-                    console.log('inserted successfully');
+                const checker = `SELECT id FROM users WHERE uid = '${data.uid}'`;
+                const insertQuery = `INSERT INTO users (uid, display_name, email, profile_path) VALUES ('${data.uid}', "${data.displayName}", '${data.email}', '${data.profile_path}')`;
+                pool.query(checker, (err, result) => {
+                    if (result.length === 0) {
+                        pool.query(insertQuery, (err) => {
+                            console.log(err);
+                            console.log('inserted successfully');
+                        });
+                    }
                 });
             } 
         });
@@ -85,21 +92,23 @@ const server = http.createServer((request, response) => {
             pool.query = util.promisify(pool.query).bind(pool);
             // console.log(data);
             if (Object.keys(data).length !== 0) {
-                const searchQuery = `SELECT * FROM users WHERE username = '${data.getSearchValue.searchValue}'`;
+                console.log(data);
+                const searchQuery = `SELECT * FROM users WHERE display_name = "${data.getSearchValue.searchValue}"`;
+
                 (async () => {
                     const firstQuery = await pool.query(searchQuery).then(result => { return result });
 
                     const secondQuery = firstQuery.map((element) => {
-                        return pool.query(`SELECT * FROM user_request WHERE (request_receiver = ${element.id} AND request_sender = ${data.getCurrentUser.id} OR request_receiver = ${data.getCurrentUser.id} AND request_sender = ${element.id}) AND request_status = 'accepted'`);
+                        return pool.query(`SELECT * FROM user_request WHERE (request_receiver = '${element.uid}' AND request_sender = '${data.currentUser[0].uid}' OR request_receiver = '${data.currentUser[0].uid}' AND request_sender = '${element.uid}') AND request_status = 'accepted'`);
                     });
 
                     let result = await Promise.all(secondQuery);
                     // console.log('first query result', firstQuery);
                     result = result.flatMap((element) => { return element });
                     
-                    result.length !== 0 ? result[0].username = firstQuery[0].username : result = firstQuery;
+                    result.length !== 0 ? result[0].display_name = firstQuery[0].display_name : result = firstQuery;
 
-                    firstQuery.length !== 0 ? response.end(JSON.stringify({data: result})) : response.end(JSON.stringify({data: [{username: 'Cant find any user'}]}));
+                    firstQuery.length !== 0 ? response.end(JSON.stringify({data: result})) : response.end(JSON.stringify({data: [{display_name: 'Cant find any user'}]}));
                 })();
             } else {
                 console.log('empty search input field');
@@ -118,9 +127,10 @@ const server = http.createServer((request, response) => {
         });
 
         request.on('end', () => {
+            console.log(data);
             if (Object.keys(data).length !== 0) {
-                const requestQuery = `INSERT INTO user_request (request_sender, request_receiver, request_status) 
-                VALUES (${data.getCurrentUser.id}, ${data.e.id}, 'pending')`;
+                const requestQuery = `INSERT INTO user_request (request_sender, request_receiver, request_status, timestamp) 
+                VALUES ('${data.currentUser[0].uid}', '${data.e.uid}', 'pending', '${currentDate}')`;
                 
                 pool.query(requestQuery, (err, result) => {
                     response.end(JSON.stringify({message: 'Friend Request Sent'}));
@@ -141,20 +151,21 @@ const server = http.createServer((request, response) => {
             const parsedData = JSON.parse(dataChunks.toString());
             data = parsedData;
         });
+
         request.on('end', () => {
+            console.log(data);
             // console.log('get requests parsed data', data);
             if (Object.keys(data).length !== 0) {
-                const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = ${data.id} AND request_status = 'pending'`;
+                const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = '${data.currentUser}' AND request_status = 'pending'`;
 
                 (async () => {
-                    const firstQuery = await pool.query(requestSenderId)
-                        .then((result) => { 
+                    const firstQuery = await pool.query(requestSenderId).then((result) => { 
                             console.log(result);
                             return result; 
                         });
 
-                    const secondQuery = firstQuery.map((e) => {
-                        return pool.query(`SELECT * FROM users WHERE id = ${e.request_sender}`)
+                    const secondQuery = firstQuery.map((element) => {
+                        return pool.query(`SELECT * FROM users WHERE uid = '${element.request_sender}'`)
                     });
 
                     const allQuery = await Promise.all(secondQuery);
@@ -228,7 +239,7 @@ const server = http.createServer((request, response) => {
 
         request.on('end', () => {
             // console.log('PARSED DATAAAAA', data);
-            const getFriendsQuery = `SELECT request_id, request_sender, request_receiver FROM user_request WHERE (request_receiver = ${data.id} OR request_sender = ${data.id}) AND request_status = 'accepted'`;
+            const getFriendsQuery = `SELECT request_id, request_sender, request_receiver FROM user_request WHERE (request_receiver = '${data.currentUser}' OR request_sender = '${data.currentUser}') AND request_status = 'accepted'`;
             if (Object.keys(data).length !== 0) {
                 (async () => {
                     const firstQuery = await pool.query(getFriendsQuery)
@@ -236,8 +247,8 @@ const server = http.createServer((request, response) => {
                         
                     const secondQuery = firstQuery.map((e) => {
                         let temp; 
-                        e.request_sender === data.id ? temp = e.request_receiver : temp = e.request_sender;
-                        return pool.query(`SELECT * FROM users WHERE id = ${temp}`);
+                        e.request_sender === data.currentUser ? temp = e.request_receiver : temp = e.request_sender;
+                        return pool.query(`SELECT * FROM users WHERE uid = '${temp}'`);
                     });
 
                     // console.log('VALUES FROM FIRST QUERY', firstQuery);
@@ -249,10 +260,8 @@ const server = http.createServer((request, response) => {
                         requestData[i].request_sender = firstQuery[i].request_sender;
                     }
 
-                    // console.log(requestData);
-                    response.end(JSON.stringify({
-                        result: requestData
-                    }));
+                    console.log(requestData);
+                    response.end(JSON.stringify({result: requestData}));
                 })();
             } else {
                 console.log('friend list is empty');
@@ -313,45 +322,55 @@ const server = http.createServer((request, response) => {
                         return result;
                     });
 
-                    const sendMessage = checker.map((element) => {
-                        return pool.query(`INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_container, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, ${data.getMessageReceiver.id}, ${element.conversation_id}, '${currentDate}')`);
+                    checker.map((element) => {
+                        pool.query(`INSERT INTO conversation_messages (message_content,     message_sender, message_receiver, conversation_id, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, ${data.getMessageReceiver.id}, ${element.conversation_id}, '${currentDate}')`);
                     })
 
-                    const allQueries = await Promise.all(sendMessage);
-                    console.log('all queries', allQueries);
-                    console.log('check data', checker);
-
                     response.end(JSON.stringify({message: 'success'}));
-                    // const setter = checker.map((element) => {
-                        // return pool.query(insertQuery);
-                    // })
                 })();
-
             } else {
                 response.end(JSON.stringify({error: 'theres no object keys'}));
             }
         });
     }
 
-    if (response.url === '/conversation') {
+    // select conversation
+    if (request.url === '/conversation') {
         let data = {};        
-        response.on('data', (dataChunks) => {
+        request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
             data = parsedData;
         });
-
-        response.on('end', () => {
-            const conversationChecker = 'SELECT conversation_id FROM conversation_container '                
+        
+        request.on('end', () => {
+            pool.query = util.promisify(pool.query).bind(pool);
             if (Object.keys(data).length !== 0) {
+                console.log(data);
+                let conversation_name = [data.getCurrentUser.username, data.messageReceiver.username].sort();
+                conversation_name = `${conversation_name[0]}_${conversation_name[1]}`;
 
+                (async () => {
+                    const checker = await pool.query(`SELECT * FROM conversation_container WHERE conversation_name = '${conversation_name}'`).then((result) => { return result });
 
+                    let getter = checker.map((element) => {
+                        return pool.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${element.conversation_id}`);
+                    });
+
+                    getter = await Promise.all(getter);
+                    getter = getter.flatMap((result) => { return result });
+
+                    console.log('checker data', checker);
+                    console.log('getter data', getter);
+
+                    response.end(JSON.stringify({message: [checker, getter]}));
+                })();
             } else {
                 response.end(JSON.stringify({message: 'conversation error'}));
             }
         });
-    }
+    } 
 
-
+    
 
 });
 

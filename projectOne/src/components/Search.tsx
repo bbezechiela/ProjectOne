@@ -1,25 +1,53 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CurrentUser } from './NavOne';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { firebaseApp } from '../firebase';
 import '../styles/search.css';
 
 interface MyObj {
-    id: number,
-    username: string,
-    password: string,
-    email: string,
-    error: string,
+    uid: string,
+    display_name: string | null,
+    email: string | null,
+    profile_path: string | null,
 }
 
 const Search = () => {
-    // getting user data from useContext
-    const currentUserData = useContext(CurrentUser);
-
-    // rekta nala since dri man gud ini maka pa rerender it component kay onetime la may changes (not sure)
-    const [getCurrentUser,] = useState(currentUserData);
+    // const currentUserData = useContext(CurrentUser);
+    const [currentUser, setCurrentUser] = useState<MyObj[]>([]);
+    const [getNumberOfFriends, setNumberOfFriends] = useState<MyObj[]>([]);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''
     });
+    
+    useEffect(() => {
+        const auth = getAuth(firebaseApp);
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user !== null) {
+                console.log(user);
+                setCurrentUser([{
+                    uid: user.uid,
+                    display_name: user.displayName,
+                    email: user.email, 
+                    profile_path: user.photoURL
+                }])
+            }
+        });
+
+        // (async () => {
+        //     const getter = await fetch('http://localhost:2020/getFriends', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         }, 
+        //         body: JSON.stringify(getCurrentUser)
+        //     });
+
+        //     const response = await getter.json();
+        //     if (response) setNumberOfFriends(response.result);
+        // })();
+    }, []);
 
     // onchange on form inpunts
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
@@ -41,7 +69,7 @@ const Search = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({getSearchValue, getCurrentUser})
+                body: JSON.stringify({getSearchValue, currentUser})
             });
     
             const response = await setter.json();
@@ -62,13 +90,15 @@ const Search = () => {
     // send friend request
     const friendRequest = async (e: MyObj, index: number): Promise<void> => {
         // console.log('clicked friend request', JSON.stringify(e));
-        try {
+        console.log(getNumberOfFriends.length);
+        
+        if (getNumberOfFriends.length <= 20) {
             const sendRequest = await fetch('http://localhost:2020/sendRequest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({e, getCurrentUser})
+                body: JSON.stringify({e, currentUser})
             });
 
             const response = await sendRequest.json();
@@ -77,8 +107,8 @@ const Search = () => {
                 removeResponse.splice(index, 1);
                 setResponse(removeResponse);
             }
-        } catch (error) {
-            console.log(error);
+        } else {
+            "you got no slot for a new friend :))";
         }
     }
 
@@ -97,8 +127,8 @@ const Search = () => {
             </div>
             {getResponse.length !== 0 && getResponse.map((element, index) => (
                 <div id="searchResultContainer">
-                    <div id="searchResult" key={index}>{element.username}</div>
-                    {element.username == 'Cant find any user' ? '' : 
+                    <div id="searchResult" key={index}>{element.display_name}</div>
+                    {element.display_name == 'Cant find any user' ? '' : 
                         <div className='addFriendButton'>
                             {element.hasOwnProperty('request_id') ? 
                             <div className='addFriendButton'>Friends</div> : 

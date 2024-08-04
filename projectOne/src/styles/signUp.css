@@ -52,6 +52,7 @@
 }
 
 #googleSignUp {
+    z-index: 2;
     height: 55px;
     width: 350px;
     font-size: 18px;
