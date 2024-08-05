@@ -3,7 +3,7 @@ import { firebaseApp } from '../firebase.js';
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import '../styles/signUp.css';
+import '../styles/signIn.css';
 
 interface Props {
     selectedColor?: string,
@@ -17,7 +17,7 @@ interface UserDetails {
     profile_path: string | null
 }
 
-const SignUp: React.FC<Props> = ({ selectedColor, animateStatus }) => {
+const SignIn: React.FC<Props> = ({ selectedColor, animateStatus }) => {
     const [getColor, ] = useState(selectedColor);
     const [canAnimate, setAnimate] = useState(animateStatus);
     const [userDetails, setUserDetails] = useState<UserDetails[]>([]);
@@ -65,18 +65,7 @@ const SignUp: React.FC<Props> = ({ selectedColor, animateStatus }) => {
         setAnimate(animateStatus);
     }, [animateStatus]);
 
-    return (
-        <div 
-            id="signUpOuterContainer"
-            style={{ backgroundColor: getColor }}
-            className={ canAnimate ? 'signUpAnimation' : ''}
-        >
-            <div id='imgContainer'>
-                <img src="centerImg.png" alt="center image" />
-            </div>
-                <div id="googleSignUp" onClick={googleSignIn}>Sign up with Google</div>
-        </div>
-    );
+    return <div id="googleSignUp" onClick={googleSignIn}>Sign in with </div>
 }
 
-export default SignUp;
+export default SignIn;

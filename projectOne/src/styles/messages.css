@@ -18,8 +18,8 @@
 }
 
 #messagesText {
-    height: 100px;
-    width: 450px;
+    height: auto;
+    width: auto;
     font-size: 50px;
     position: absolute;
     top: 20px;
@@ -65,10 +65,8 @@
 }
 
 #messagesBody {
-    height: 500px;
-    width: 100%;
     border: 1px solid #00062b;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 #messagesForm {
@@ -98,7 +96,7 @@
 
 .conversationContainer {
     height: 100px;
-    width: 250px;
+    width: 270px;
     margin-bottom: 15px;
     border-radius: 15px;
     background-color: #00062b;
@@ -110,19 +108,26 @@
 }
 
 .conversationUsername {
+    height: auto;
+    width: auto;
     color: white;
     font-size: 1.5rem;
     padding-left: 15px;
 }
 
 .conversationProfile {
-    height: 70px;
-    width: 70px;
+    height: 65px;
+    width: 65px;
     background-color: white;
     border-radius: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .rightMessage {
+    height: auto;
+    width: auto;
     min-height: 75px;
     min-width: 120px;
     max-width: 450px;
@@ -141,6 +146,8 @@
 }
 
 .leftMessage {
+    height: auto;
+    width: auto;
     min-height: 75px;
     min-width: 120px;
     max-width: 450px;

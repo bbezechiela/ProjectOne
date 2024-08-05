@@ -1,0 +1,13 @@
+#demoSoon {
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#demoSoonText {
+    color: #00062b;
+    font-weight: 900;
+    font-size: 5rem;
+}

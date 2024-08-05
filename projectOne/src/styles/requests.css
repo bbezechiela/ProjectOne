@@ -18,18 +18,19 @@
     flex-direction: column;
     margin-top: 80px;
     margin-bottom: 100px;
+    padding-top: 80px;
 }
 
 #requestProfilePhoto {
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
     border-radius: 100%;
     background-color: wheat;
     margin-left: 25px;
 }
 
 #requestElementContainer {
-    height: 300px;
+    height: 130px;
     width: 100%;
     /* border: 1px solid rgba( 0, 0, 0, 0.3); */
     border-radius: 15px;
@@ -37,7 +38,6 @@
     justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
-    margin: 80px 0 0 0;
     background-color: #00062b;
     color: white;
     position: relative;
@@ -68,7 +68,7 @@
 
 .requestLowerButton {
     height: auto;
-    width: 260px;
+    width: 100px;
     font-size: 23px;
     font-weight: 700;
     padding: 25px 0 25px 0;
@@ -81,7 +81,13 @@
     margin-left: 25px;
 }
 
+.checkIcon {
+    font-size: 2rem;
+}
+
 #requestHeaderText {
+    height: auto;
+    width: auto;
     font-size: 50px;
     font-weight: 900;
     position: absolute;
@@ -92,11 +98,12 @@
 
 #usernameContainer {
     height: 200px;
+    width: auto;
     margin-left: 25px;
 }
 
 #noRequest {
-    height: 600px;
+    height: 500px;
     font-size: 30px;
     font-weight: 600;
     display: flex;

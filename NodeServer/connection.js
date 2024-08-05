@@ -153,7 +153,7 @@ const server = http.createServer((request, response) => {
         });
 
         request.on('end', () => {
-            console.log(data);
+            console.log('get requests', data);
             // console.log('get requests parsed data', data);
             if (Object.keys(data).length !== 0) {
                 const requestSenderId = `SELECT request_id, request_sender FROM user_request WHERE request_receiver = '${data.currentUser}' AND request_status = 'pending'`;
@@ -238,7 +238,7 @@ const server = http.createServer((request, response) => {
         });
 
         request.on('end', () => {
-            // console.log('PARSED DATAAAAA', data);
+            console.log('PARSED DATAAAAA', data);
             const getFriendsQuery = `SELECT request_id, request_sender, request_receiver FROM user_request WHERE (request_receiver = '${data.currentUser}' OR request_sender = '${data.currentUser}') AND request_status = 'accepted'`;
             if (Object.keys(data).length !== 0) {
                 (async () => {
@@ -302,12 +302,11 @@ const server = http.createServer((request, response) => {
         request.on('end', () => {
             pool.query = util.promisify(pool.query).bind(pool);
             if (Object.keys(data).length !== 0) {
-                let conversation_name = [data.getCurrentUser.username, data.getMessageReceiver.username].sort();
-                conversation_name = `'${conversation_name[0]}_${conversation_name[1]}'`;
+                let conversation_name = [data.currentUser.display_name.replace(' ', '_'), data.getMessageReceiver.display_name.replace(' ', '_')].sort();
+                conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
 
-                const conversationChecker = `SELECT conversation_id FROM conversation_container WHERE conversation_name = ${conversation_name}`;
-                const createConversation = `INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES (${conversation_name}, '${currentDate}')`;
-                const insertQuery = `INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_container, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, ${data.getMessageReceiver.id}, 1, '${currentDate}')`;
+                const conversationChecker = `SELECT conversation_id FROM conversation_container WHERE conversation_name = "${conversation_name}"`;
+                const createConversation = `INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ("${conversation_name}", '${currentDate}')`;
 
                 (async () => {
                     const checker = await pool.query(conversationChecker).then((result) => { 
@@ -323,7 +322,7 @@ const server = http.createServer((request, response) => {
                     });
 
                     checker.map((element) => {
-                        pool.query(`INSERT INTO conversation_messages (message_content,     message_sender, message_receiver, conversation_id, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', ${data.getCurrentUser.id}, ${data.getMessageReceiver.id}, ${element.conversation_id}, '${currentDate}')`);
+                        pool.query(`INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_id, message_timestamp) VALUES ('${data.getMessageContent.messageContent}', '${data.currentUser.uid}', '${data.getMessageReceiver.uid}', ${element.conversation_id}, '${currentDate}')`);
                     })
 
                     response.end(JSON.stringify({message: 'success'}));
@@ -345,12 +344,13 @@ const server = http.createServer((request, response) => {
         request.on('end', () => {
             pool.query = util.promisify(pool.query).bind(pool);
             if (Object.keys(data).length !== 0) {
-                console.log(data);
-                let conversation_name = [data.getCurrentUser.username, data.messageReceiver.username].sort();
-                conversation_name = `${conversation_name[0]}_${conversation_name[1]}`;
+                // console.log(data);
+                let conversation_name = [data.currentUser.display_name.replace(' ', '_'), data.messageReceiver.display_name.replace(' ', '_')].sort();
+                conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
+                // console.log(conversation_name);
 
                 (async () => {
-                    const checker = await pool.query(`SELECT * FROM conversation_container WHERE conversation_name = '${conversation_name}'`).then((result) => { return result });
+                    const checker = await pool.query(`SELECT * FROM conversation_container WHERE conversation_name = "${conversation_name}"`).then((result) => { return result });
 
                     let getter = checker.map((element) => {
                         return pool.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${element.conversation_id}`);
@@ -369,9 +369,6 @@ const server = http.createServer((request, response) => {
             }
         });
     } 
-
-    
-
 });
 
 server.listen(2020, () => console.log('connected to server'));

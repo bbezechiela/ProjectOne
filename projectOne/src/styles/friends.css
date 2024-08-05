@@ -36,6 +36,7 @@
 
 #friendsHeader {
     height: auto;
+    width: auto;
     position: absolute;
     top: 0;
     left: 0;
@@ -53,7 +54,7 @@
 }
 
 #noFriends {
-    height: 600px;
+    height: 500px;
     font-size: 30px;
     font-weight: 600;
     display: flex;
@@ -83,6 +84,8 @@
 }
 
 #friendsRemoveButton {
+    height: auto;
+    width: auto;
     font-size: 23px;
     font-weight: 700;
     padding: 25px 40px 25px 40px;

@@ -1,0 +1,46 @@
+@import url(variables.css);
+/* LFG */
+#signUpOuterContainer {
+    height: 1000px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#googleSignUp {
+    z-index: 2;
+    height: 150px;
+    width: 600px;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    background-color: black;
+    color: white;
+}
+
+.signUpAnimation {
+    animation-name: signUpAnimation;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-duration: 3s;
+}
+
+@keyframes signUpAnimation {
+    0% {
+        background-color: var(--secondColor);
+    }
+    33.3% {
+        background-color: var(--secondColor);
+    }
+    66.6% {
+        background-color: var(--firstColor);
+    }
+    100% {
+        background-color: var(--firstColor);
+    }
+}
+

@@ -259,17 +259,19 @@ NEXT TASKS
 
   (progress) todo - sessions / tokens
 
-  (progress) todo - use Google Api, Oauth, using FireBase SDK to handle Google sign in
+  (done) todo - use Google Api, Oauth, using FireBase SDK to handle Google sign in
   
-  todo - transition it mga column names haat local diba, it mga property na gin rereturn it google sign in
+  (done) todo - transition it mga column names haat local diba, it mga property na gin rereturn it google sign in
 
   (progress) todo - ayosa it mga query kay since dri na kita nagamit an id haaton local na diba, tat gamit na is uid na na refer ha firebase na auth
 
-  todo - himo hin file na aadto tanan timo interface para dri ka repeative na pag hino.o kada componenet
+  (progress) todo - himo hin file na aadto tanan timo interface para dri ka repeative na pag hino.o kada componenet
 
-  todo - dapat ig ma sign in kita, diritso na ma check ha local db
+  todo (optional) - dapat ig ma sign in kita, diritso na ma check ha local db
 
   todo - ig remove it login na path, dapat dida it nala rekta ma sign in
+
+  todo - ig remove it login home ngan how it works ha nav bar, tas it sign up na button didat hero is himo.a na sign in with google
 
   todo - work with state persistence para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase
 

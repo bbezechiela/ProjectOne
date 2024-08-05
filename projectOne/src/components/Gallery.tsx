@@ -1,14 +1,26 @@
-import { useContext } from "react";
-import { CurrentUser } from "./NavOne";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { firebaseApp } from '../firebase';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import '../styles/comingSoon.css';
 
 const Gallery = () => {
-    const currentUserData = useContext(CurrentUser);
-    console.log(currentUserData);
+    const useNav = useNavigate();
+
+    useEffect(() => {
+        const auth = getAuth(firebaseApp);
+        onAuthStateChanged(auth, (user) => {
+            console.log();
+            if (user === null) {
+                useNav('/', { replace: true });
+            }
+        });
+    }, []);
 
     return (
-        <>
-            <h1>Gallery</h1>
-        </>
+        <div id='demoSoon'>
+            <div id='demoSoonText'>Coming soon! :))</div>
+        </div>
     );
 }
 

@@ -3,8 +3,10 @@ import { CurrentUser } from "./NavOne";
 import { firebaseApp } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Loader from "./Loader";
-import '../styles/requests.css';
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
+import '../styles/requests.css';
 
 interface RequestDetails {
     uid: string,
@@ -98,32 +100,37 @@ const Requests = () => {
     }
 
     return (
-        <>
-            <div id='requestOuterContainer'>
-                <div id="requestInnerContainer">
-                    <div id="requestHeaderText">Request List</div>
-                    {isLoad ? '' : <Loader></Loader>}
-                    {getRequestsDetails.length > 0 ? getRequestsDetails.map((element, index) => (
-                        <div id='requestElementContainer' key={index}>
-                            <div id='requestUpperContainer'>
-                                <div id='requestProfilePhoto'></div>
-                                <div id="usernameContainer">
-                                    <div id='requestUsername'>{element.display_name}</div>
+        <div id='requestOuterContainer'>
+            <div id="requestInnerContainer">
+                <div id="requestHeaderText">Request List</div>
+                {isLoad ? 
+                    <>
+                        {getRequestsDetails.length > 0 ? getRequestsDetails.map((element, index) => (
+                            <div id='requestElementContainer' key={index}>
+                                <div id='requestUpperContainer'>
+                                    <div id='requestProfilePhoto'></div>
+                                    <div id="usernameContainer">
+                                        <div id='requestUsername'>{element.display_name}</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id='requestLowerContainer'>
-                                <div className='requestLowerButton' onClick={() => {
-                                    acceptRequest(element, index);
-                                }}>Accept</div>
-                                <div className='requestLowerButton' onClick={() => {
-                                    declineRequest(element, index);   
-                                }}>Decline</div>
-                            </div>
-                        </div>   
-                    )): <div id="noRequest">no request :)</div> }
-                </div>
+                                <div id='requestLowerContainer'>
+                                    <div className='requestLowerButton' onClick={() => {
+                                        acceptRequest(element, index);
+                                    }}>
+                                        <FontAwesomeIcon className="checkIcon" icon={faCheck} />
+                                    </div>
+                                    <div className='requestLowerButton' onClick={() => {
+                                        declineRequest(element, index);   
+                                    }}>
+                                        <FontAwesomeIcon className="checkIcon" icon={faX} />
+                                    </div>
+                                </div>
+                            </div>   
+                        )): <div id="noRequest">no request :)</div> }
+                    </>
+                : <Loader />}
             </div>
-        </>
+        </div>
     );
 }
 

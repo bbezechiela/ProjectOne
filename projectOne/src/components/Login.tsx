@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import { firebaseApp } from '../firebase';
 import { IdTokenResult, getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import '../styles/signUp.css';
+import '../styles/signIn.css';
 
 interface UserDetails {
     // id: number,
@@ -15,12 +15,11 @@ interface UserDetails {
 
 interface Props {
     isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
-    setUserSession: React.Dispatch<React.SetStateAction<UserDetails>>,
+    setUserSession?: React.Dispatch<React.SetStateAction<UserDetails>>,
 }
 
 const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
-    // const [userDetails, setUserDetails] = useState<UserDetails[]>([]);
-
+    
     // initialize useNavigate, it return it useNav kay function with two parameters
     const useNav = useNavigate();
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/hero.css';
 import HowItWorks from './HowItWorks';
-import SignUp from './SignUp';
+import SignUp from './SignIn';
 import Footer from './Footer';
 
 const HeroPage = () => {
@@ -27,7 +27,7 @@ const HeroPage = () => {
     }
 
     return (
-        <>  
+        <div id='heroPageContainer'>  
             <div 
                 id="heroContainer"
                 style={{
@@ -44,7 +44,7 @@ const HeroPage = () => {
                 <div id="lowerContainer">
                     <div 
                         id='emotionOne' 
-                        className="emotions" 
+                        className="emotions"    
                         onClick={() => {
                             // setColor('#F7D358');
                             setAnimate(true);
@@ -90,9 +90,9 @@ const HeroPage = () => {
                 </div>
             </div>
             <HowItWorks selectedColor={getColor} animateStatus={shouldAnimate} fromWhere='home'/>
-            <SignUp selectedColor={getColor} animateStatus={shouldAnimate} />
+            {/* <SignUp selectedColor={getColor} animateStatus={shouldAnimate} /> */}
             <Footer />
-        </>
+        </div>
     );
 }
 

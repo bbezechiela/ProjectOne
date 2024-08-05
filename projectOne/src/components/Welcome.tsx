@@ -2,55 +2,60 @@ import { useEffect, useState, useContext } from "react";
 import { CurrentUser } from "./NavOne";
 import Search from "./Search";
 import { firebaseApp } from "../firebase";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import '../styles/welcome.css';
 
-const customFunction = async (url: string, userDetails: object): Promise<object> => {
+const customFunction = async (url: string, currentUser: object): Promise<object> => {
     const getter = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }, body: JSON.stringify(userDetails)
+        }, body: JSON.stringify(currentUser)
     });
 
     const response = await getter.json();
     return response.result;
 };
 
+
 const Welcome = () => {
-    const currentUserData = useContext(CurrentUser);
-    const [getUserDetails, ] = useState(currentUserData);
-    const [getNumberOfRequsts, setNumberOfRequests]: any = useState([]);
+    const [currentUser, setCurrentUser] = useState<{uid: string, display_name: string | null}>({uid: '', display_name: ''});
+    const [getNumberOfRequests, setNumberOfRequests]: any = useState([]);
     const [getNumberOfFriends, setNumberOfFriends]: any = useState([]);
     const [getColors, ] = useState([{color: '#F7D358', name: 'Joy'}, {color: '#4ECDC4', name: 'Sadness'}, {color: '#EAD1DC', name: 'Fear'}, {color: '#D9382F', name: 'Anger'}, {color: '#9EADBA', name: 'Disgust'}]);
 
     const useNav =  useNavigate();
     
     const redirectComponent = (url: string): void => useNav(url, { replace: true });
-    const auth = getAuth(firebaseApp);
-    const user = auth.currentUser;
     
     useEffect(() => {
-        if (user == null) {
-            useNav('/', { replace: true });
-        }
+        const auth = getAuth(firebaseApp);
+        onAuthStateChanged(auth, (user) => {
+            if (user !== null) {
+                getter(user.uid);
+                setCurrentUser({uid: user.uid, display_name: user.displayName});
+            } else {
+                useNav('/', { replace: true });
+            } 
+        });
 
     }, []);
-    // console.log(currentUserData);
-    // (async () => {
-    //     const getRequest = await customFunction('http://localhost:2020/getRequests', getUserDetails);
-    //     setNumberOfRequests(getRequest);
+    
+    const getter = async (uid: string): Promise<void> => {
+        const currentUser = { currentUser: uid }
+        const getRequest = await customFunction('http://localhost:2020/getRequests', currentUser);
+        setNumberOfRequests(getRequest);
 
-    //     const getFriends = await customFunction('http://localhost:2020/getFriends', getUserDetails);
-    //     setNumberOfFriends(getFriends);
-    // })();
+        const getFriends = await customFunction('http://localhost:2020/getFriends', currentUser);
+        setNumberOfFriends(getFriends);
+    };
 
     return (
         <div id='welcomeOuterContainer'>
             <div id="welcomeInnerContainer">
                 <div id="welcomeTextContainer">
-                    <div id='welcomeText'>Welcome, {user?.displayName} :)</div>
+                    <div id='welcomeText'>Welcome, {currentUser.display_name} :)</div>
                 </div>
                 <div id="welcomeGridContainer">
                     <div id="welcomeGalleryContainer">
@@ -65,7 +70,7 @@ const Welcome = () => {
                         </div>
                     </div>
                     <div id="welcomeRequestsFriendsContainer">
-                        <div id="welcomeRequestss" onClick={() => redirectComponent('/requests')}>Requests {`(${getNumberOfRequsts.length})`}</div>
+                        <div id="welcomeRequestss" onClick={() => redirectComponent('/requests')}>Requests {`(${getNumberOfRequests.length})`}</div>
                         <div id="welcomeFriends" onClick={() => redirectComponent('/friends')}>Friends {`(${getNumberOfFriends.length})`}</div>
                     </div>
                     <div id="welcomeMessagesContainer" onClick={() => redirectComponent('/messages')}>messages</div>

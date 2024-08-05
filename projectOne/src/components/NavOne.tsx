@@ -3,7 +3,7 @@ import React, { useEffect, useState, createContext} from 'react';
 import HeroPage from './HeroPage';
 import Login from './Login';
 import HowItWorks from './HowItWorks';
-import SignUp from './SignUp';
+import SignUp from './SignIn';
 import Welcome from './Welcome';
 import Requests from './Requests';
 import Friends from './Friends';
@@ -92,7 +92,8 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Route path='signUp' element={<SignUp />} />
                         <Route path='/signUp' element={<SignUp />} />
                         <Route path='howItWorks' element={<HowItWorks fromWhere='nav'/>} />
-                        <Route path='login' element={<Login isLoggedIn={setUserLogIn} setUserSession={setUserData} />} />
+                        <Route path='login' element={<Login isLoggedIn={setUserLogIn} />} />
+                        {/* <Route path='login' element={<Login isLoggedIn={setUserLogIn} setUserSession={setUserData} />} /> */}
 
                         {/* navTwo routes */}
                         <Route path="welcome" element={<Welcome />}></Route>

@@ -12,6 +12,13 @@
     flex-direction: column;
 }
 
+#heroPageContainer {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 #upperContainer {
     height: 550px;
     width: 100%;
@@ -27,6 +34,7 @@
     font-size: 120px;
     font-weight: 900;
     text-align: center;
+    color: #00062b;
 }
 
 #heroSubText {

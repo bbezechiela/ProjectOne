@@ -78,20 +78,23 @@ const Friends = () => {
         <div id='friendsOuterContainer'>
             <div id='friendsInnerContainer'>
                 <div id='friendsHeader'>Friend List <span>({getRequestDetails.length} of 20)</span></div>
-                {isLoad ? '' : <Loader />}
-                {getRequestDetails.length !== 0 ? getRequestDetails.map((element, index) => (
-                    <div id='friendsElementContainer' key={index}>
-                        <div id='friendsElementSectionOne'>
-                            <div id="friendsProfilePhoto"></div>
-                            <div id="usernameContainer">
-                                <div id='friendsElementUsername'>{element.display_name}</div>
+                {isLoad ? 
+                    <>
+                        {getRequestDetails.length !== 0 ? getRequestDetails.map((element, index) => (
+                            <div id='friendsElementContainer' key={index}>
+                                <div id='friendsElementSectionOne'>
+                                    <div id="friendsProfilePhoto"></div>
+                                    <div id="usernameContainer">
+                                        <div id='friendsElementUsername'>{element.display_name}</div>
+                                    </div>
+                                </div>
+                                <div id='friendsRemoveButton' onClick={() => {
+                                    removeFriend(element, index);
+                                }}>Remove Friend</div>
                             </div>
-                        </div>
-                        <div id='friendsRemoveButton' onClick={() => {
-                            removeFriend(element, index);
-                        }}>Remove Friend</div>
-                    </div>
-                )): <div id='noFriends'>no friends :)</div>}
+                        )): <div id='noFriends'>no friends :)</div>}
+                    </>
+                : <Loader />}
             </div>
         </div>
     );

@@ -1,9 +1,12 @@
 @import url('variables.css');
 /* LFG */
-#outerContainer {
-    height: 1000px;
+#howItWorksOuterContainer {
+    height: 1200px;
     width: 100%;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 #overlayContainer {
@@ -46,157 +49,38 @@
     }
 }
 
-.waitFirst {
-    border: 10px solid blue;
+#howItWorksText {
+    font-size: 7rem;
+    color: #00062b;
+    font-weight: 900;
 }
 
-.dontWait {
-    border: 10px solid red;
+#howItWorksUpperContainer {
+    text-align: center;
+    height: 200px;
+    width: 60%;
 }
 
-#imgContainer {
-    height: 1000px;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#imgContainer img {
-    width: 100%;
-}
-
-#innerContainer {
-    height: inherit;
-    width: 100%;
+#howItWorksLowerContainer {
+    height: auto;
+    width: 60%;
     z-index: 1;
     position: relative;
-}
-
-.firstStep, .secondStep, .thirdStep, .fourthStep, .fifthStep {
-    height: 200px;
-    width: 200px;
-    border-radius: 100%;
-    background-color: black;
-    color: white;
-    font-size: 25px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    text-align: center;
-    visibility: visible;
+    flex-direction: column;
 }
 
-.classFromNav {
-    height: 200px;
-    width: 200px;
-    border-radius: 100%;
-    background-color: black;
-    color: white;
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    visibility: visible;
-}
-
-.firstStepFromNav {
-    position: absolute;
-    top: 200px;
-    left: 150px;
-}
-
-.secondStepFromNav {
-    position: absolute;
-    left: 450px;
-    top: 360px;
-}
-
-.thirdStepFromNav {
-    position: absolute;
-    left: 880px;
-    top: 290px;
-}
-
-.fourthStepFromNav {
-    position: absolute;
-    right: 665px;
-    top: 370px;
-}
-
-.fifthStepFromNav {
-    position: absolute;
-    right: 90px;
-    bottom: 440px;
-}
-
-.firstStep {
-    position: absolute;
-    top: 200px;
-    left: 150px;
-    animation: demoFirstStep 500ms;
-    animation-timing-function: ease;
-}
-
-#getStarted {
+.heroSteps {
     height: 100px;
-    width: 300px;
-    background-color: black;
+    width: 600px;
     color: white;
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-@keyframes demoFirstStep {
-    0% {
-        height: 0px;
-        width: 0px;
-    }
-    100% {
-        height: 200px;
-        width: 200px;
-    }
-}
-
-.noClassYet {
-    visibility: hidden;
-}
-
-.secondStep {
-    position: absolute;
-    left: 450px;
-    top: 360px;
-    animation: demoFirstStep 500ms;
-    animation-timing-function: ease;
-}
-
-.thirdStep {
-    position: absolute;
-    left: 880px;
-    top: 290px;
-    animation: demoFirstStep 500ms;
-    animation-timing-function: ease;
-}
-
-
-.fourthStep {
-    position: absolute;
-    right: 665px;
-    top: 370px;
-    animation: demoFirstStep 500ms;
-    animation-timing-function: ease;
-}
-
-.fifthStep {
-    position: absolute;
-    right: 90px;
-    bottom: 440px;
-    animation: demoFirstStep 500ms;
-    animation-timing-function: ease;
+    font-size: 1.8rem;
+    background-color: #00062b;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
