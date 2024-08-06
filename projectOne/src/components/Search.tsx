@@ -119,7 +119,7 @@ const Search = () => {
                     id="searchInputField" 
                     type="text" 
                     name='searchField' 
-                    placeholder='Find a friend' 
+                    placeholder='Find a close friend :)' 
                     onChange={(e) => handleChange(e)}      
                 />
 

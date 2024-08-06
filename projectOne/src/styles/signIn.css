@@ -10,14 +10,13 @@
 }
 
 #googleSignUp {
-    z-index: 2;
-    height: 150px;
-    width: 600px;
-    font-size: 2rem;
+    height: 80px;
+    width: 400px;
+    font-size: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 30px;
+    border-radius: 5px;
     background-color: black;
     color: white;
 }

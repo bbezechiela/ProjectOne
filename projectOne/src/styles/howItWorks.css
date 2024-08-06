@@ -1,7 +1,7 @@
 @import url('variables.css');
 /* LFG */
 #howItWorksOuterContainer {
-    height: 1200px;
+    height: 900px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -32,6 +32,7 @@
     animation-timing-function: ease-in;
     animation-delay: 0s;
     animation-duration: 3s;
+    animation-iteration-count: 1;
 }
 
 @keyframes demoo {

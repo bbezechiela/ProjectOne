@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/hero.css';
+import { useState, useEffect } from 'react';
 import HowItWorks from './HowItWorks';
-import SignUp from './SignIn';
 import Footer from './Footer';
+import Login from './Login';
+import '../styles/hero.css';
 
-const HeroPage = () => {
+interface Props {
+    isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
+    // setUserSession?: React.Dispatch<React.SetStateAction<UserDetails>>,
+}
+
+const HeroPage: React.FC<Props> = ({ isLoggedIn }) => {
     const [getColor, ] = useState('var(--firstColor)');
     const [shouldAnimate, setAnimate] = useState(false);
     
@@ -39,7 +43,7 @@ const HeroPage = () => {
                 <div id="upperContainer">
                     <div id="heroText">just for abe.</div>
                     <div id="heroSubText">let your abe know what you feel.</div>
-                    <Link id='heroCta' to='signUp'>Sign up</Link>
+                    <Login isLoggedIn={isLoggedIn}/>
                 </div>
                 <div id="lowerContainer">
                     <div 
@@ -89,7 +93,7 @@ const HeroPage = () => {
                     >Disgust</div>
                 </div>
             </div>
-            <HowItWorks selectedColor={getColor} animateStatus={shouldAnimate} fromWhere='home'/>
+            <HowItWorks selectedColor={getColor} animateStatus={shouldAnimate} />
             {/* <SignUp selectedColor={getColor} animateStatus={shouldAnimate} /> */}
             <Footer />
         </div>

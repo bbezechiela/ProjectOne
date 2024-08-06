@@ -76,9 +76,9 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                     <div id='navContainer'>
                         <Link id="navLogo" to='/'>LOGO</Link>
                         <div id="navLinks">
-                            <Link id='home' to='/' >home</Link>
-                            <Link id='howItWorks' to='howItWorks' >how it works</Link>
-                            <Link id='loginCta' to='login' >login</Link>
+                            {/* <Link id='home' to='/' >home</Link> */}
+                            {/* <Link id='howItWorks' to='howItWorks' >how it works</Link> */}
+                            {/* <Link id='loginCta' to='login' >login</Link> */}
                         </div> 
                     </div>     
                 </>)}
@@ -88,11 +88,11 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                 <Routes>    
                     <Route>
                         {/* navOne routes */}
-                        <Route path='/' element={<HeroPage />} />
+                        <Route path='/' element={<HeroPage isLoggedIn={setUserLogIn}/>} />
                         <Route path='signUp' element={<SignUp />} />
                         <Route path='/signUp' element={<SignUp />} />
-                        <Route path='howItWorks' element={<HowItWorks fromWhere='nav'/>} />
-                        <Route path='login' element={<Login isLoggedIn={setUserLogIn} />} />
+                        {/* <Route path='howItWorks' element={<HowItWorks fromWhere='nav'/>} /> */}
+                        {/* <Route path='login' element={<Login isLoggedIn={setUserLogIn} />} /> */}
                         {/* <Route path='login' element={<Login isLoggedIn={setUserLogIn} setUserSession={setUserData} />} /> */}
 
                         {/* navTwo routes */}
@@ -103,7 +103,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Route path="messages" element={<Messages />}></Route>
                         <Route path="gallery" element={<Gallery />}></Route>
                         <Route path="emotions" element={<Emotions />}></Route>
-                        <Route path="lagout" element={<HeroPage />}></Route>
+                        <Route path="lagout" element={<HeroPage isLoggedIn={setUserLogIn}/>}></Route>
                     </Route>
                 </Routes>
                 </CurrentUser.Provider>

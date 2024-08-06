@@ -4,7 +4,7 @@
 }
 
 #heroContainer {
-    height: 1000px;
+    height: auto;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@
 }
 
 #upperContainer {
-    height: 550px;
+    height: 500px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -31,7 +31,7 @@
 #heroText {
     height: auto;
     width: auto;
-    font-size: 120px;
+    font-size: 10rem;
     font-weight: 900;
     text-align: center;
     color: #00062b;
@@ -40,28 +40,14 @@
 #heroSubText {
     height: auto;
     width: 700px;
-    font-size: 30px;
+    font-size: 2rem;
     font-weight: 100;
     text-align: center;
-}
-
-#heroCta {
-    height: 50px;
-    width: 250px;
-    font-size: 22px;
-    background-color: black;
-    color: white;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-decoration: none;
+    margin-bottom: 30px;
 }
 
 #lowerContainer {
-    height: 450px;
+    height: 350px;
     width: 100%;
     display: flex;
     justify-content: center;

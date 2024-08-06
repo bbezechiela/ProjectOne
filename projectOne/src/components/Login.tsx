@@ -19,7 +19,7 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
-    
+
     // initialize useNavigate, it return it useNav kay function with two parameters
     const useNav = useNavigate();
 
@@ -66,19 +66,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
         if (response) console.log(response);
     }
 
-    return (
-        <>
-            {/* <NavOne status={false}/> */}
-            <div 
-                id="signUpOuterContainer"
-            >
-                <div id='imgContainer'>
-                    <img src="centerImg.png" alt="center image" />
-                </div>
-                <div id="googleSignUp" onClick={signInWithGoogle}>Login with Google</div>
-            </div>
-        </>
-    );
+    return  <div id="googleSignUp" onClick={signInWithGoogle}>Sign in with Google</div>
 }
 
 export default Login;
