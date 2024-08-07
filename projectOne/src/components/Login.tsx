@@ -1,7 +1,8 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { firebaseApp } from '../firebase';
-import { IdTokenResult, getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { IdTokenResult, getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { Props } from './Interfaces';
 import '../styles/signIn.css';
 
 interface UserDetails {
@@ -11,11 +12,6 @@ interface UserDetails {
     displayName: string | null,
     email: string | null,
     profile_path: string | null,
-}
-
-interface Props {
-    isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
-    setUserSession?: React.Dispatch<React.SetStateAction<UserDetails>>,
 }
 
 const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
@@ -28,24 +24,28 @@ const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
     const provider = new GoogleAuthProvider();
     
     const signInWithGoogle = () => {
-        signInWithPopup(auth, provider).then((result) => {
-            // use credential if needed, ada it access token para makag work with other google api's
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const user = result.user;
-            if (user !== null) {
-                console.log(user);
-                createUserLocally({
-                    uid: user.uid,
-                    displayName: user.displayName,
-                    email: user.email,
-                    profile_path: user.photoURL
-                })
-                isLoggedIn(true);
-                useNav('/welcome', { replace: true });
-            } else {
-                useNav('/', { replace: true });
-            }
-        });
+        setPersistence(auth, browserSessionPersistence)
+        .then(async () => {
+            return await signInWithPopup(auth, provider).then((result) => {
+                // use credential if needed, ada it access token para makag work with other google api's
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const user = result.user;
+                if (user !== null) {
+                    console.log(user);
+                    createUserLocally({
+                        uid: user.uid,
+                        displayName: user.displayName,
+                        email: user.email,
+                        profile_path: user.photoURL
+                    })
+                    isLoggedIn(true);
+                    useNav('/welcome', { replace: true });
+                } else {
+                    useNav('/', { replace: true });
+                }
+            });
+        })
+        .catch(error => console.log(error.message));
     }
 
     const createUserLocally = async ({uid, displayName, email, profile_path}: UserDetails): Promise<void> => {

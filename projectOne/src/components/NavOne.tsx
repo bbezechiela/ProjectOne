@@ -96,11 +96,11 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         {/* <Route path='login' element={<Login isLoggedIn={setUserLogIn} setUserSession={setUserData} />} /> */}
 
                         {/* navTwo routes */}
-                        <Route path="welcome" element={<Welcome />}></Route>
-                        <Route path="friends" element={<Friends />}></Route>
-                        <Route path="requests" element={<Requests />}></Route>
+                        <Route path="welcome" element={<Welcome isLoggedIn={setUserLogIn} />}></Route>
+                        <Route path="requests" element={<Requests isLoggedIn={setUserLogIn} />}></Route>
+                        <Route path="friends" element={<Friends isLoggedIn={setUserLogIn} />}></Route>
                         <Route path="search" element={<Search />}></Route>
-                        <Route path="messages" element={<Messages />}></Route>
+                        <Route path="messages" element={<Messages isLoggedIn={setUserLogIn} />}></Route>
                         <Route path="gallery" element={<Gallery />}></Route>
                         <Route path="emotions" element={<Emotions />}></Route>
                         <Route path="lagout" element={<HeroPage isLoggedIn={setUserLogIn}/>}></Route>

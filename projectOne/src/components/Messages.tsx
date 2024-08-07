@@ -1,27 +1,31 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState, useRef, useMemo } from 'react';
 import { firebaseApp } from '../firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { CurrentUser, MessageDetails, RequestDetails, ConversationCtnDetails, ReceiverDetails } from './Interfaces';
+import { Props ,CurrentUser, MessageDetails, RequestDetails, ConversationCtnDetails, ReceiverDetails } from './Interfaces';
+import moment from 'moment';
 import '../styles/messages.css';
 
-const Messages = () => {
+let lastMessageTimestamp:string = '1999-12-12 12:12:12';
+let firstRender = true;
+
+const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const [currentUser, setCurrentUser] = useState<CurrentUser>();
     const [getMessageContent, setMessageContent]= useState({});
     const [getResponse, setResponse] = useState<RequestDetails[]>([]);
     const [showContainer, setShowContainer] = useState(false);
-    const [getConversation, setConversation] = useState<ConversationCtnDetails[]>([]);
+    const [getConversationId, setConversationId] = useState<ConversationCtnDetails[]>([]);
     const [getConversationReceiver, setConversationReceiver] = useState<ReceiverDetails>();
     const [getMessages, setMessages] = useState<MessageDetails[]>([]);
     const [getMessageReceiver, setMessageReceiver] = useState({});
     const messageBody = useRef<HTMLDivElement | null>(null);
-    // const [demoGetter, demoSetter] = useState<HTMLDivElement>(null);
     const useNav = useNavigate();
 
     useEffect(() => {
         const auth = getAuth(firebaseApp);
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
+                isLoggedIn(true);
                 getter(user.uid);
                 setCurrentUser({
                     uid: user.uid,
@@ -33,22 +37,25 @@ const Messages = () => {
                 useNav('/', { replace: true });
             }
         });
+
+        const getter = async (uid: string): Promise<void> => {
+            const getter = await fetch('http://localhost:2020/getFriends', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({currentUser: uid}),
+            });
+    
+            const response = await getter.json();
+            if (response) setResponse(response.result);
+        };
+
+        // ig first render kada visit
+        firstRender = true;
     }, []);
 
-    const getter = async (uid: string): Promise<void> => {
-        const getter = await fetch('http://localhost:2020/getFriends', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({currentUser: uid}),
-        });
-
-        const response = await getter.json();
-        if (response) setResponse(response.result);
-    };
-    
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>  setMessageContent({messageContent: e.target.value});
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => setMessageContent({messageContent: e.target.value});
     
     // send message
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
@@ -69,7 +76,7 @@ const Messages = () => {
     const selectConversation = async (messageReceiver: RequestDetails): Promise<void> => {
         setShowContainer(true);
         setMessageReceiver(messageReceiver);
-        
+
         const checker = await fetch('http://localhost:2020/conversation', {
             method: 'POST',
             headers: {
@@ -80,10 +87,10 @@ const Messages = () => {
                 messageReceiver,
             }),
         });
-
+        
         const response = await checker.json();
         if (response) {
-            console.log(response);
+            // console.log(response);
             let receiverUsername = response.message[0][0].conversation_name.split('-');
             for (let i in receiverUsername) {
                 receiverUsername[i] = receiverUsername[i].replace('_', ' ');
@@ -92,15 +99,50 @@ const Messages = () => {
             console.log(receiverUsername[0] === currentUser?.display_name);
             receiverUsername[0] === currentUser?.display_name ? setConversationReceiver({conversation_receiver_name: receiverUsername[1]}) : setConversationReceiver({conversation_receiver_name: receiverUsername[0]});
 
-            setConversation(response.message[0]);
-            setMessages(response.message[1]);
+            const conversation_id = response.message[0][0].conversation_id;
+            
+            // since it format it lastMessageTimestamp is naka ISO dapat nat ig convert to regular format gamit moment js
+            setInterval(() => {
+                gettingMessagesPerTick(conversation_id);
+            }, 3000);
+
         }
     }
-        
+    
     useEffect(() => {
         if (messageBody.current) messageBody.current.scrollTop = messageBody.current.scrollHeight;
-        console.log(getConversationReceiver);
+        console.log(getMessages);
     }, [getMessages]);
+
+    const gettingMessagesPerTick = async (conversation_id: number): Promise<void> => {
+        try {
+            const date = moment(lastMessageTimestamp);
+            const formatedDate = date.format('YYYY:MM:DD HH:mm:ss');
+            const getter = await fetch(`http://localhost:2020/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
+    
+            const response = await getter.json();
+            if (response) {
+                console.log(firstRender);
+                if (firstRender === true) {
+                    if (response.message.length !== 0) {
+                        setMessages(response.message);
+                        firstRender = false;
+                        lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;
+                        console.log('first render');
+                     } 
+                }  else if (response.message.length !== 0){
+                    setMessages(prevState => [
+                        ...prevState,
+                        response.message[0]
+                    ]);
+                    console.log('not first render');
+                    lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;
+                }
+            };
+        } catch (error) {
+            
+        }
+    };
 
     return (
         <div id='messagesOuterContainer'>

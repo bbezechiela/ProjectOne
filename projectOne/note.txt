@@ -212,6 +212,9 @@ AUGUST 4
 
   note - an gin rereturn na access token tikang ha googleAuthprovider is pwedi natun adto gamiton ha mga google api's for as of now if dri kita magamit okay la, tigamni la na asya iton mayda kita credentials/access token para google api's
 
+AUGUST 8 :)))))))))))))
+  note - if magakit kita hin get method ha fetch, ngan since get for sure mayda iton query parameter ngan para ma access nat iton na query value is magamit kita URL. actually okay ghp asya talaga it approach para ha ngatan pero feel ko ha pan get ta laanay gamiton.
+
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request
 
@@ -251,27 +254,28 @@ NEXT TASKS
 
   (done) todo - ayusa ha message pag ma click hin conversation dapat it scrollTop kay adto it scrollHeight
 
-  todo - it getter it messages himo.a nga dynamic every may changes or may bago na send ha db
+  (progress) todo - it getter it messages himo.a nga dynamic every may changes or may bago na send ha db
 
-  todo - make sure na ig remove it white space pag dri la 1 word it iya ngaran ha pag crecreate hin conversation. 
+  (done) todo - make sure na ig remove it white space pag dri la 1 word it iya ngaran ha pag crecreate hin conversation. 
 
   (done) todo - make add conversation na dapat timo ma kikita la didto imo la mga friends so if dri mo friend dri ka maka message haiya
 
-  (progress) todo - sessions / tokens
+  (done) todo - sessions / tokens
 
   (done) todo - use Google Api, Oauth, using FireBase SDK to handle Google sign in
   
   (done) todo - transition it mga column names haat local diba, it mga property na gin rereturn it google sign in
 
-  (progress) todo - ayosa it mga query kay since dri na kita nagamit an id haaton local na diba, tat gamit na is uid na na refer ha firebase na auth
+  (done) todo - ayosa it mga query kay since dri na kita nagamit an id haaton local na diba, tat gamit na is uid na na refer ha firebase na auth
 
   (progress) todo - himo hin file na aadto tanan timo interface para dri ka repeative na pag hino.o kada componenet
 
   todo (optional) - dapat ig ma sign in kita, diritso na ma check ha local db
 
-  todo - ig remove it login na path, dapat dida it nala rekta ma sign in
+  (done) todo - ig remove it login na path, dapat dida it nala rekta ma sign in
 
-  todo - ig remove it login home ngan how it works ha nav bar, tas it sign up na button didat hero is himo.a na sign in with google
+  (done) todo - ig remove it login home ngan how it works ha nav bar, tas it sign up na button didat hero is himo.a na sign in with google
 
   todo - work with state persistence para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase
 
+  

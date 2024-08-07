@@ -27,13 +27,17 @@ export interface RequestDetails {
 
 export interface ConversationCtnDetails {
     conversation_id: number,
-    conversation_name: string,
-    conversation_timestamp: string,
 }
 
 // for messaging usage
 export interface ReceiverDetails {
     conversation_receiver_name: string,
+}
+
+// for nav
+export interface Props {
+    isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
+    setUserSession?: React.Dispatch<React.SetStateAction<CurrentUser>>,
 }
 
 

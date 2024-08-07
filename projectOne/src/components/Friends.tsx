@@ -1,26 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CurrentUser } from './NavOne';
 import Loader from './Loader';
 import { firebaseApp } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { Props, RequestDetails, CurrentUser } from './Interfaces';
 import '../styles/friends.css';
 
-interface RequestDetails {
-    uid: string,
-    display_name: string | null,
-    email: string | null,
-    profile_path: string,
-    request_id: number,
-    request_sender: number,
-    onClick: (e: React.MouseEvent<HTMLDivElement>) => void,
-}
-
-interface CurrentUser {
-    uid: string
-}
-
-const Friends = () => {
+const Friends: React.FC<Props> = ({ isLoggedIn }) => {
     // const getCurrentUser: {} = useContext(CurrentUser);
     // const [getUserDetails, ] = useState(getCurrentUser);
     const [isLoad, setLoad] = useState<boolean>(false);
@@ -31,14 +17,15 @@ const Friends = () => {
         const auth = getAuth(firebaseApp);
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
-                getFriends({uid: user.uid});
+                isLoggedIn(true);
+                getFriends(user.uid);
             } else {
                 useNav('/', { replace: true });
             }
         });
     }, []);
     
-    const getFriends = async ({uid}: CurrentUser): Promise<void> => {
+    const getFriends = async (uid: string): Promise<void> => {
         const getter = await fetch('http://localhost:2020/getFriends', {
             method: 'POST',
             headers: {
@@ -83,7 +70,8 @@ const Friends = () => {
                         {getRequestDetails.length !== 0 ? getRequestDetails.map((element, index) => (
                             <div id='friendsElementContainer' key={index}>
                                 <div id='friendsElementSectionOne'>
-                                    <div id="friendsProfilePhoto"></div>
+                                    <div id="friendsProfilePhoto"
+                                        style={{ backgroundImage: `url('${element.profile_path}')` }}></div>
                                     <div id="usernameContainer">
                                         <div id='friendsElementUsername'>{element.display_name}</div>
                                     </div>

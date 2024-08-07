@@ -103,4 +103,7 @@
     border-radius: 100%;
     background-color: wheat;
     margin-left: 25px;
+    background-position: center;   
+    background-repeat: no-repeat;
+    background-size: cover;
 }

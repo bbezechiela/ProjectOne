@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from "react";
-import { CurrentUser } from "./NavOne";
 import Search from "./Search";
 import { firebaseApp } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { Props } from "./Interfaces";
 import '../styles/welcome.css';
 
 const customFunction = async (url: string, currentUser: object): Promise<object> => {
@@ -19,7 +19,7 @@ const customFunction = async (url: string, currentUser: object): Promise<object>
 };
 
 
-const Welcome = () => {
+const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
     const [currentUser, setCurrentUser] = useState<{uid: string, display_name: string | null}>({uid: '', display_name: ''});
     const [getNumberOfRequests, setNumberOfRequests]: any = useState([]);
     const [getNumberOfFriends, setNumberOfFriends]: any = useState([]);
@@ -33,6 +33,7 @@ const Welcome = () => {
         const auth = getAuth(firebaseApp);
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
+                isLoggedIn(true);                
                 getter(user.uid);
                 setCurrentUser({uid: user.uid, display_name: user.displayName});
             } else {

@@ -1,31 +1,14 @@
 import React, { MouseEventHandler, useContext, useEffect, useState } from "react";
-import { CurrentUser } from "./NavOne";
 import { firebaseApp } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
+import { Props, RequestDetails, CurrentUser } from "./Interfaces";
 import '../styles/requests.css';
 
-interface RequestDetails {
-    uid: string,
-    display_name: string,
-    email: string,
-    profile_path: string,
-    request_id: number,
-    request_sender: string,
-    onClick: (e: React.MouseEvent<HTMLDivElement>) => void,
-}
-
-interface CurrentUser {
-    uid: string,
-    display_name?: string | null,
-    email?: string | null,
-    profile_path?: string | null,
-}
-
-const Requests = () => {
+const Requests: React.FC<Props> = ({ isLoggedIn }) => {
     // const getContext: {} = useContext(CurrentUser);
     // const [getCurrentUser, ] = useState(getContext);
     const [isLoad, setLoad] = useState<boolean>(false);
@@ -38,14 +21,15 @@ const Requests = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
-                getRequests({uid: user.uid});
+                isLoggedIn(true);
+                getRequests(user.uid);
             } else {
                 useNav('/', { replace: true });
             }
         });
     }, []);
 
-    const getRequests = async ({uid}: CurrentUser): Promise<void> => {
+    const getRequests = async (uid: string): Promise<void> => {
         const getter = await fetch('http://localhost:2020/getRequests', {
             method: 'POST',
             headers: {
@@ -108,7 +92,8 @@ const Requests = () => {
                         {getRequestsDetails.length > 0 ? getRequestsDetails.map((element, index) => (
                             <div id='requestElementContainer' key={index}>
                                 <div id='requestUpperContainer'>
-                                    <div id='requestProfilePhoto'></div>
+                                    <div id='requestProfilePhoto'
+                                        style={{ backgroundImage: `url('${element.profile_path}')` }}></div>
                                     <div id="usernameContainer">
                                         <div id='requestUsername'>{element.display_name}</div>
                                     </div>

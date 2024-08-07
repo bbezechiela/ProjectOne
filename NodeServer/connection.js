@@ -1,5 +1,5 @@
-import { log } from 'console';
 import http from 'http';
+import url, { URL } from 'url';
 import mysql, { createPool } from 'mysql';
 import util from 'util';
 
@@ -339,7 +339,7 @@ const server = http.createServer((request, response) => {
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
             data = parsedData;
-        });
+        }); 
         
         request.on('end', () => {
             pool.query = util.promisify(pool.query).bind(pool);
@@ -360,12 +360,33 @@ const server = http.createServer((request, response) => {
                     getter = getter.flatMap((result) => { return result });
 
                     console.log('checker data', checker);
-                    console.log('getter data', getter);
+                    const demo = getter[0].message_timestamp;
+                    // console.log('getter data', typeof demo);
 
                     response.end(JSON.stringify({message: [checker, getter]}));
                 })();
             } else {
                 response.end(JSON.stringify({message: 'conversation error'}));
+            }
+        });
+    } 
+    
+    // panginano 
+    const getMethodUrl = new URL(request.url, 'http://localhost:2020');
+    const path = getMethodUrl.pathname;
+    // gettingmessagespertick
+    if (path == '/getMessagesPerTick') {
+        const lastMessageTimestamp = getMethodUrl.searchParams.get('lastMessageTimestamp');
+        const conversation_id = getMethodUrl.searchParams.get('conversation_id');
+
+        const getter = `SELECT * FROM conversation_messages WHERE message_timestamp > '${lastMessageTimestamp}' AND conversation_id = ${conversation_id}`;
+
+        pool.query(getter, (err, result) => {
+            // console.log(err);
+            if (result.length !== 0) {
+                response.end(JSON.stringify({message: result}));
+            } else {
+                response.end(JSON.stringify({message: []}));
             }
         });
     } 
