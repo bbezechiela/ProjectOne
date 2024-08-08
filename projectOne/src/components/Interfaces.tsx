@@ -40,4 +40,8 @@ export interface Props {
     setUserSession?: React.Dispatch<React.SetStateAction<CurrentUser>>,
 }
 
+// loader
+export interface LoaderProps {
+    fromWhere: string,
+}
 

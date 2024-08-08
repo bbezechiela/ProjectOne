@@ -213,7 +213,7 @@ AUGUST 4
   note - an gin rereturn na access token tikang ha googleAuthprovider is pwedi natun adto gamiton ha mga google api's for as of now if dri kita magamit okay la, tigamni la na asya iton mayda kita credentials/access token para google api's
 
 AUGUST 8 :)))))))))))))
-  note - if magakit kita hin get method ha fetch, ngan since get for sure mayda iton query parameter ngan para ma access nat iton na query value is magamit kita URL. actually okay ghp asya talaga it approach para ha ngatan pero feel ko ha pan get ta laanay gamiton.
+  note - if magamit kita hin get method ha fetch, ngan since get for sure mayda iton query parameter ngan para ma access nat iton na query value is magamit kita URL class. actually okay ghp asya talaga it approach para ha ngatan pero feel ko ha pan get ta laanay gamiton.
 
 NEXT TASKS
   todo - make relationship ha mga tables like users ha user request

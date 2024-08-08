@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState, useRef, useMemo } from 'react';
 import { firebaseApp } from '../firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useFormAction, useNavigate } from 'react-router-dom';
 import { Props ,CurrentUser, MessageDetails, RequestDetails, ConversationCtnDetails, ReceiverDetails } from './Interfaces';
+import Loader from './Loader';
 import moment from 'moment';
 import '../styles/messages.css';
 
 let lastMessageTimestamp:string = '1999-12-12 12:12:12';
 let firstRender = true;
+let interval: any; 
 
 const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const [currentUser, setCurrentUser] = useState<CurrentUser>();
@@ -33,28 +35,32 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
                     email: user.email,
                     profile_path: user.photoURL
                 });
+                lastMessageTimestamp = '1999-12-12 12:12:12';
+                console.log(lastMessageTimestamp);
+                clearInterval(interval)
             } else {
                 useNav('/', { replace: true });
             }
         });
 
-        const getter = async (uid: string): Promise<void> => {
-            const getter = await fetch('http://localhost:2020/getFriends', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({currentUser: uid}),
-            });
-    
-            const response = await getter.json();
-            if (response) setResponse(response.result);
-        };
-
+        
         // ig first render kada visit
         firstRender = true;
     }, []);
 
+    const getter = async (uid: string): Promise<void> => {
+        const getter = await fetch('http://localhost:2020/getFriends', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({currentUser: uid}),
+        });
+
+        const response = await getter.json();
+        if (response) setResponse(response.result);
+    };
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => setMessageContent({messageContent: e.target.value});
     
     // send message
@@ -74,7 +80,6 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     }
 
     const selectConversation = async (messageReceiver: RequestDetails): Promise<void> => {
-        setShowContainer(true);
         setMessageReceiver(messageReceiver);
 
         const checker = await fetch('http://localhost:2020/conversation', {
@@ -90,6 +95,8 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
         
         const response = await checker.json();
         if (response) {
+            setShowContainer(true);
+
             // console.log(response);
             let receiverUsername = response.message[0][0].conversation_name.split('-');
             for (let i in receiverUsername) {
@@ -102,46 +109,44 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
             const conversation_id = response.message[0][0].conversation_id;
             
             // since it format it lastMessageTimestamp is naka ISO dapat nat ig convert to regular format gamit moment js
-            setInterval(() => {
+            interval = setInterval(() => {
                 gettingMessagesPerTick(conversation_id);
             }, 3000);
-
         }
     }
-    
+
     useEffect(() => {
         if (messageBody.current) messageBody.current.scrollTop = messageBody.current.scrollHeight;
         console.log(getMessages);
     }, [getMessages]);
 
-    const gettingMessagesPerTick = async (conversation_id: number): Promise<void> => {
-        try {
+    const gettingMessagesPerTick = async (conversation_id: ConversationCtnDetails[]): Promise<void> => {
             const date = moment(lastMessageTimestamp);
             const formatedDate = date.format('YYYY:MM:DD HH:mm:ss');
+            // console.log('formated date', formatedDate);
+            
             const getter = await fetch(`http://localhost:2020/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
     
             const response = await getter.json();
             if (response) {
-                console.log(firstRender);
+                // console.log(firstRender);
                 if (firstRender === true) {
                     if (response.message.length !== 0) {
+                        console.log('response', response.message);
                         setMessages(response.message);
                         firstRender = false;
                         lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;
-                        console.log('first render');
+                        // console.log('first render');
                      } 
                 }  else if (response.message.length !== 0){
                     setMessages(prevState => [
                         ...prevState,
                         response.message[0]
                     ]);
-                    console.log('not first render');
+                    // console.log('not first render');
                     lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;
                 }
             };
-        } catch (error) {
-            
-        }
     };
 
     return (
@@ -170,15 +175,15 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
                             <div className='conversationReceiverName'>{getConversationReceiver?.conversation_receiver_name}</div>
                         </div>
                         <div id="messagesBody" ref={messageBody}>
-                            {getMessages.length !== 0 ? getMessages.map((element) => (
+                            {getMessages.length !== 0 ? getMessages.map((element, index) => (
                                 <>
                                     {element.message_receiver === currentUser?.uid ? 
-                                        <div className='leftMessage'>{element.message_content}</div> 
+                                        <div className='leftMessage' key={index}>{element.message_content}</div> 
                                     : 
-                                        <div className='rightMessage'>{element.message_content}</div> 
+                                        <div className='rightMessage' key={index}>{element.message_content}</div> 
                                     }
                                 </>
-                            )): ''}                            
+                            )): <Loader />}                            
                         </div>
                         <form id="messagesForm" onSubmit={handleSubmit}>
                             <input 
