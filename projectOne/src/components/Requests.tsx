@@ -50,7 +50,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
 
     const acceptRequest = async (e: RequestDetails, index: number): Promise<void> => {
         console.log('clicked', JSON.stringify(e));
-        const setter = await fetch('http://localhost:2020/acceptRequest', {
+        const setter = await fetch('https://justforabe.onrender.com/acceptRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
     }
 
     const declineRequest = async (e: RequestDetails, index: number): Promise<void> => {
-        const setter = await fetch('http://localhost:2020/declineRequest', {
+        const setter = await fetch('https://justforabe.onrender.com/declineRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
