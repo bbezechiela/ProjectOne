@@ -40,6 +40,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
 
         const response = await getter.json();
         if (response) {
+            console.log(response);
             setTimeout(() => {
                 setRequestDetails(response.result);
                 setLoad(true);
