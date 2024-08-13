@@ -35,7 +35,7 @@ const server = http.createServer((request, response) => {
         }); 
 
         request.on('end', () => {
-            console.log(data);
+            // console.log(data);
             response.end(JSON.stringify({ message: "Data received successfully" }));
             
             if (Object.keys(data).length !== 0) {
@@ -84,7 +84,7 @@ const server = http.createServer((request, response) => {
         let data = {};
         request.on('data', (dataChunks) => {
             const parsedData = JSON.parse(dataChunks.toString());
-            console.log('search data chunks', dataChunks);
+            // console.log('search data chunks', dataChunks);
             data = parsedData;
             // console.log('showing search data', parsedData);
         });
@@ -93,7 +93,7 @@ const server = http.createServer((request, response) => {
             pool.query = util.promisify(pool.query).bind(pool);
             // console.log(data);
             if (Object.keys(data).length !== 0) {
-                console.log(data);
+                // console.log(data);
                 const searchQuery = `SELECT * FROM users WHERE display_name = "${data.getSearchValue.searchValue}"`;
 
                 (async () => {
@@ -393,4 +393,4 @@ const server = http.createServer((request, response) => {
     } 
 });
 
-server.listen(10000, () => console.log('connected to server'));
+server.listen(10000, '13.228.225.19', () => console.log('connected to server'));

@@ -30,7 +30,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
     }, []);
 
     const getRequests = async (uid: string): Promise<void> => {
-        const getter = await fetch('http://localhost:2020/getRequests', {
+        const getter = await fetch('http://13.228.225.19:10000/getRequests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

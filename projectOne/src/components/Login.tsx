@@ -31,7 +31,7 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
                 // const credential = GoogleAuthProvider.credentialFromResult(result);
                 const user = result.user;
                 if (user !== null) {
-                    console.log(user);
+                    // console.log(user);
                     createUserLocally({
                         uid: user.uid,
                         displayName: user.displayName,
@@ -49,7 +49,7 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
     }
 
     const createUserLocally = async ({uid, displayName, email, profile_path}: UserDetails): Promise<void> => {
-        const setter = await fetch('http://localhost:2020/demonode', {
+        const setter = await fetch('http://54.254.162.138:10000/demonode', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
         });
 
         const response = await setter.json();
-        if (response) console.log(response);
+        if (response) console.log('login succesfully');
     }
 
     return  <div id="googleSignUp" onClick={signInWithGoogle}>Sign in with Google</div>
