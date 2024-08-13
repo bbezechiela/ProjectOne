@@ -49,7 +49,7 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
     }
 
     const createUserLocally = async ({uid, displayName, email, profile_path}: UserDetails): Promise<void> => {
-        const setter = await fetch('http://54.254.162.138:10000/demonode', {
+        const setter = await fetch('https://justforabeapi.onrender.com/demonode', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

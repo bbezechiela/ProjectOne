@@ -373,7 +373,7 @@ const server = http.createServer((request, response) => {
     } 
     
     // panginano 
-    const getMethodUrl = new URL(request.url, 'http://localhost:2020');
+    const getMethodUrl = new URL(request.url, 'https://justforabe.onrender.com');
     const path = getMethodUrl.pathname;
     // gettingmessagespertick
     if (path == '/getMessagesPerTick') {
@@ -393,4 +393,4 @@ const server = http.createServer((request, response) => {
     } 
 });
 
-server.listen(10000, '13.228.225.19', () => console.log('connected to server'));
+server.listen(10000, '0.0.0.0', () => console.log('connected to server'));
