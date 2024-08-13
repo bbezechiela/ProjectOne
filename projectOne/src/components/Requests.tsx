@@ -30,7 +30,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
     }, []);
 
     const getRequests = async (uid: string): Promise<void> => {
-        const getter = await fetch('https://justforabe.onrender.com/getRequests', {
+        const getter = await fetch('https://justforabeapi.onrender.com/getRequests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
