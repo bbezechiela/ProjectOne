@@ -4,7 +4,7 @@ import mysql, { createPool } from 'mysql';
 import util from 'util';
 
 const server = http.createServer((request, response) => {
-    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Origin', 'https://justforabe.onrender.com');
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -19,10 +19,11 @@ const server = http.createServer((request, response) => {
     // mysql connection
     const pool = mysql.createPool({
         connectionLimit: 20,
-        host: 'localhost',
-        user: 'root',
-        password: 'happyme123',
-        database: 'nodejsdb', 
+        host: 'sql12.freemysqlhosting.net',
+        user: 'sql12725759',
+        password: 'utukQHSN5y',
+        database: 'sql12725759', 
+        port: 3306,
     });
 
     // form data (sign up)
