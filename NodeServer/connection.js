@@ -4,7 +4,7 @@ import mysql, { createPool } from 'mysql';
 import util from 'util';
 
 const server = http.createServer((request, response) => {
-    response.setHeader('Access-Control-Allow-Origin', 'https://justforabeapi.onrender.com');
+    response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
