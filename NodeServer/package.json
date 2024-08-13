@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node connection.js"
+  },
   "dependencies": {
     "mysql": "^2.18.1"
   },
