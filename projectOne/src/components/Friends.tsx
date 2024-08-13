@@ -26,7 +26,7 @@ const Friends: React.FC<Props> = ({ isLoggedIn }) => {
     }, []);
     
     const getFriends = async (uid: string): Promise<void> => {
-        const getter = await fetch('https://justforabe.onrender.com/getFriends', {
+        const getter = await fetch('https://justforabeapi.onrender.com/getFriends', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,12 +40,12 @@ const Friends: React.FC<Props> = ({ isLoggedIn }) => {
             setTimeout(() => {
                 setRequestDetails(response.result);
                 setLoad(true);
-            }, 1500);
+            }, 1200);
         }
     };
     
     const removeFriend = async (e: RequestDetails, index: number): Promise<void> => {
-        const setter = await fetch('https://justforabe.onrender.com/removeFriend', {
+        const setter = await fetch('https://justforabeapi.onrender.com/removeFriend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
