@@ -125,7 +125,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
             const formatedDate = date.format('YYYY:MM:DD HH:mm:ss');
             // console.log('formated date', formatedDate);
             
-            const getter = await fetch(`https://justforabe.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
+            const getter = await fetch(`https://justforabeapi.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
     
             const response = await getter.json();
             if (response) {
