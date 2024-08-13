@@ -7,7 +7,7 @@ const fireBaseConfig = {
     storageBucket: "projectone-ad000.appspot.com",
     messagingSenderId: "51946380316",
     appId: "1:51946380316:web:c8bd644dc7d2d69dead3d9",
-    measurementId: "G-DHXSE5M6P4"
+    measurementId: "G-DHXSE5M6P4",
 }
 
 const firebaseApp = initializeApp(fireBaseConfig);

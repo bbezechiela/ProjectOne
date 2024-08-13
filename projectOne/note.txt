@@ -215,8 +215,8 @@ AUGUST 4
 AUGUST 8 :)))))))))))))
   note - if magamit kita hin get method ha fetch, ngan since get for sure mayda iton query parameter ngan para ma access nat iton na query value is magamit kita URL class. actually okay ghp asya talaga it approach para ha ngatan pero feel ko ha pan get ta laanay gamiton.
 
-NEXT TASKS
-  todo - make relationship ha mga tables like users ha user request
+Project one TASKS
+  (done) todo - make relationship ha mga tables like users ha user request
 
   (done) todo - himo ui ha mga requests
 
@@ -240,7 +240,7 @@ NEXT TASKS
 
   (done) todo - himo hin loader component both requests ngan friends  while na try pag fetch
 
-  (progress) todo - start working ha messages
+  (done) todo - start working ha messages (delete conversation nalat kulang)
 
   (done) todo - create table for messages
 
@@ -254,7 +254,7 @@ NEXT TASKS
 
   (done) todo - ayusa ha message pag ma click hin conversation dapat it scrollTop kay adto it scrollHeight
 
-  (progress) todo - it getter it messages himo.a nga dynamic every may changes or may bago na send ha db
+  (done) todo - it getter it messages himo.a nga dynamic every may changes or may bago na send ha db
 
   (done) todo - make sure na ig remove it white space pag dri la 1 word it iya ngaran ha pag crecreate hin conversation. 
 
@@ -276,6 +276,7 @@ NEXT TASKS
 
   (done) todo - ig remove it login home ngan how it works ha nav bar, tas it sign up na button didat hero is himo.a na sign in with google
 
-  todo - work with state persistence para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase
+  (done) todo - work with state persistence para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase
 
+  todo - himo realtime database ha firebase ngan ig deploy na :))))))))))))))))))))))))))))))
   
