@@ -1,6 +1,6 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React from 'react';
 import { firebaseApp } from '../firebase';
-import { IdTokenResult, getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, setPersistence, browserSessionPersistence } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { Props } from './Interfaces';
 import '../styles/signIn.css';
@@ -14,7 +14,7 @@ interface UserDetails {
     profile_path: string | null,
 }
 
-const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
+const Login: React.FC<Props> = ({ isLoggedIn }) => {
 
     // initialize useNavigate, it return it useNav kay function with two parameters
     const useNav = useNavigate();
@@ -28,7 +28,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, setUserSession }) => {
         .then(async () => {
             return await signInWithPopup(auth, provider).then((result) => {
                 // use credential if needed, ada it access token para makag work with other google api's
-                const credential = GoogleAuthProvider.credentialFromResult(result);
+                // const credential = GoogleAuthProvider.credentialFromResult(result);
                 const user = result.user;
                 if (user !== null) {
                     console.log(user);

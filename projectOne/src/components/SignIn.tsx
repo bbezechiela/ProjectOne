@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { firebaseApp } from '../firebase.js';
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 
 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import '../styles/signIn.css';
@@ -17,9 +17,9 @@ interface UserDetails {
     profile_path: string | null
 }
 
-const SignIn: React.FC<Props> = ({ selectedColor, animateStatus }) => {
-    const [getColor, ] = useState(selectedColor);
-    const [canAnimate, setAnimate] = useState(animateStatus);
+const SignIn: React.FC<Props> = () => {
+    // const [getColor, ] = useState(selectedColor);
+    // const [canAnimate, setAnimate] = useState(animateStatus);
     const [userDetails, setUserDetails] = useState<UserDetails[]>([]);
 
     // firebase 
@@ -61,9 +61,9 @@ const SignIn: React.FC<Props> = ({ selectedColor, animateStatus }) => {
         if (response) console.log(response);
     }
 
-    useEffect(() => {
-        setAnimate(animateStatus);
-    }, [animateStatus]);
+    // useEffect(() => {
+        // setAnimate(animateStatus);
+    // }, [animateStatus]);
 
     return <div id="googleSignUp" onClick={googleSignIn}>Sign in with </div>
 }

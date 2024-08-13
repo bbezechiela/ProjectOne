@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { CurrentUser } from './NavOne';
+import React, { useState, useEffect } from 'react';
+// import { CurrentUser } from './NavOne';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { firebaseApp } from '../firebase';
 import '../styles/search.css';
@@ -14,7 +14,7 @@ interface MyObj {
 const Search = () => {
     // const currentUserData = useContext(CurrentUser);
     const [currentUser, setCurrentUser] = useState<MyObj[]>([]);
-    const [getNumberOfFriends, setNumberOfFriends] = useState<MyObj[]>([]);
+    const [getNumberOfFriends, ] = useState<MyObj[]>([]);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''

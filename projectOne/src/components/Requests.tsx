@@ -1,11 +1,11 @@
-import React, { MouseEventHandler, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { firebaseApp } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
-import { Props, RequestDetails, CurrentUser } from "./Interfaces";
+import { Props, RequestDetails } from "./Interfaces";
 import '../styles/requests.css';
 
 const Requests: React.FC<Props> = ({ isLoggedIn }) => {

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { firebaseApp } from '../firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useFormAction, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Props ,CurrentUser, MessageDetails, RequestDetails, ConversationCtnDetails, ReceiverDetails } from './Interfaces';
 import Loader from './Loader';
 import moment from 'moment';
@@ -16,7 +16,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const [getMessageContent, setMessageContent]= useState({});
     const [getResponse, setResponse] = useState<RequestDetails[]>([]);
     const [showContainer, setShowContainer] = useState(false);
-    const [getConversationId, setConversationId] = useState<ConversationCtnDetails[]>([]);
+    // const [getConversationId, setConversationId] = useState<ConversationCtnDetails[]>([]);
     const [getConversationReceiver, setConversationReceiver] = useState<ReceiverDetails>();
     const [getMessages, setMessages] = useState<MessageDetails[]>([]);
     const [getMessageReceiver, setMessageReceiver] = useState({});

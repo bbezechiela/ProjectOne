@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import HowItWorks from './HowItWorks';
 import Footer from './Footer';
 import Login from './Login';

@@ -1,8 +1,8 @@
-import { Link, Outlet, BrowserRouter, Route, Routes } from 'react-router-dom';
-import React, { useEffect, useState, createContext} from 'react';
+import { Link, BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useState, createContext} from 'react';
 import HeroPage from './HeroPage';
-import Login from './Login';
-import HowItWorks from './HowItWorks';
+// import Login from './Login';
+// import HowItWorks from './HowItWorks';
 import SignUp from './SignIn';
 import Welcome from './Welcome';
 import Requests from './Requests';
@@ -37,7 +37,7 @@ export const CurrentUser = createContext<ObjProps>({
 });
 
 const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
-    const [getUserData, setUserData] = useState<ObjProps>({
+    const [getUserData, ] = useState<ObjProps>({
         // id: 0,
         token: Promise.resolve({} as IdTokenResult),
         displayName: '',

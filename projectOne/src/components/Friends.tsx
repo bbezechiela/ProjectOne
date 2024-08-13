@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Loader from './Loader';
 import { firebaseApp } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { Props, RequestDetails, CurrentUser } from './Interfaces';
+import { Props, RequestDetails } from './Interfaces';
 import '../styles/friends.css';
 
 const Friends: React.FC<Props> = ({ isLoggedIn }) => {

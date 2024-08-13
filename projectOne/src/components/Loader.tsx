@@ -1,4 +1,4 @@
-import { LoaderProps } from './Interfaces';
+// import { LoaderProps } from './Interfaces';
 import '../styles/loader.css';
 
 const Loader = () => {
