@@ -45,10 +45,17 @@ const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
     
     const getter = async (uid: string): Promise<void> => {
         const currentUser = { currentUser: uid }
+<<<<<<< HEAD
         const getRequest = await customFunction('http://13.228.225.19:10000/getRequests', currentUser);
         setNumberOfRequests(getRequest);
 
         const getFriends = await customFunction('http://13.228.225.19:10000/getFriends', currentUser);
+=======
+        const getRequest = await customFunction('https://13.228.225.19:10000/getRequests', currentUser);
+        setNumberOfRequests(getRequest);
+
+        const getFriends = await customFunction('https://13.228.225.19:10000/getFriends', currentUser);
+>>>>>>> chammyboy
         setNumberOfFriends(getFriends);
     };
 
