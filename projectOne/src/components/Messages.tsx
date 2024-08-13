@@ -49,7 +49,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     }, []);
 
     const getter = async (uid: string): Promise<void> => {
-        const getter = await fetch('http://localhost:2020/getFriends', {
+        const getter = await fetch('https://justforabeapi.onrender.com/getFriends', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
         
-        const setter = await fetch('http://localhost:2020/sendMessage', {
+        const setter = await fetch('https://justforabeapi.onrender.com/sendMessage', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const selectConversation = async (messageReceiver: RequestDetails): Promise<void> => {
         setMessageReceiver(messageReceiver);
 
-        const checker = await fetch('http://localhost:2020/conversation', {
+        const checker = await fetch('https://justforabeapi.onrender.com/conversation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

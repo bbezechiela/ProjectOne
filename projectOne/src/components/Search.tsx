@@ -64,7 +64,7 @@ const Search = () => {
         console.log(JSON.stringify(getSearchValue));
         
         try {
-            const setter = await fetch('http://localhost:2020/search', {
+            const setter = await fetch('https://justforabeapi.onrender.com/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
