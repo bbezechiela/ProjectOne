@@ -46,7 +46,7 @@ const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
     
     const getter = async (uid: string): Promise<void> => {
         const currentUser = { currentUser: uid }
-        const getRequest = await customFunction('https://justforabeapi.onrender.com/getRequets', currentUser);
+        const getRequest = await customFunction('https://justforabeapi.onrender.com/getRequests', currentUser);
         setNumberOfRequests(getRequest);
 
         const getFriends = await customFunction('https://justforabeapi.onrender.com/getFriends', currentUser);
