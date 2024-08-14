@@ -384,11 +384,12 @@ const server = http.createServer((request, response) => {
 
         pool.query(getter, (err, result) => {
             // console.log(err);
-            if (result.length !== 0) {
+            if (result) {
                 response.end(JSON.stringify({message: result}));
-            } else {
-                response.end(JSON.stringify({message: []}));
-            }
+            } 
+            // else {
+            //     response.end(JSON.stringify({message: []}));
+            // }
         });
     } 
 });
