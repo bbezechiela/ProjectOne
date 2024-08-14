@@ -18,7 +18,6 @@ const server = http.createServer((request, response) => {
 
     // mysql connection
     const pool = mysql.createPool({
-        connectionLimit: 20,
         host: 'sql12.freemysqlhosting.net',
         user: 'sql12725759',
         password: 'utukQHSN5y',
