@@ -349,11 +349,11 @@ const server = http.createServer((request, response) => {
                 conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
                 // console.log(conversation_name);
 
-                (async () => {
-                    const checker = await pool.query(`SELECT * FROM conversation_container WHERE conversation_name = "${conversation_name}"`).then((result) => { return result });
+                pool.getConnection(async (err, connection) => {
+                    const checker = await connection.query(`SELECT * FROM conversation_container WHERE conversation_name = "${conversation_name}"`).then((result) => { return result; });
 
                     let getter = checker.map((element) => {
-                        return pool.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${element.conversation_id}`);
+                        return connection.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${element.conversation_id}`);
                     });
 
                     getter = await Promise.all(getter);
@@ -364,7 +364,7 @@ const server = http.createServer((request, response) => {
                     // console.log('getter data', typeof demo);
 
                     response.end(JSON.stringify({message: [checker, getter]}));
-                })();
+                });
             } else {
                 response.end(JSON.stringify({message: 'conversation error'}));
             }
