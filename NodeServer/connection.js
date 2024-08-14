@@ -393,4 +393,4 @@ const server = http.createServer((request, response) => {
     } 
 });
 
-server.listen(10000, '0.0.0.0', () => console.log('connected to server'));
+server.listen(10000, () => console.log('connected to server'));
