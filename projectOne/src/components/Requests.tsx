@@ -40,7 +40,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
 
         const response = await getter.json();
         if (response) {
-            console.log(response);
+            // console.log(response);
             setTimeout(() => {
                 setRequestDetails(response.result);
                 setLoad(true);
@@ -50,7 +50,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
 
     const acceptRequest = async (e: RequestDetails, index: number): Promise<void> => {
         console.log('clicked', JSON.stringify(e));
-        const setter = await fetch('https://justforabe.onrender.com/acceptRequest', {
+        const setter = await fetch('https://justforabeapi.onrender.com/acceptRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
 
         const response = await setter.json();
         if (response.message) {
-            console.log('accept request response', response.message);
+            // console.log('accept request response', response.message);
             const allRequest = [...getRequestsDetails];
             allRequest.splice(index, 1);
             setRequestDetails(allRequest);
@@ -68,7 +68,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
     }
 
     const declineRequest = async (e: RequestDetails, index: number): Promise<void> => {
-        const setter = await fetch('https://justforabe.onrender.com/declineRequest', {
+        const setter = await fetch('https://justforabeapi.onrender.com/declineRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

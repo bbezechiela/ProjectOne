@@ -55,13 +55,13 @@ const Search = () => {
             searchValue: e.target.value
         });
     }
-    console.log(getSearchValue);
+    // console.log(getSearchValue);
     
     // form submission
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
-        console.log('clicked');
-        console.log(JSON.stringify(getSearchValue));
+        // console.log('clicked');
+        // console.log(JSON.stringify(getSearchValue));
         
         try {
             const setter = await fetch('https://justforabeapi.onrender.com/search', {
@@ -73,10 +73,10 @@ const Search = () => {
             });
     
             const response = await setter.json();
-            console.log(response);
+            // console.log(response);
             response.data ? setResponse(response.data) : setResponse(response.error);
         } catch (error) {
-            console.log('error fetch in search', error);
+            console.log('error fetch in search');
         }
     }
 
@@ -90,10 +90,10 @@ const Search = () => {
     // send friend request
     const friendRequest = async (e: MyObj, index: number): Promise<void> => {
         // console.log('clicked friend request', JSON.stringify(e));
-        console.log(getNumberOfFriends.length);
+        // console.log(getNumberOfFriends.length);
         
         if (getNumberOfFriends.length <= 20) {
-            const sendRequest = await fetch('http://localhost:2020/sendRequest', {
+            const sendRequest = await fetch('https://justforabeapi.onrender.com/sendRequest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
