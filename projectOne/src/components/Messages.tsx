@@ -153,7 +153,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
             <div id="messagesInnerContainer">
                 <div id="messagesText">Messages</div>
                 <div id="messagesSectionOne">
-                    {getResponse.length !== 0 ? 
+                    {getResponse.length !== 0 ?     
                         getResponse.map((element, index) => (
                             <div 
                                 key={index}
