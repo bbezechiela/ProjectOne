@@ -215,6 +215,10 @@ AUGUST 4
 AUGUST 8 :)))))))))))))
   note - if magamit kita hin get method ha fetch, ngan since get for sure mayda iton query parameter ngan para ma access nat iton na query value is magamit kita URL class. actually okay ghp asya talaga it approach para ha ngatan pero feel ko ha pan get ta laanay gamiton.
 
+AUGUST 14 : ))))))))))))))))))
+  note - https://www.npmjs.com/package/mysql#pooling-connections
+  keep in mind - dapat if magamit kita select query dapat na mention kita hin index/primary key didat query para mas malaksi or foreign key
+
 Project one TASKS
   (done) todo - make relationship ha mga tables like users ha user request
 
@@ -280,3 +284,6 @@ Project one TASKS
 
   todo - himo realtime database ha firebase ngan ig deploy na :))))))))))))))))))))))))))))))
   
+  TODO - ayusa it flow ha messages kay instead na conversation name tat gin gagamit ha query didto tat db dapat rekta nala an index/primary key mismo para mas malaksi ngan dri na need mag nested queries. panginano ha messages FC kita.a ha selectConversation function
+
+  TODO - ig responsive :))))))))))))))))))))))))
