@@ -36,14 +36,13 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
                     profile_path: user.photoURL
                 });
                 lastMessageTimestamp = '1999-12-12 12:12:12';
-                console.log(lastMessageTimestamp);
+                // console.log(lastMessageTimestamp);
                 clearInterval(interval)
             } else {
                 useNav('/', { replace: true });
             }
         });
 
-        
         // ig first render kada visit
         firstRender = true;
     }, []);
@@ -103,7 +102,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
                 receiverUsername[i] = receiverUsername[i].replace('_', ' ');
             }
 
-            console.log(receiverUsername[0] === currentUser?.display_name);
+            // console.log(receiverUsername[0] === currentUser?.display_name);
             receiverUsername[0] === currentUser?.display_name ? setConversationReceiver({conversation_receiver_name: receiverUsername[1]}) : setConversationReceiver({conversation_receiver_name: receiverUsername[0]});
 
             const conversation_id = response.message[0][0].conversation_id;
@@ -117,7 +116,7 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
 
     useEffect(() => {
         if (messageBody.current) messageBody.current.scrollTop = messageBody.current.scrollHeight;
-        console.log(getMessages);
+        // console.log(getMessages);
     }, [getMessages]);
 
     const gettingMessagesPerTick = async (conversation_id: ConversationCtnDetails[]): Promise<void> => {
@@ -125,14 +124,14 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
             const formatedDate = date.format('YYYY:MM:DD HH:mm:ss');
             // console.log('formated date', formatedDate);
             
-            const getter = await fetch(`https://justforabe.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
+            const getter = await fetch(`https://justforabeapi.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
     
             const response = await getter.json();
             if (response) {
                 // console.log(firstRender);
                 if (firstRender === true) {
                     if (response.message.length !== 0) {
-                        console.log('response', response.message);
+                        // console.log('response', response.message);
                         setMessages(response.message);
                         firstRender = false;
                         lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;

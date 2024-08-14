@@ -373,7 +373,7 @@ const server = http.createServer((request, response) => {
     } 
     
     // panginano 
-    const getMethodUrl = new URL(request.url, 'https://justforabe.onrender.com');
+    const getMethodUrl = new URL(request.url, 'https://justforabeapi.onrender.com');
     const path = getMethodUrl.pathname;
     // gettingmessagespertick
     if (path == '/getMessagesPerTick') {
