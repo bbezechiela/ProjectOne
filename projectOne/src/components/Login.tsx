@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { firebaseApp } from '../firebase';
 import { getAuth, signInWithPopup, GoogleAuthProvider, setPersistence, browserSessionPersistence } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -14,10 +14,21 @@ interface UserDetails {
     profile_path: string | null,
 }
 
-const Login: React.FC<Props> = ({ isLoggedIn }) => {
-
-    // initialize useNavigate, it return it useNav kay function with two parameters
+const Login: React.FC<Props> = ({ isLoggedIn, windowWidth }) => {
+    const [elementIdName, setElementIdName] = useState<string>('');
+    
     const useNav = useNavigate();
+    
+    useEffect(() => {
+        if (windowWidth > 320 && windowWidth < 500) {
+            setElementIdName('loginMobileView');
+        } else if (windowWidth > 501 && windowWidth < 767) {
+            setElementIdName('loginTabletView');
+        } else if (windowWidth > 768 && windowWidth < 1024) {
+            setElementIdName('loginComputerView');
+        }
+        
+    }, [windowWidth]);
 
     // firebase
     const auth = getAuth(firebaseApp);
@@ -49,7 +60,7 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
     }
 
     const createUserLocally = async ({uid, displayName, email, profile_path}: UserDetails): Promise<void> => {
-        const setter = await fetch('https://13.228.225.19:10000/demonode', {
+        const setter = await fetch('https://justforabeapi.onrender.com/demonode', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +77,7 @@ const Login: React.FC<Props> = ({ isLoggedIn }) => {
         if (response) console.log('login succesfully');
     }
 
-    return  <div id="googleSignUp" onClick={signInWithGoogle}>Sign in with Google</div>
+    return  <div id={elementIdName} onClick={signInWithGoogle}>Sign in with Google</div>
 }
 
 export default Login;

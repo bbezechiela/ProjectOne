@@ -10,6 +10,7 @@ interface Props {
 const HowItWorks: React.FC<Props> = ({ selectedColor, animateStatus }) => {
     const [canAnimate, setAnimate] = useState(animateStatus);
     const [animationEnded, setAnimationEnded] = useState<boolean>();
+    
     useEffect(() => {
         setAnimate(animateStatus);
     }, [animateStatus]);

@@ -10,6 +10,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #heroPageContainer {
@@ -34,16 +35,17 @@
     font-size: 10rem;
     font-weight: 900;
     text-align: center;
-    color: #00062b;
+    color: #0B0B0C;
 }
 
 #heroSubText {
     height: auto;
     width: 700px;
     font-size: 2rem;
-    font-weight: 100;
+    font-weight: 400;
     text-align: center;
     margin-bottom: 30px;
+    color: #0B0B0C;
 }
 
 #lowerContainer {
@@ -113,5 +115,50 @@
     }
     100% {
         background-color: var(--firstColor);
+    }
+}
+
+/* media :)) */
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+    #upperContainer {
+        height: 50vh;
+    }
+    
+    #heroText {
+        font-size: 4.5rem;
+    }
+    
+    #heroSubText {
+        font-size: 1.1rem;
+    }
+
+    #lowerContainer {
+        height: auto;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap; 
+        margin-top: 40px;    
+    }
+
+    .emotions {
+        height: 100px;
+        width: 100px;
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 767px) {
+    #upperContainer {
+        height: 50vh;
+    }
+
+    #heroText {
+        font-size: 5.8rem;
+    }
+
+    #heroSubText {
+        font-size: 1.3rem;
     }
 }

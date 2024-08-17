@@ -282,8 +282,15 @@ Project one TASKS
 
   (done) todo - work with state persistence para macocontroll natun it existence it current user for instance bisan ig refresh it current page dri ma wawara it current user. function ito na state persistence na naexist ha firebase
 
-  todo - himo realtime database ha firebase ngan ig deploy na :))))))))))))))))))))))))))))))
+  (done) todo - himo realtime database ha firebase ngan ig deploy na :))))))))))))))))))))))))))))))
   
   TODO - ayusa it flow ha messages kay instead na conversation name tat gin gagamit ha query didto tat db dapat rekta nala an index/primary key mismo para mas malaksi ngan dri na need mag nested queries. panginano ha messages FC kita.a ha selectConversation function
 
   TODO - ig responsive :))))))))))))))))))))))))
+
+
+dimensions
+  320
+  768
+  1024
+  1200

@@ -1,24 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Props } from './Interfaces';
 import HowItWorks from './HowItWorks';
 import Footer from './Footer';
 import Login from './Login';
 import '../styles/hero.css';
 
-interface Props {
-    isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
-    // setUserSession?: React.Dispatch<React.SetStateAction<UserDetails>>,
-}
-
 const HeroPage: React.FC<Props> = ({ isLoggedIn }) => {
     const [getColor, ] = useState('var(--firstColor)');
     const [shouldAnimate, setAnimate] = useState(false);
-    
+    const [getWindowWidth, setWindowWidth] = useState<number>(0);
+
     // pag mag end it animations
     const animationEnded = (): void => {
         console.log('animation ended');
         setAnimate(false);
     }
-    
+
+    // console.log(window.innerWidth);
+
+    useEffect(() => {
+        setWindowWidth(window.innerWidth);        
+    }, []);
+
     // every ma click hin new emotions
     const changeEmotion = (e: string): void => {
         const r = document.querySelector(':root') as any;
@@ -27,7 +30,8 @@ const HeroPage: React.FC<Props> = ({ isLoggedIn }) => {
         r.style.setProperty('--secondColor', rs.getPropertyValue('--firstColor'));
 
         r.style.setProperty('--firstColor', e);
-        console.log('updated color', e);
+        // console.log('updated color', e);
+        console.log(getWindowWidth);
     }
 
     return (
@@ -43,7 +47,7 @@ const HeroPage: React.FC<Props> = ({ isLoggedIn }) => {
                 <div id="upperContainer">
                     <div id="heroText">just for abe.</div>
                     <div id="heroSubText">let your abe know what you feel.</div>
-                    <Login isLoggedIn={isLoggedIn}/>
+                    <Login windowWidth={getWindowWidth} isLoggedIn={isLoggedIn}/>
                 </div>
                 <div id="lowerContainer">
                     <div 
