@@ -20,14 +20,15 @@ const Login: React.FC<Props> = ({ isLoggedIn, windowWidth }) => {
     const useNav = useNavigate();
     
     useEffect(() => {
-        if (windowWidth > 320 && windowWidth < 500) {
-            setElementIdName('loginMobileView');
-        } else if (windowWidth > 501 && windowWidth < 767) {
-            setElementIdName('loginTabletView');
-        } else if (windowWidth > 768 && windowWidth < 1024) {
-            setElementIdName('loginComputerView');
+        if (windowWidth !== undefined) {
+            if (windowWidth > 320 && windowWidth < 500) {
+                setElementIdName('loginMobileView');
+            } else if (windowWidth > 501 && windowWidth < 767) {
+                setElementIdName('loginTabletView');
+            } else if (windowWidth > 768 && windowWidth < 1024) {
+                setElementIdName('loginComputerView');
+            }
         }
-        
     }, [windowWidth]);
 
     // firebase
