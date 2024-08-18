@@ -1,5 +1,5 @@
 import { Link, BrowserRouter, Route, Routes } from 'react-router-dom';
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext } from 'react';
 import HeroPage from './HeroPage';
 // import Login from './Login';
 // import HowItWorks from './HowItWorks';
@@ -7,7 +7,7 @@ import SignUp from './SignIn';
 import Welcome from './Welcome';
 import Requests from './Requests';
 import Friends from './Friends';
-import Search from './Search';
+// import Search from './Search';
 import Messages from './Messages';
 import Gallery from './Gallery';
 import Emotions from './Emotions';
