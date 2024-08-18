@@ -19,7 +19,7 @@
 #welcomeText {
     font-size: 4.5rem;
     font-weight: 900;
-    color: #00062b;
+    color: #0b0b0c;
 }
 
 #welcomeTextContainer {
@@ -33,7 +33,7 @@
 #welcomeGalleryContainer {
     height: 100%;
     width: 100%;
-    background-color: #00062b;
+    background-color: #0b0b0c;
     position: relative;
     border-radius: 15px;
     grid-column: 1 / 2;
@@ -66,7 +66,7 @@
 #welcomeRequestss, #welcomeFriends {
     height: 110px;
     width: 580px;
-    background-color: #00062b;
+    background-color: #0b0b0c;
     color: white;
     border-radius: 15px;
     display: flex;
@@ -80,12 +80,11 @@
     height: 250px;
     width: 580px;
     display: flex;
-    align-items: center;
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     border-radius: 15px;
-    display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -100,7 +99,7 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    gap: 15px;
+    gap: 30px;
 }
 
 #welcomeMessagesContainer {
@@ -108,7 +107,7 @@
     width: 580px;
     grid-column: 1 / 2;
     grid-row: 3 / 4;
-    background-color: #00062b;
+    background-color: #0b0b0c;
     border-radius: 15px;
     font-size: 30px;
     display: flex;
@@ -137,4 +136,247 @@
     font-size: 20px;
     font-weight: 700;
     color: black;
+}
+
+/* media */
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+    #welcomeInnerContainer {
+        justify-content: center;
+        align-items: center;
+    }
+
+    #welcomeRequestsFriendsContainer {
+        width: auto;
+    }
+
+    #welcomeRequestss, #welcomeFriends {
+        height: 50px;
+        width: 100%;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    #welcomeGridContainer {
+        height: auto;
+        width: 80%;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto auto;
+        flex-direction: column;
+    }
+    
+    #welcomeSearchAndEmotionsContainer {
+        height: auto;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #welcomeGalleryContainer {
+        height: 200px;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-content: center;
+    }
+
+    #redirectToGallery {
+        font-size: 0.8rem;
+    }
+
+    #welcomeRequestsFriendsContainer {
+        height: auto;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+    }
+ 
+    #welcomeMessagesContainer {
+        height: 50px;
+        width: 100%;
+        font-size: 0.9rem;
+        font-weight: 700;
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+    }
+
+    #welcomeText {
+        text-align: center;
+        font-size: 2.1rem;
+    }
+
+    .wlcEmotion {
+        height: 60px;
+        width: 60px;
+        font-size: 0.6rem;
+    }
+
+    #welcomeEmotions {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 767px) {
+    #welcomeInnerContainer {
+        justify-content: center;
+        align-items: center;
+    }
+
+    #welcomeRequestsFriendsContainer {
+        width: auto;
+    }
+
+    #welcomeRequestss, #welcomeFriends {
+        height: 80px;
+        width: 100%;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    #welcomeGridContainer {
+        height: auto;
+        width: 80%;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto auto;
+        flex-direction: column;
+    }
+    
+    #welcomeSearchAndEmotionsContainer {
+        height: auto;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #welcomeGalleryContainer {
+        height: 350px;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-content: center;
+    }
+
+    #redirectToGallery {
+        font-size: 1rem;
+    }
+
+    #welcomeRequestsFriendsContainer {
+        height: auto;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+    }
+ 
+    #welcomeMessagesContainer {
+        height: 80px;
+        width: 100%;
+        font-size: 1.2rem;
+        font-weight: 700;
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+    }
+
+    #welcomeText {
+        text-align: center;
+        font-size: 3rem;
+    }
+
+    #welcomeTextContainer {
+        width: 80%;
+    }
+
+    .wlcEmotion {
+        height: 90px;
+        width: 90px;
+        font-size: 1rem;
+    }
+
+    #welcomeEmotions {
+        width: 100%;
+    }      
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+    #welcomeInnerContainer {
+        justify-content: center;
+        align-items: center;
+    }
+
+    #welcomeRequestsFriendsContainer {
+        width: auto;
+    }
+
+    #welcomeRequestss, #welcomeFriends {
+        height: 80px;
+        width: 100%;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    #welcomeGridContainer {
+        height: auto;
+        width: 80%;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto auto;
+        flex-direction: column;
+    }
+    
+    #welcomeSearchAndEmotionsContainer {
+        height: auto;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        padding: 20px 0 0 0px;
+    }
+    
+    #welcomeGalleryContainer {
+        height: 350px;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-content: center;
+    }
+
+    #redirectToGallery {
+        font-size: 1.1rem;
+    }
+
+    #welcomeRequestsFriendsContainer {
+        height: auto;
+        width: 100%;
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+    }
+ 
+    #welcomeMessagesContainer {
+        height: 80px;
+        width: 100%;
+        font-size: 1.3rem;
+        font-weight: 700;
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+    }
+
+    #welcomeText {
+        text-align: center;
+        font-size: 3.5rem;
+    }
+
+    #welcomeTextContainer {
+        width: 80%;
+    }
+
+    .wlcEmotion {
+        height: 105px;
+        width: 105px;
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+
+    #welcomeEmotions {
+        width: 100%;
+    } 
 }

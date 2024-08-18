@@ -15,10 +15,8 @@ const customFunction = async (url: string, currentUser: object): Promise<object>
     });
 
     const response = await getter.json();
-    console.log(response);
     return response.result;
 };
-
 
 const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
     const [currentUser, setCurrentUser] = useState<{uid: string, display_name: string | null}>({uid: '', display_name: ''});
@@ -41,7 +39,7 @@ const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
                 useNav('/', { replace: true });
             } 
         });
-
+        console.log(window.innerWidth);
     }, []);
     
     const getter = async (uid: string): Promise<void> => {
@@ -64,7 +62,7 @@ const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
                         <div id="redirectToGallery">view more</div>
                     </div>
                     <div id="welcomeSearchAndEmotionsContainer">
-                        <Search />
+                        <Search windowWidth={window.innerWidth} />
                         <div id="welcomeEmotions">
                             {getColors.map((element) => (
                                 <div className="wlcEmotion" style={{ backgroundColor: element.color}}>{element.name}</div>

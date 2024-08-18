@@ -1,5 +1,5 @@
 import { Link, BrowserRouter, Route, Routes } from 'react-router-dom';
-import React, { useState, createContext} from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import HeroPage from './HeroPage';
 // import Login from './Login';
 // import HowItWorks from './HowItWorks';
@@ -99,7 +99,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                         <Route path="welcome" element={<Welcome isLoggedIn={setUserLogIn} />}></Route>
                         <Route path="requests" element={<Requests isLoggedIn={setUserLogIn} />}></Route>
                         <Route path="friends" element={<Friends isLoggedIn={setUserLogIn} />}></Route>
-                        <Route path="search" element={<Search />}></Route>
+                        {/* <Route path="search" element={<Search />}></Route> */}
                         <Route path="messages" element={<Messages isLoggedIn={setUserLogIn} />}></Route>
                         <Route path="gallery" element={<Gallery />}></Route>
                         <Route path="emotions" element={<Emotions />}></Route>

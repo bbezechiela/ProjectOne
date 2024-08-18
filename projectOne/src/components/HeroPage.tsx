@@ -16,7 +16,7 @@ const HeroPage: React.FC<Props> = ({ isLoggedIn }) => {
         setAnimate(false);
     }
 
-    // console.log(window.innerWidth);
+    console.log(window.innerWidth);
 
     useEffect(() => {
         setWindowWidth(window.innerWidth);        

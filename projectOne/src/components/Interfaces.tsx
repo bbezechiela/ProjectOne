@@ -38,7 +38,12 @@ export interface ReceiverDetails {
 export interface Props {
     isLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,  
     setUserSession?: React.Dispatch<React.SetStateAction<CurrentUser>>,
-    windowWidth?: number | undefined
+    windowWidth?: number
+}
+
+// for search interface
+export interface SearchInterface {
+    windowWidth: number;
 }
 
 // loader

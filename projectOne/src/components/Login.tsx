@@ -25,7 +25,7 @@ const Login: React.FC<Props> = ({ isLoggedIn, windowWidth }) => {
                 setElementIdName('loginMobileView');
             } else if (windowWidth > 501 && windowWidth < 767) {
                 setElementIdName('loginTabletView');
-            } else if (windowWidth > 768 && windowWidth < 1024) {
+            } else if (windowWidth > 768 && windowWidth < 3000) {
                 setElementIdName('loginComputerView');
             }
         }

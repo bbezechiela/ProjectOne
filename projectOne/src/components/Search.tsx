@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { CurrentUser } from './NavOne';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { firebaseApp } from '../firebase';
+import { SearchInterface } from './Interfaces';
 import '../styles/search.css';
 
 interface MyObj {
@@ -11,11 +12,12 @@ interface MyObj {
     profile_path: string | null,
 }
 
-const Search = () => {
-    // const currentUserData = useContext(CurrentUser);
+const Search: React.FC<SearchInterface> = ({ windowWidth }) => {
     const [currentUser, setCurrentUser] = useState<MyObj[]>([]);
     const [getNumberOfFriends, ] = useState<MyObj[]>([]);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
+    const [getWindowWidth, ] = useState<number>(windowWidth);
+    const [getElementId, setElementId] = useState<string>();     
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''
     });
@@ -25,29 +27,32 @@ const Search = () => {
         
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
-                console.log(user);
+                // console.log(user);
                 setCurrentUser([{
                     uid: user.uid,
                     display_name: user.displayName,
                     email: user.email, 
                     profile_path: user.photoURL
                 }])
+    
             }
         });
-
-        // (async () => {
-        //     const getter = await fetch('http://localhost:2020/getFriends', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         }, 
-        //         body: JSON.stringify(getCurrentUser)
-        //     });
-
-        //     const response = await getter.json();
-        //     if (response) setNumberOfFriends(response.result);
-        // })();
+        
     }, []);
+    
+    useEffect(() => {
+        switch(true) {
+            case getWindowWidth > 320 && getWindowWidth < 500:
+                setElementId('searchMobileView');
+                break;
+            case getWindowWidth > 501 && getWindowWidth < 767:
+                setElementId('searchTabletView');
+                break;
+            case getWindowWidth > 768 && getWindowWidth < 3000:
+                setElementId('searchComputerView');
+                break;
+        }
+    }, [getWindowWidth]);
 
     // onchange on form inpunts
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
@@ -55,13 +60,10 @@ const Search = () => {
             searchValue: e.target.value
         });
     }
-    // console.log(getSearchValue);
     
     // form submission
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
-        // console.log('clicked');
-        // console.log(JSON.stringify(getSearchValue));
         
         try {
             const setter = await fetch('https://justforabeapi.onrender.com/search', {
@@ -89,9 +91,6 @@ const Search = () => {
 
     // send friend request
     const friendRequest = async (e: MyObj, index: number): Promise<void> => {
-        // console.log('clicked friend request', JSON.stringify(e));
-        // console.log(getNumberOfFriends.length);
-        
         if (getNumberOfFriends.length <= 20) {
             const sendRequest = await fetch('https://justforabeapi.onrender.com/sendRequest', {
                 method: 'POST',
@@ -113,17 +112,17 @@ const Search = () => {
     }
 
     return (
-        <form id="searchForm" method="post" onSubmit={handleSubmit}>
-            <div id='formSectionOne'>
+        <form id={getElementId} method="post" onSubmit={handleSubmit}>
+            <div id={`${getElementId}FormSectionOne`}>
                 <input
-                    id="searchInputField" 
+                    id={`${getElementId}InputField`} 
                     type="text" 
                     name='searchField' 
                     placeholder='Find a close friend :)' 
                     onChange={(e) => handleChange(e)}      
                 />
 
-                <input id="searchSubmitButton" type="submit" value="Search" />
+                <input id={`${getElementId}SubmitButton`} type="submit" value="Search" />
             </div>
             {getResponse.length !== 0 && getResponse.map((element, index) => (
                 <div id="searchResultContainer">
