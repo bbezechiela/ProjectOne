@@ -17,7 +17,6 @@ const Search: React.FC<SearchInterface> = ({ windowWidth }) => {
     const [getNumberOfFriends, ] = useState<MyObj[]>([]);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
     const [getWindowWidth, ] = useState<number>(windowWidth);
-    const [getElementId, setElementId] = useState<string>();     
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''
     });
@@ -40,20 +39,6 @@ const Search: React.FC<SearchInterface> = ({ windowWidth }) => {
         
     }, []);
     
-    useEffect(() => {
-        switch(true) {
-            case getWindowWidth > 320 && getWindowWidth < 500:
-                setElementId('searchMobileView');
-                break;
-            case getWindowWidth > 501 && getWindowWidth < 767:
-                setElementId('searchTabletView');
-                break;
-            case getWindowWidth > 768 && getWindowWidth < 3000:
-                setElementId('searchComputerView');
-                break;
-        }
-    }, [getWindowWidth]);
-
     // onchange on form inpunts
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e): void => {
         setSearchValue({
@@ -112,17 +97,17 @@ const Search: React.FC<SearchInterface> = ({ windowWidth }) => {
     }
 
     return (
-        <form id={getElementId} method="post" onSubmit={handleSubmit}>
-            <div id={`${getElementId}FormSectionOne`}>
+        <form id='searchForm' method="post" onSubmit={handleSubmit}>
+            <div id='formSectionOne'>
                 <input
-                    id={`${getElementId}InputField`} 
+                    id='searchInputField' 
                     type="text" 
                     name='searchField' 
                     placeholder='Find a close friend :)' 
                     onChange={(e) => handleChange(e)}      
                 />
 
-                <input id={`${getElementId}SubmitButton`} type="submit" value="Search" />
+                <input id='searchSubmitButton' type="submit" value="Search" />
             </div>
             {getResponse.length !== 0 && getResponse.map((element, index) => (
                 <div id="searchResultContainer">

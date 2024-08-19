@@ -1,113 +1,9 @@
 /* lFG */
-#searchOuterContainer {
-    height: 950px;
-    width: 100%;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#searchInnerContainer {
-    height: 250px;
-    width: 700px;
-    /* border: 1px solid rgba(0, 0, 0, 0.2); */
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 20px;
-}
-
 #searchForm {
     height: auto;
     width: auto;
     /* transform: translate(-50%, -50%); */
 }
-
-#searchMobileView, #searchTabletView, #searchComputerView {
-    height: auto;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#searchMobileViewFormSectionOne {
-    width: 100%;
-}
-
-#searchMobileViewInputField {
-    height: 50px;
-    width: 250px;
-    font-size: 0.8rem;
-    font-weight: 900;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding-left: 25px;
-}
-
-#searchMobileViewSubmitButton {
-    height: 50px;
-    width: 100px;
-    font-size: 0.8rem;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background-color: #0b0b0c;
-    color: white;
-    cursor: pointer;
-    border: none;
-    font-weight: 700;
-}
-
-#searchTabletViewInputField {
-    height: 60px;
-    width: 300px;
-    font-size: 1rem;
-    font-weight: 900;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding-left: 25px;
-}
-
-#searchTabletViewSubmitButton {
-    height: 60px;
-    width: 150px;
-    font-size: 1rem;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background-color: #0b0b0c;
-    color: white;
-    cursor: pointer;
-    border: none;
-    font-weight: 700;
-}
-
-#searchComputerViewInputField {
-    height: 60px;
-    width: 300px;
-    font-size: 1rem;
-    font-weight: 900;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding-left: 25px;
-}
-
-#searchComputerViewSubmitButton {
-    height: 60px;
-    width: 150px;
-    font-size: 1rem;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background-color: #0b0b0c;
-    color: white;
-    cursor: pointer;
-    border: none;
-    font-weight: 700;
-}
-
 
 #formSectionOne {
     height: auto;
@@ -134,7 +30,7 @@
     font-size: 23px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    background-color: #00062b;
+    background-color: #0b0b0c;
     color: white;
     cursor: pointer;
     border: none;
@@ -184,4 +80,52 @@
     text-align: center;
 }
 
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+    #searchForm {
+        height: auto;
+        width: 80%;
+    }
 
+    #formSectionOne {
+        height: auto;
+        width: 100%;
+    }
+
+    #searchInputField {
+        height: 50px;
+        width: 70%;
+        font-size: 0.8rem;
+        padding-left: 8px;
+    }
+
+    #searchSubmitButton {
+        height: 50px;
+        width: 30%;
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 767px) {
+    #searchForm {
+        height: auto;
+        width: 80%;
+    }
+
+    #formSectionOne {
+        height: auto;
+        width: 100%;
+    }
+
+    #searchInputField {
+        height: 65px;
+        width: 70%;
+        font-size: 1rem;
+        padding-left: 10px;
+    }
+
+    #searchSubmitButton {
+        height: 65px;
+        width: 30%;
+        font-size: 1rem;
+    }
+}

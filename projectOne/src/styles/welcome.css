@@ -206,6 +206,12 @@
         font-size: 2.1rem;
     }
 
+    #welcomeTextContainer {
+        height: auto;
+        width: 80%;
+        margin-bottom: 15px;
+    }
+
     .wlcEmotion {
         height: 60px;
         width: 60px;
@@ -285,7 +291,9 @@
     }
 
     #welcomeTextContainer {
+        height: auto;
         width: 80%;
+        margin-bottom: 15px;
     }
 
     .wlcEmotion {
@@ -366,6 +374,7 @@
     }
 
     #welcomeTextContainer {
+        height: auto;
         width: 80%;
     }
 

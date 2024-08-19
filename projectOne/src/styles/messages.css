@@ -164,3 +164,20 @@
     margin-bottom: 15px;
     margin-left: 10px;
 }
+
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+    #messagesInnerContainer {
+        width: 70%;
+        justify-content: flex-start;
+        padding: 0;
+    }
+
+    #messagesText {
+        font-size: 1.7rem;
+    }
+
+    #noRequest {
+        height: 200px;
+        font-size: 1rem;
+    }
+}

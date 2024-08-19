@@ -17,6 +17,7 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
     const auth = getAuth(firebaseApp);
 
     const useNav = useNavigate();
+    console.log(window.innerWidth);
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
