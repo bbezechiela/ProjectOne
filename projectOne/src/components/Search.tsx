@@ -16,7 +16,7 @@ const Search: React.FC<SearchInterface> = ({ windowWidth }) => {
     const [currentUser, setCurrentUser] = useState<MyObj[]>([]);
     const [getNumberOfFriends, ] = useState<MyObj[]>([]);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
-    const [getWindowWidth, ] = useState<number>(windowWidth);
+    // const [getWindowWidth, ] = useState<number>(windowWidth);
     const [getSearchValue, setSearchValue] = useState({
         searchValue: ''
     });
