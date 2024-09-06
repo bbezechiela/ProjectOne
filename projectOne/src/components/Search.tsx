@@ -12,7 +12,7 @@ interface MyObj {
     profile_path: string | null,
 }
 
-const Search: React.FC<SearchInterface> = ({ windowWidth }) => {
+const Search: React.FC<SearchInterface> = () => {
     const [currentUser, setCurrentUser] = useState<MyObj[]>([]);
     const [getNumberOfFriends, ] = useState<MyObj[]>([]);
     const [getResponse, setResponse] = useState<MyObj[]>([]);
