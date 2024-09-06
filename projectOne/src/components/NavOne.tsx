@@ -74,7 +74,7 @@ const NavOne: React.FC<Props> = ({ isLoggedIn, setUserLogIn }) => {
                 </>) : 
                 (<>
                     <div id='navContainer'>
-                        <Link id="navLogo" to='/'>LOGO</Link>
+                        {/* <Link id="navLogo" to='/'>LOGO</Link> */}
                         <div id="navLinks">
                             {/* <Link id='home' to='/' >home</Link> */}
                             {/* <Link id='howItWorks' to='howItWorks' >how it works</Link> */}
