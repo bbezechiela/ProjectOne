@@ -25,13 +25,14 @@ const Friends: React.FC<Props> = ({ isLoggedIn }) => {
         });
     }, []);
     
+    // express done
     const getFriends = async (uid: string): Promise<void> => {
-        const getter = await fetch('https://justforabeapi.onrender.com/getFriends', {
-            method: 'POST',
+        // https://justforabeapi.onrender.com/getFriends
+        const getter = await fetch(`http://localhost:2020/getFriends?current_user=${uid}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({currentUser: uid}),
         });
 
         const response = await getter.json();
@@ -44,8 +45,10 @@ const Friends: React.FC<Props> = ({ isLoggedIn }) => {
         }
     };
     
+    // express sdone
     const removeFriend = async (e: RequestDetails, index: number): Promise<void> => {
-        const setter = await fetch('https://justforabeapi.onrender.com/removeFriend', {
+        // https://justforabeapi.onrender.com/removeFriend
+        const setter = await fetch('http://localhost:2020/removeFriend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

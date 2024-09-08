@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { Props } from "./Interfaces";
 import '../styles/welcome.css';
 
-const customFunction = async (url: string, currentUser: object): Promise<object> => {
+const customFunction = async (url: string): Promise<object> => {
     const getter = await fetch(url, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        }, body: JSON.stringify(currentUser)
+        },
     });
 
     const response = await getter.json();
@@ -43,11 +43,12 @@ const Welcome: React.FC<Props> = ({ isLoggedIn }) => {
     }, []);
     
     const getter = async (uid: string): Promise<void> => {
-        const currentUser = { currentUser: uid }
-        const getRequest = await customFunction('https://justforabeapi.onrender.com/getRequests', currentUser);
+        // https://justforabeapi.onrender.com/getRequests
+        const getRequest = await customFunction(`http://localhost:2020/getRequests?current_user=${uid}`);
         setNumberOfRequests(getRequest);
 
-        const getFriends = await customFunction('https://justforabeapi.onrender.com/getFriends', currentUser);
+        //https://justforabeapi.onrender.com/getFriends
+        const getFriends = await customFunction(`http://localhost:2020/getFriends?current_user=${uid}`);
         setNumberOfFriends(getFriends);
     };
 

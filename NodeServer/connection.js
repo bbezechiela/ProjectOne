@@ -26,6 +26,7 @@ const server = http.createServer((request, response) => {
     });
 
     // form data (sign up)
+    // express done
     if (request.url === '/demonode') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -79,6 +80,7 @@ const server = http.createServer((request, response) => {
     } 
 
     // search feature
+    // done express
     if (request.url === '/search') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -118,6 +120,7 @@ const server = http.createServer((request, response) => {
     } 
 
     // user friend request 
+    // done express
     if (request.url === '/sendRequest') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -144,6 +147,7 @@ const server = http.createServer((request, response) => {
     }
 
     // get requests
+    // done express
     if (request.url === '/getRequests') {
         pool.query = util.promisify(pool.query).bind(pool);
         let data = {};

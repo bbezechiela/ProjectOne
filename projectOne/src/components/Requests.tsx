@@ -30,13 +30,14 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
         });
     }, []);
 
+    // express done
     const getRequests = async (uid: string): Promise<void> => {
-        const getter = await fetch('https://justforabeapi.onrender.com/getRequests', {
-            method: 'POST',
+        //https://justforabeapi.onrender.com/getRequests 
+        const getter = await fetch(`http://localhost:2020/getRequests?current_user=${uid}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             }, 
-            body: JSON.stringify({currentUser: uid})
         });
 
         const response = await getter.json();
@@ -45,13 +46,16 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
             setTimeout(() => {
                 setRequestDetails(response.result);
                 setLoad(true);
+                console.log(response);
             }, 1200);
         }
     };
 
+    // express done
     const acceptRequest = async (e: RequestDetails, index: number): Promise<void> => {
-        console.log('clicked', JSON.stringify(e));
-        const setter = await fetch('https://justforabeapi.onrender.com/acceptRequest', {
+        // console.log('clicked', JSON.stringify(e));
+        //https://justforabeapi.onrender.com/acceptRequest
+        const setter = await fetch('http://localhost:2020/acceptRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,8 +72,10 @@ const Requests: React.FC<Props> = ({ isLoggedIn }) => {
         }
     }
 
+    // express done
     const declineRequest = async (e: RequestDetails, index: number): Promise<void> => {
-        const setter = await fetch('https://justforabeapi.onrender.com/declineRequest', {
+        //https://justforabeapi.onrender.com/declineRequest
+        const setter = await fetch('http://localhost:2020/declineRequest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

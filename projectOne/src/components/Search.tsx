@@ -50,8 +50,9 @@ const Search: React.FC<SearchInterface> = () => {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
         
+        //https://justforabeapi.onrender.com/search  
         try {
-            const setter = await fetch('https://justforabeapi.onrender.com/search', {
+            const setter = await fetch('http://localhost:2020/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ const Search: React.FC<SearchInterface> = () => {
             });
     
             const response = await setter.json();
-            // console.log(response);
+            console.log(response);
             response.data ? setResponse(response.data) : setResponse(response.error);
         } catch (error) {
             console.log('error fetch in search');
@@ -75,14 +76,15 @@ const Search: React.FC<SearchInterface> = () => {
     }
 
     // send friend request
-    const friendRequest = async (e: MyObj, index: number): Promise<void> => {
+    const friendRequest = async (requestReceiver: MyObj, index: number): Promise<void> => {
         if (getNumberOfFriends.length <= 20) {
-            const sendRequest = await fetch('https://justforabeapi.onrender.com/sendRequest', {
+            // https://justforabeapi.onrender.com/sendRequest
+            const sendRequest = await fetch('http://localhost:2020/sendRequest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({e, currentUser})
+                body: JSON.stringify({requestReceiver, currentUser})
             });
 
             const response = await sendRequest.json();
