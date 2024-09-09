@@ -2,6 +2,7 @@
 import express from 'express';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
+import util from 'util';
 const app = express();
 
 const conn = mysql.createConnection({
@@ -80,24 +81,23 @@ app.post('/sendRequest', (req, res) => {
 });
 
 app.get('/getRequests', (req, res) => {
+    conn.query = util.promisify(conn.query); 
     let currentUser = req.query.current_user;
+    
+    (async () => {
+        const firstQuery = await conn.query(`SELECT request_id, request_sender FROM user_request WHERE request_receiver = '${currentUser}' AND request_status = 'pending'`).then((result) => { return result });
 
-    conn.query(`SELECT request_id, request_sender FROM user_request WHERE request_receiver = '${currentUser}' AND request_status = 'pending'`, (err, result) => {
-        if (err) throw err;
-        if (result.length !== 0) {
-            let resultOne = result;
-            resultOne.map((element, index) => {
-                conn.query(`SELECT * FROM users WHERE uid = '${element.request_sender}'`, (err, result) => {
-                    if (err) throw err;
-                    result[index].request_sender = element.request_sender;
-                    result[index].request_id = element.request_id;
-                    res.json({result: result});
-                });
-            });
-        } else {
-            res.json({result: []});
-        }
-    });
+        const secondQuery = firstQuery.map((item) => {
+            return conn.query(`SELECT * FROM users WHERE uid = '${item.request_sender}'`);
+        });
+
+        let result = await Promise.all(secondQuery);
+        result = result.flatMap((item) => { return item });
+        for (let i in firstQuery) result[i].request_id = firstQuery[i].request_id;
+        
+        console.log('this is sthe result of first query', firstQuery);
+        res.json({result: result});
+    })();
 });
 
 app.post('/acceptRequest', (req, res) => {
@@ -120,36 +120,81 @@ app.post('/declineRequest', (req, res) => {
 });
 
 app.get('/getFriends', (req, res) => {
+    conn.query = util.promisify(conn.query);    
     let currentUser = req.query.current_user;
 
-    conn.query(`SELECT request_id, request_sender, request_receiver FROM user_request WHERE (request_receiver = '${currentUser}' OR request_sender = '${currentUser}') AND request_status = 'accepted'`, (err, result) => {
-        if (err) throw err;
-        if (result.length !== 0) {
-            let resultOne = result;
-            resultOne.map((element, index) => {
-                let temp;
-                element.request_sender === currentUser ? temp = element.request_receiver : temp = element.request_sender; 
+    (async () => {
+        const firstQuery = await conn.query(`SELECT request_id, request_sender, request_receiver FROM user_request WHERE (request_receiver = '${currentUser}' OR request_sender = '${currentUser}') AND request_status = 'accepted'`).then((result) => { return result });
 
-                conn.query(`SELECT * FROM users WHERE uid = '${temp}'`, (err, result) => {
-                    if (err) throw err;
-                    result[index].request_sender = element.request_sender;
-                    result[index].request_id = element.request_id;
-                    res.json({result: result});
-                });
-            });
-        } else {
-            res.json({result: []});
-        }
-    });
+        const secondQuery = firstQuery.map((item) => {
+            let temp = item.request_sender === currentUser ? item.request_receiver : item.request_sender;
+
+            return conn.query(`SELECT * FROM users WHERE uid = '${temp}'`);
+        });
+
+        let result = await Promise.all(secondQuery);
+        result = result.flatMap((item) => { return item });
+        for (let i in firstQuery) result[i].request_id = firstQuery[i].request_id;
+
+        res.json({result: result});
+    })();
 });
 
 app.post('/removeFriend', (req, res) => {
     let requestDetails = req.body;
 
+    console.log(requestDetails);
     conn.query(`DELETE FROM user_request WHERE request_id = ${requestDetails.request_id}`, (err) => {
-        if (err) throw err;
+        if (err) throw 'error remove friend', err;
         res.json({success: 'friend deleted successfully'});
     });
+});
+
+app.post('/sendMessage', (req, res) => {
+    let { currentUser, getMessageContent, getMessageReceiver } = req.body;
+
+    let conversation_name = [data.currentUser.display_name.replace(' ', '_'), data.getMessageReceiver.display_name.replace(' ', '_')].sort();
+    conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
+
+    const conversationChecker = `SELECT conversation_id FROM conversation_container WHERE conversation_name = "${conversation_name}"`;
+    const createConversation = `INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ("${conversation_name}", '${currentDate}')`;
+
+    conn.query(`SELECT conversation_id FROM conversation_container WHERE conversation_name = '${conversation_name}'`, (err, result) => {
+        if (err) throw err;
+        if (result.length == 0) {
+            const conversation = conn.query(`INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ('${conversation_name}', ${currentDate})`, (err, result) => {
+                if (err) throw err;
+                if (result.length !== 0) {
+                    console.log(result.insertId);
+                    return [{conversation_id: result.insertId}];
+                }
+            });
+        } else {
+            
+        }
+    })
+
+});
+
+// make this promisify
+app.post('/conversation', (req, res) => {
+    let { currentUser, messageReceiver } = req.body;
+
+    let conversation_name = [currentUser.display_name.replace(' ', '_'), messageReceiver.display_name.replace(' ', '_')].sort();
+    conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
+
+    conn.query(`SELECT * FROM conversation_container WHERE conversation_name = "${conversation_name}"`, (err, result) => {
+        if (err) throw err;
+        if (result.length !== 0) {
+            let resultOne = result[0];
+            conn.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${resultOne.conversation_id}`, (err, result) => {
+                if (err) throw err;
+                console.log(resultOne);
+                console.log(result);
+            });
+        }
+    });
+
 });
 
 app.listen(2020, () => console.log('connected to server js'));

@@ -48,12 +48,12 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     }, []);
 
     const getter = async (uid: string): Promise<void> => {
-        const getter = await fetch('https://justforabeapi.onrender.com/getFriends', {
-            method: 'POST',
+        // https://justforabeapi.onrender.com/getFriends
+        const getter = await fetch(`http://localhost:2020/getFriends?current_user=${uid}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({currentUser: uid}),
         });
 
         const response = await getter.json();
@@ -66,7 +66,8 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
         e.preventDefault();
         
-        const setter = await fetch('https://justforabeapi.onrender.com/sendMessage', {
+        // https://justforabeapi.onrender.com/sendMessage
+        const setter = await fetch('http://localhost:2020/sendMessage', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -80,16 +81,17 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
 
     const selectConversation = async (messageReceiver: RequestDetails): Promise<void> => {
         setMessageReceiver(messageReceiver);
+    
+        console.log(currentUser);
+        console.log(messageReceiver);
 
-        const checker = await fetch('https://justforabeapi.onrender.com/conversation', {
+        // https://justforabeapi.onrender.com/conversation
+        const checker = await fetch(`http://localhost:2020/conversation`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             }, 
-            body: JSON.stringify({
-                currentUser,
-                messageReceiver,
-            }),
+            body: JSON.stringify({currentUser, messageReceiver})
         });
         
         const response = await checker.json();

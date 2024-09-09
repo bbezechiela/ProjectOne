@@ -48,6 +48,8 @@ const Friends: React.FC<Props> = ({ isLoggedIn }) => {
     // express sdone
     const removeFriend = async (e: RequestDetails, index: number): Promise<void> => {
         // https://justforabeapi.onrender.com/removeFriend
+        console.log(e);
+
         const setter = await fetch('http://localhost:2020/removeFriend', {
             method: 'POST',
             headers: {
