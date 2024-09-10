@@ -151,50 +151,61 @@ app.post('/removeFriend', (req, res) => {
 });
 
 app.post('/sendMessage', (req, res) => {
+    conn.query = util.promisify(conn.query);
     let { currentUser, getMessageContent, getMessageReceiver } = req.body;
+    console.log(getMessageContent);
 
-    let conversation_name = [data.currentUser.display_name.replace(' ', '_'), data.getMessageReceiver.display_name.replace(' ', '_')].sort();
+    let conversation_name = [currentUser.display_name.replace(' ', '_'), getMessageReceiver.display_name.replace(' ', '_')].sort();
     conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
 
-    const conversationChecker = `SELECT conversation_id FROM conversation_container WHERE conversation_name = "${conversation_name}"`;
-    const createConversation = `INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ("${conversation_name}", '${currentDate}')`;
-
-    conn.query(`SELECT conversation_id FROM conversation_container WHERE conversation_name = '${conversation_name}'`, (err, result) => {
-        if (err) throw err;
-        if (result.length == 0) {
-            const conversation = conn.query(`INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ('${conversation_name}', ${currentDate})`, (err, result) => {
-                if (err) throw err;
-                if (result.length !== 0) {
+    (async () => {
+        const firstQuery = await conn.query(`SELECT conversation_id FROM conversation_container WHERE conversation_name = "${conversation_name}"`).then((result) => { 
+            if (result.length == 0) {
+                conn.query(`INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ("${conversation_name}", "${currentDate}")`).then((result) => {
                     console.log(result.insertId);
                     return [{conversation_id: result.insertId}];
-                }
-            });
-        } else {
-            
-        }
-    })
+                });
+            }
+            return result;
+        });
 
+        firstQuery.map((item) => {
+            conn.query(`INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_id, message_timestamp) VALUES ('${getMessageContent.messageContent}', '${currentUser.uid}', '${getMessageReceiver.uid}', ${item.conversation_id}, '${currentDate}')`);
+        });
+
+        res.json({message: 'success'})
+    })();
 });
 
-// make this promisify
 app.post('/conversation', (req, res) => {
+    conn.query = util.promisify(conn.query);
     let { currentUser, messageReceiver } = req.body;
 
     let conversation_name = [currentUser.display_name.replace(' ', '_'), messageReceiver.display_name.replace(' ', '_')].sort();
     conversation_name = `${conversation_name[0]}-${conversation_name[1]}`;
 
-    conn.query(`SELECT * FROM conversation_container WHERE conversation_name = "${conversation_name}"`, (err, result) => {
-        if (err) throw err;
-        if (result.length !== 0) {
-            let resultOne = result[0];
-            conn.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${resultOne.conversation_id}`, (err, result) => {
-                if (err) throw err;
-                console.log(resultOne);
-                console.log(result);
-            });
-        }
-    });
+    (async () => {
+        const firstQuery = await conn.query(`SELECT * FROM conversation_container WHERE conversation_name = "${conversation_name}"`).then((result) => { return result });
 
+        const secondQuery = firstQuery.map((item) => {
+            return conn.query(`SELECT * FROM conversation_messages WHERE conversation_id = ${item.conversation_id}`);
+        });      
+
+        let result = await Promise.all(secondQuery);
+        result = result.flatMap((item) => { return item });
+
+        res.json({message: [firstQuery, result]});
+    })();
+});
+
+app.get('/getMessagesPerTick', (req, res) => {
+    const lastMessageTimestamp = req.query.lastMessageTimestamp;
+    const conversation_id = req.query.conversation_id;
+
+    conn.query(`SELECT * FROM conversation_messages WHERE message_timestamp > '${lastMessageTimestamp}' AND conversation_id = ${conversation_id}`, (err, result) => {
+        if (err) throw err;
+        res.json({message: result});
+    });
 });
 
 app.listen(2020, () => console.log('connected to server js'));

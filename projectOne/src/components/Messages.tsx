@@ -82,9 +82,6 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const selectConversation = async (messageReceiver: RequestDetails): Promise<void> => {
         setMessageReceiver(messageReceiver);
     
-        console.log(currentUser);
-        console.log(messageReceiver);
-
         // https://justforabeapi.onrender.com/conversation
         const checker = await fetch(`http://localhost:2020/conversation`, {
             method: 'POST',
@@ -97,8 +94,8 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
         const response = await checker.json();
         if (response) {
             setShowContainer(true);
-
-            // console.log(response);
+            
+            console.log(response);
             let receiverUsername = response.message[0][0].conversation_name.split('-');
             for (let i in receiverUsername) {
                 receiverUsername[i] = receiverUsername[i].replace('_', ' ');
@@ -112,7 +109,8 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
             // since it format it lastMessageTimestamp is naka ISO dapat nat ig convert to regular format gamit moment js
             interval = setInterval(() => {
                 gettingMessagesPerTick(conversation_id);
-            }, 3000);
+                console.log('ticking');
+            }, 500);
         }
     }
 
@@ -124,9 +122,9 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
     const gettingMessagesPerTick = async (conversation_id: ConversationCtnDetails[]): Promise<void> => {
             const date = moment(lastMessageTimestamp);
             const formatedDate = date.format('YYYY:MM:DD HH:mm:ss');
-            // console.log('formated date', formatedDate);
             
-            const getter = await fetch(`https://justforabeapi.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
+            // https://justforabeapi.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}
+            const getter = await fetch(`http://localhost:2020/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
     
             const response = await getter.json();
             if (response) {
