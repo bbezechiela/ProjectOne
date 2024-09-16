@@ -23,12 +23,16 @@ conn.connect((err) => {
     console.log('db connected');
 });
 
-const date = new Date();
-let year = date.toLocaleString('default' , { year: 'numeric' });
-let month = date.toLocaleString('default', { month: '2-digit' });
-let day = date.toLocaleString('default', { day: '2-digit' });
+const getDate = () => {
+    const date = new Date();
+    let year = date.toLocaleString('default' , { year: 'numeric' });
+    let month = date.toLocaleString('default', { month: '2-digit' });
+    let day = date.toLocaleString('default', { day: '2-digit' });
 
-const currentDate = `${year}-${month}-${day} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    const currentDate = `${year}-${month}-${day} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    
+    return currentDate; 
+}
 
 app.use((req, res, next) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:10000');
@@ -74,7 +78,7 @@ app.post('/search', (req, res) => {
 app.post('/sendRequest', (req, res) => {
     let { requestReceiver, currentUser } = req.body;
 
-    conn.query(`INSERT INTO user_request (request_sender, request_receiver, request_status, timestamp) VALUES ('${currentUser[0].uid}', '${requestReceiver.uid}', 'pending', '${currentDate}')`, (err) => {
+    conn.query(`INSERT INTO user_request (request_sender, request_receiver, request_status, timestamp) VALUES ('${currentUser[0].uid}', '${requestReceiver.uid}', 'pending', '${getDate()}')`, (err) => {
         if (err) throw err;
         res.json({message: 'Friend request sent'});
     });
@@ -161,7 +165,7 @@ app.post('/sendMessage', (req, res) => {
     (async () => {
         const firstQuery = await conn.query(`SELECT conversation_id FROM conversation_container WHERE conversation_name = "${conversation_name}"`).then((result) => { 
             if (result.length == 0) {
-                conn.query(`INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ("${conversation_name}", "${currentDate}")`).then((result) => {
+                conn.query(`INSERT INTO conversation_container (conversation_name, conversation_timestamp) VALUES ("${conversation_name}", "${getDate()}")`).then((result) => {
                     console.log(result.insertId);
                     return [{conversation_id: result.insertId}];
                 });
@@ -170,8 +174,10 @@ app.post('/sendMessage', (req, res) => {
         });
 
         firstQuery.map((item) => {
-            conn.query(`INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_id, message_timestamp) VALUES ('${getMessageContent.messageContent}', '${currentUser.uid}', '${getMessageReceiver.uid}', ${item.conversation_id}, '${currentDate}')`);
+            conn.query(`INSERT INTO conversation_messages (message_content, message_sender, message_receiver, conversation_id, message_timestamp) VALUES ('${getMessageContent.messageContent}', '${currentUser.uid}', '${getMessageReceiver.uid}', ${item.conversation_id}, '${getDate()}')`);
         });
+
+        console.log(getDate());
 
         res.json({message: 'success'})
     })();

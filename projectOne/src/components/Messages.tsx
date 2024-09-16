@@ -106,9 +106,11 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
 
             const conversation_id = response.message[0][0].conversation_id;
             
-            // since it format it lastMessageTimestamp is naka ISO dapat nat ig convert to regular format gamit moment js
+            // since it format it lastMessageTimestamp is naka ISO format dapat nat ig convert to regular format gamit moment js
             interval = setInterval(() => {
                 gettingMessagesPerTick(conversation_id);
+                // na result hin pending promise
+                // console.log(gettingMessagesPerTick(conversation_id));
                 console.log('ticking');
             }, 500);
         }
@@ -116,33 +118,30 @@ const Messages: React.FC<Props> = ({ isLoggedIn }) => {
 
     useEffect(() => {
         if (messageBody.current) messageBody.current.scrollTop = messageBody.current.scrollHeight;
-        // console.log(getMessages);
     }, [getMessages]);
 
     const gettingMessagesPerTick = async (conversation_id: ConversationCtnDetails[]): Promise<void> => {
             const date = moment(lastMessageTimestamp);
             const formatedDate = date.format('YYYY:MM:DD HH:mm:ss');
             
+            console.log(formatedDate);
+
             // https://justforabeapi.onrender.com/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}
             const getter = await fetch(`http://localhost:2020/getMessagesPerTick?lastMessageTimestamp=${formatedDate}&conversation_id=${conversation_id}`);
     
             const response = await getter.json();
             if (response) {
-                // console.log(firstRender);
                 if (firstRender === true) {
                     if (response.message.length !== 0) {
-                        // console.log('response', response.message);
                         setMessages(response.message);
                         firstRender = false;
                         lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;
-                        // console.log('first render');
                      } 
-                }  else if (response.message.length !== 0){
+                } else if (response.message.length !== 0){
                     setMessages(prevState => [
                         ...prevState,
                         response.message[0]
-                    ]);
-                    // console.log('not first render');
+                    ]); 
                     lastMessageTimestamp = response.message[response.message.length - 1].message_timestamp;
                 }
             };

@@ -191,6 +191,7 @@ const server = http.createServer((request, response) => {
     }
     
     // accept request
+    // done express
     if (request.url === '/acceptRequest') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -213,6 +214,7 @@ const server = http.createServer((request, response) => {
     }
 
     // decline request
+    // done express
     if (request.url === '/declineRequest') {
         let data = {};        
         request.on('data', (dataChunks) => {
@@ -233,6 +235,7 @@ const server = http.createServer((request, response) => {
     }
 
     // get friends
+    // done express
     if (request.url === '/getFriends') {
         pool.query = util.promisify(pool.query).bind(pool);
         let data = {};
@@ -275,6 +278,7 @@ const server = http.createServer((request, response) => {
     }
 
     // remove friend
+    // done express
     if (request.url === '/removeFriend') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -296,6 +300,7 @@ const server = http.createServer((request, response) => {
     }
 
     // send message
+    // done express
     if (request.url === '/sendMessage') {
         let data = {};
         request.on('data', (dataChunks) => {
@@ -338,6 +343,7 @@ const server = http.createServer((request, response) => {
     }
 
     // select conversation
+    // done express
     if (request.url === '/conversation') {
         let data = {};        
         request.on('data', (dataChunks) => {
@@ -376,6 +382,7 @@ const server = http.createServer((request, response) => {
     } 
     
     // panginano 
+    // done express
     const getMethodUrl = new URL(request.url, 'https://justforabeapi.onrender.com');
     const path = getMethodUrl.pathname;
     // gettingmessagespertick
@@ -385,7 +392,7 @@ const server = http.createServer((request, response) => {
 
         const getter = `SELECT * FROM conversation_messages WHERE message_timestamp > '${lastMessageTimestamp}' AND conversation_id = ${conversation_id}`;
 
-        pool.query(getter, (err, result) => {
+        pool.query(getter, (err, result) => {           
             // console.log(err);
             if (result) {
                 response.end(JSON.stringify({message: result}));
